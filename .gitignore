@@ -1,0 +1,4 @@
+# Ignore development-specific settings
+appsettings.Development.json
+
+TestWebAPI
