@@ -123,3 +123,4 @@
 /Users/timothy/Documents/Learning/ReactNETtest2/TestWebAPI/bin/Debug/net9.0/tr/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 /Users/timothy/Documents/Learning/ReactNETtest2/TestWebAPI/bin/Debug/net9.0/zh-Hans/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 /Users/timothy/Documents/Learning/ReactNETtest2/TestWebAPI/bin/Debug/net9.0/zh-Hant/Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
+/Users/timothy/Documents/Learning/ReactNETtest2/TestWebAPI/obj/Debug/net9.0/TestWebAPI.sourcelink.json
