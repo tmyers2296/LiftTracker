@@ -34,6 +34,8 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 app.MapIdentityApi<ApplicationUser>();
 
+builder.Services.AddScoped<IExerciseService, ExerciseService>();
+
 app.MapPost("/logout", async (SignInManager<ApplicationUser> signInManager) =>
 {
     await signInManager.SignOutAsync();

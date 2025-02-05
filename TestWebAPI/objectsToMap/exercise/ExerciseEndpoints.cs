@@ -6,15 +6,11 @@ public static class ExerciseEndpoints
     {
         var group = app.MapGroup("exercises");
 
-        group.MapPost("/", async (IExerciseService exerciseService, CreateMovieRequest request) =>
+        group.MapPost("/", async (IExerciseService exerciseService, CreateExerciseRequest request) =>
         {
-            var exercise = request.MapToMovie();
-            var result = await movieService.Create(movie);
-            return result.Match<IResult>(
-                _ => Results.CreatedAtRoute("GetMovie", new { id = movie.Id }, movie.MapToResponse()),
-                failed => Results.BadRequest(failed.MapToResponse()));
+            var exercise = request.MapToExercise();
+            var createdExercise = await exerciseService.Create(exercise);
+            return Results.Created($"/exercises/{createdExercise.Id}", createdExercise.MapToResponse());
         });
-
-
     }
 }
