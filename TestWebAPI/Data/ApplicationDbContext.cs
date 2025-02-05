@@ -8,4 +8,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
     }
     
+    public DbSet<Exercise> Exercises { get; set; }
+    
 }
