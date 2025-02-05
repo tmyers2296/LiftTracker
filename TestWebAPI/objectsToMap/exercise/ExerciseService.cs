@@ -1,7 +1,7 @@
 using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
 
-public class ExerciseService
+public class ExerciseService : IExerciseService
 {
     private readonly ApplicationDbContext _dbContext;
     public ExerciseService(ApplicationDbContext dbContext)
@@ -16,4 +16,9 @@ public class ExerciseService
 
         return exercise;
     }
+}
+
+public interface IExerciseService
+{
+    Task<Exercise> Create(Exercise exercise);
 }
