@@ -28,13 +28,14 @@ builder.Services.AddCors(options =>
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
+// excersizeservice builder..
+builder.Services.AddScoped<IExerciseService, ExerciseService>();
+
 var app = builder.Build();
 
 app.UseDefaultFiles();
 app.UseStaticFiles();
 app.MapIdentityApi<ApplicationUser>();
-
-builder.Services.AddScoped<IExerciseService, ExerciseService>();
 
 app.MapPost("/logout", async (SignInManager<ApplicationUser> signInManager) =>
 {
@@ -65,6 +66,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+app.MapExerciseEndpoints();
 
 var summaries = new[]
 {
