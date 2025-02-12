@@ -12,5 +12,11 @@ public static class ExerciseEndpoints
             var createdExercise = await exerciseService.Create(exercise);
             return Results.Created($"/exercises/{createdExercise.Id}", createdExercise.MapToResponse());
         });
+
+        group.MapGet("/{id:guid}", async (IExerciseService exerciseService, Guid id) => 
+        {
+            var resultExercise = await exerciseService.GetById(id);
+            return (resultExercise != null)? Results.Ok(resultExercise.MapToResponse()) : Results.NotFound();
+        });
     }
 }

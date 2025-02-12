@@ -16,9 +16,16 @@ public class ExerciseService : IExerciseService
 
         return exercise;
     }
+
+    public async Task<Exercise?> GetById(Guid id)
+    {
+        return await _dbContext.Exercises.FindAsync(id);
+    }
 }
 
 public interface IExerciseService
 {
     Task<Exercise> Create(Exercise exercise);
+
+     Task<Exercise?> GetById(Guid id);
 }
