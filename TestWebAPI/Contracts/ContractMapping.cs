@@ -10,6 +10,17 @@ public static class ContractMapping
         };
     }
 
+        public static Exercise MapToExercise(this UpdateExerciseRequest request, Guid id)
+    {
+        return new Exercise
+        {
+            Id = id,
+            Name = request.Name,
+            CreatedBy = request.CreatedBy
+        };
+    }
+
+
     public static ExerciseResponse MapToResponse(this Exercise exercise)
     {
         return new ExerciseResponse
