@@ -1,6 +1,7 @@
 public static class ContractMapping
 {
-    public static Exercise MapToExercise(this CreateExerciseRequest request)
+    // exercise mapping methods:
+       public static Exercise MapToExercise(this CreateExerciseRequest request)
     {
         return new Exercise
         {

@@ -1,4 +1,3 @@
-/Users/timothy/Documents/Learning/ReactNETtest2/TestWebAPI/bin/Debug/net9.0/appsettings.Development.json
 /Users/timothy/Documents/Learning/ReactNETtest2/TestWebAPI/bin/Debug/net9.0/appsettings.json
 /Users/timothy/Documents/Learning/ReactNETtest2/TestWebAPI/bin/Debug/net9.0/TestWebAPI.staticwebassets.endpoints.json
 /Users/timothy/Documents/Learning/ReactNETtest2/TestWebAPI/bin/Debug/net9.0/TestWebAPI
