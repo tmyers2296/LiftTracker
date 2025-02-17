@@ -1,10 +1,10 @@
 using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
 
-public class ExerciseService : IExerciseService
+public class RoutineService : IRoutineService
 {
     private readonly ApplicationDbContext _dbContext;
-    public ExerciseService(ApplicationDbContext dbContext)
+    public RoutineService(ApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }
@@ -36,7 +36,7 @@ public class ExerciseService : IExerciseService
     }
 }
 
-public interface IExerciseService
+public interface IRoutineService
 {
     Task<Exercise> Create(Exercise exercise);
 
