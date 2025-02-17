@@ -9,15 +9,15 @@ public static class ExerciseEndpoints
         // create:
         group.MapPost("/", async (IExerciseService exerciseService, CreateExerciseRequest request) =>
         {
-            var exercise = request.MapToExercise();
-            var createdExercise = await exerciseService.Create(exercise);
+            Exercise exercise = request.MapToExercise();
+            Exercise? createdExercise = await exerciseService.Create(exercise);
             return Results.Created($"/exercises/{createdExercise.Id}", createdExercise.MapToResponse());
         });
 
         // read individual:
         group.MapGet("/{id:guid}", async (IExerciseService exerciseService, Guid id) => 
         {
-            var resultExercise = await exerciseService.GetById(id);
+            Exercise? resultExercise = await exerciseService.GetById(id);
             return (resultExercise != null)? Results.Ok(resultExercise.MapToResponse()) : Results.NotFound();
         });
 
@@ -26,16 +26,15 @@ public static class ExerciseEndpoints
         // update:
         group.MapPut("/{id:guid}", async (IExerciseService exerciseService, Guid id, UpdateExerciseRequest request) =>
         {
-            var exercise = request.MapToExercise(id);
-            var resultExercise = await exerciseService.Update(exercise);
-
+            Exercise? exercise = request.MapToExercise(id);
+            Exercise? resultExercise = await exerciseService.Update(exercise);
             return (resultExercise != null)? Results.Ok() : Results.NotFound();
         });
 
         // delete:
         group.MapDelete("/{id:guid}", async (IExerciseService exerciseService, Guid id) => 
         {
-            var result = await exerciseService.DeleteById(id);
+            bool result = await exerciseService.DeleteById(id);
             return result? Results.Ok() : Results.NotFound();
         });
     }
