@@ -1,7 +1,7 @@
 public static class ContractMapping
 {
     // exercise mapping methods:
-       public static Exercise MapToExercise(this CreateExerciseRequest request)
+    public static Exercise MapToExercise(this CreateExerciseRequest request)
     {
         return new Exercise
         {
@@ -11,7 +11,7 @@ public static class ContractMapping
         };
     }
 
-        public static Exercise MapToExercise(this UpdateExerciseRequest request, Guid id)
+    public static Exercise MapToExercise(this UpdateExerciseRequest request, Guid id)
     {
         return new Exercise
         {
@@ -32,5 +32,26 @@ public static class ContractMapping
         };
     }
 
+
+    // routine mapping methods:
+    public static Routine MapToRoutine(this CreateRoutineRequest request)
+    {
+        return new Routine
+        {
+            Id = Guid.NewGuid(),
+            Name = request.Name,
+            CreatedBy = request.CreatedBy
+        };
+    }
+
+    public static RoutineResponse MapToResponse(this Routine routine)
+    {
+        return new RoutineResponse
+        {
+            Id = routine.Id,
+            Name = routine.Name,
+            CreatedBy = routine.CreatedBy
+        };
+    }
 
 }
