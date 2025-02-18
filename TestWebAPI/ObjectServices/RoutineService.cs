@@ -14,16 +14,13 @@ public class RoutineService : IRoutineService
     {
         _dbContext.Routines.Add(routine);
         await _dbContext.SaveChangesAsync();
-
         return routine;
     }
-
 
     public async Task<RoutineExercise> CreateExercise(RoutineExercise exercise)
     {
         _dbContext.RoutineExercises.Add(exercise);
         await _dbContext.SaveChangesAsync();
-
         return exercise;
     }
 
@@ -31,7 +28,6 @@ public class RoutineService : IRoutineService
     {
         _dbContext.RoutineExerciseSets.Add(set);
         await _dbContext.SaveChangesAsync();
-
         return set;
     }
 

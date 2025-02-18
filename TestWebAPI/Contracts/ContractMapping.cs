@@ -44,6 +44,28 @@ public static class ContractMapping
         };
     }
 
+    public static RoutineExercise MapToRoutineExercise(this CreateRoutineExerciseRequest request, Guid routineId)
+    {
+        return new RoutineExercise
+        {
+            Id = Guid.NewGuid(),
+            ExerciseId = request.ExerciseId,
+            RoutineId = routineId,
+            Order = request.Order
+        };
+    }
+
+    public static RoutineExerciseSet MapToRoutineExerciseSet(this CreateRoutineExerciseSetRequest request)
+    {
+        return new RoutineExerciseSet
+        {
+            Id = Guid.NewGuid(),
+            RoutineExerciseId = request.RoutineExerciseId,
+            RepRangeLow = request.RepRangeLow,
+            RepRangeHigh = request.RepRangeHigh
+        };
+    }
+
     public static RoutineResponse MapToResponse(this Routine routine)
     {
         return new RoutineResponse
@@ -51,6 +73,17 @@ public static class ContractMapping
             Id = routine.Id,
             Name = routine.Name,
             CreatedBy = routine.CreatedBy
+        };
+    }
+
+        public static RoutineExerciseResponse MapToResponse(this RoutineExercise exercise)
+    {
+        return new RoutineExerciseResponse
+        {
+            Id = exercise.Id,
+            ExerciseId = exercise.ExerciseId,
+            RoutineId = exercise.RoutineId,
+            Order = exercise.Order
         };
     }
 

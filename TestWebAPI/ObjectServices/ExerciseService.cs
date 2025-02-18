@@ -13,7 +13,6 @@ public class ExerciseService : IExerciseService
     {
         _dbContext.Exercises.Add(exercise);
         await _dbContext.SaveChangesAsync();
-
         return exercise;
     }
 
@@ -24,9 +23,9 @@ public class ExerciseService : IExerciseService
 
     public async Task<Exercise?> Update(Exercise exercise)
     {
-          _dbContext.Exercises.Update(exercise);
-          var result = await _dbContext.SaveChangesAsync();
-           return result > 0 ? exercise : null;
+        _dbContext.Exercises.Update(exercise);
+        int result = await _dbContext.SaveChangesAsync();
+        return result > 0 ? exercise : null;
     }
 
     public async Task<bool> DeleteById(Guid id)

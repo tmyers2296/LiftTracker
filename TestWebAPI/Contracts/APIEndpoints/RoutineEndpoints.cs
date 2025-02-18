@@ -2,6 +2,7 @@ public static class RoutineEndpoints
 {
     public static void MapRoutineEndpoints(this WebApplication app)
     {
+        // * general routine group *
         var group = app.MapGroup("routines");
 
         // create:
@@ -28,5 +29,32 @@ public static class RoutineEndpoints
             return routineDeleted? Results.Ok() : Results.NotFound();
         });
 
+        // * routine exercise group *
+        var exerciseGroup = group.MapGroup("/{routineId:guid}/exercises");
+
+        // create:
+        exerciseGroup.MapPost("/", async (IRoutineService routineService, Guid routineId, CreateRoutineExerciseRequest request) => 
+        {
+            RoutineExercise exercise = request.MapToRoutineExercise(routineId);
+            RoutineExercise? createdExercise = await routineService.CreateExercise(exercise);
+            return Results.Created($"routines/{createdExercise.RoutineId}/exercises/{createdExercise.Id}", createdExercise.MapToResponse());
+        });
+        
+        // read:
+
+        // update:
+
+        // delete:
+
+        // * routine exercise set group *
+        var setGroup = exerciseGroup.MapGroup("/{exerciseId:guid}/sets");
+
+        // create:
+        
+        // read:
+
+        // update:
+
+        // delete:
     }
 }
