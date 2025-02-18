@@ -28,8 +28,9 @@ builder.Services.AddCors(options =>
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 
-// excersizeservice builder..
+// custom services..
 builder.Services.AddScoped<IExerciseService, ExerciseService>();
+builder.Services.AddScoped<IRoutineService, RoutineService>();
 
 var app = builder.Build();
 
@@ -67,6 +68,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthorization();
 app.MapExerciseEndpoints();
+app.MapRoutineEndpoints();
 
 var summaries = new[]
 {

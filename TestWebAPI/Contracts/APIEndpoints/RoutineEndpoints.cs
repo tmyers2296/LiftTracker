@@ -13,10 +13,20 @@ public static class RoutineEndpoints
         });
 
         // read individual:
+        group.MapGet("/{id:guid}", async (IRoutineService routineService, Guid id) =>
+        {
+            Routine? routine = await routineService.GetById(id);
+            return (routine != null)? Results.Ok(routine.MapToResponse()) : Results.NotFound();
+        });
 
         // read group:
 
         // delete:
+        group.MapDelete("/{id:guid}", async (IRoutineService routineService, Guid id) => 
+        {
+            bool routineDeleted = await routineService.DeleteById(id);
+            return routineDeleted? Results.Ok() : Results.NotFound();
+        });
 
     }
 }
