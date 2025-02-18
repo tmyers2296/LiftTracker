@@ -37,6 +37,11 @@ public class RoutineService : IRoutineService
         return await _dbContext.Routines.FindAsync(id);
     }
 
+    public async Task<List<RoutineExercise>> GetExercises(Guid id)
+    {
+        return await _dbContext.RoutineExercises.Where(re => re.RoutineId == id).ToListAsync();
+    }
+    
     // update methods:
     public async Task<Routine?> Update(Routine routine)
     {
@@ -62,6 +67,7 @@ public interface IRoutineService
 
     // read:
     Task<Routine?> GetById(Guid id);
+    Task<List<RoutineExercise>> GetExercises(Guid id);
 
     // update:
     Task<Routine?> Update(Routine routine);

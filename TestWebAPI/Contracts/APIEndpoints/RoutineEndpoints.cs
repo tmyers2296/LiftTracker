@@ -41,6 +41,11 @@ public static class RoutineEndpoints
         });
         
         // read:
+        exerciseGroup.MapGet("/", async (IRoutineService routineService, Guid routineId) =>
+        {
+            List<RoutineExercise> exerciseList = await routineService.GetExercises(routineId);
+            return (exerciseList.Count > 0)? Results.Ok(exerciseList.MapToResponse()) : Results.NotFound();
+        });
 
         // update:
 

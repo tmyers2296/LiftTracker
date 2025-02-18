@@ -32,7 +32,6 @@ public static class ContractMapping
         };
     }
 
-
     // routine mapping methods:
     public static Routine MapToRoutine(this CreateRoutineRequest request)
     {
@@ -73,6 +72,21 @@ public static class ContractMapping
             Id = routine.Id,
             Name = routine.Name,
             CreatedBy = routine.CreatedBy
+        };
+    }
+
+    public static RoutineExercisesResponse MapToResponse(this List<RoutineExercise> exerciseList)
+    {
+        List<RoutineExerciseResponse> exerciseReponseList = new List<RoutineExerciseResponse>();
+
+        foreach (RoutineExercise exercise in exerciseList)
+        {
+            exerciseReponseList.Add(exercise.MapToResponse());
+        }
+
+        return new RoutineExercisesResponse
+        {
+            ExecisesList = exerciseReponseList
         };
     }
 
