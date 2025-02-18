@@ -50,6 +50,11 @@ public static class RoutineEndpoints
         // update:
 
         // delete:
+        exerciseGroup.MapDelete("/{id:guid}", async (IRoutineService routineService, Guid id) => 
+        {
+            bool routineExerciseDeleted = await routineService.DeleteExerciseById(id);
+            return routineExerciseDeleted? Results.Ok() : Results.NotFound();
+        });
 
         // * routine exercise set group *
         var setGroup = exerciseGroup.MapGroup("/{exerciseId:guid}/sets");
@@ -61,5 +66,10 @@ public static class RoutineEndpoints
         // update:
 
         // delete:
+        setGroup.MapDelete("/{id:guid}", async (IRoutineService routineService, Guid id) => 
+        {
+            bool routineExerciseSetDeleted = await routineService.DeleteExerciseSetById(id);
+            return routineExerciseSetDeleted? Results.Ok() : Results.NotFound();
+        });
     }
 }

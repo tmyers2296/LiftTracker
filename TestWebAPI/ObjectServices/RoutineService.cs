@@ -41,7 +41,7 @@ public class RoutineService : IRoutineService
     {
         return await _dbContext.RoutineExercises.Where(re => re.RoutineId == id).ToListAsync();
     }
-    
+
     // update methods:
     public async Task<Routine?> Update(Routine routine)
     {
@@ -54,6 +54,18 @@ public class RoutineService : IRoutineService
     public async Task<bool> DeleteById(Guid id)
     {
         var result = await _dbContext.Routines.Where(x => x.Id == id).ExecuteDeleteAsync();
+        return result > 0;
+    }
+
+    public async Task<bool> DeleteExerciseById(Guid id)
+    {
+        var result = await _dbContext.RoutineExercises.Where(x => x.Id == id).ExecuteDeleteAsync();
+        return result > 0;
+    }
+
+     public async Task<bool> DeleteExerciseSetById(Guid id)
+    {
+        var result = await _dbContext.RoutineExerciseSets.Where(x => x.Id == id).ExecuteDeleteAsync();
         return result > 0;
     }
 }
@@ -74,4 +86,6 @@ public interface IRoutineService
 
     // delete:
     Task<bool> DeleteById(Guid id);
+    Task<bool> DeleteExerciseById(Guid id);
+    Task<bool> DeleteExerciseSetById(Guid id);
 }
