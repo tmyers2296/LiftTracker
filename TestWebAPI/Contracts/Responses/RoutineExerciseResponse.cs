@@ -8,4 +8,6 @@ public class RoutineExerciseResponse
 
     public required int Order { get; init; }
 
+    public required List<RoutineExerciseSetResponse> SetsList { get; init; }
+
 }

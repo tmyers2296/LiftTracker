@@ -10,14 +10,30 @@ public static class RoutineEndpoints
         {
             Routine routine = request.MapToRoutine();
             Routine? createdRoutine = await routineService.Create(routine);
-            return Results.Created($"/routines/{createdRoutine.Id}", createdRoutine.MapToResponse());
+            return Results.Created($"/routines/{createdRoutine.Id}", createdRoutine.MapToResponse(new List<RoutineExerciseResponse>()));
         });
 
         // read individual:
         group.MapGet("/{id:guid}", async (IRoutineService routineService, Guid id) =>
         {
             Routine? routine = await routineService.GetById(id);
-            return (routine != null)? Results.Ok(routine.MapToResponse()) : Results.NotFound();
+            List<RoutineExercise> exercisesList = await routineService.GetExercises(id);
+            List<RoutineExerciseResponse> exerciseResponseList = new List<RoutineExerciseResponse>();
+
+            foreach (RoutineExercise exercise in exercisesList)
+                {
+                    List<RoutineExerciseSet> setList = await routineService.GetExerciseSets(exercise.Id);
+                    List<RoutineExerciseSetResponse> setsResponseList = new List<RoutineExerciseSetResponse>();
+
+                    foreach (RoutineExerciseSet set in setList)
+                    {
+                        setsResponseList.Add(set.MapToResponse());
+                    }
+
+                    exerciseResponseList.Add(exercise.MapToResponse(setsResponseList));
+                }
+
+            return (routine != null)? Results.Ok(routine.MapToResponse(exerciseResponseList)) : Results.NotFound();
         });
 
         // read group:
@@ -37,15 +53,15 @@ public static class RoutineEndpoints
         {
             RoutineExercise exercise = request.MapToRoutineExercise(routineId);
             RoutineExercise? createdExercise = await routineService.CreateExercise(exercise);
-            return Results.Created($"routines/{createdExercise.RoutineId}/exercises/{createdExercise.Id}", createdExercise.MapToResponse());
+            return Results.Created($"routines/{createdExercise.RoutineId}/exercises/{createdExercise.Id}", createdExercise.MapToResponse(new List<RoutineExerciseSetResponse>()));
         });
         
         // read:
-        exerciseGroup.MapGet("/", async (IRoutineService routineService, Guid routineId) =>
-        {
-            List<RoutineExercise> exerciseList = await routineService.GetExercises(routineId);
-            return (exerciseList.Count > 0)? Results.Ok(exerciseList.MapToResponse()) : Results.NotFound();
-        });
+        // exerciseGroup.MapGet("/", async (IRoutineService routineService, Guid routineId) =>
+        // {
+        //     List<RoutineExercise> exerciseList = await routineService.GetExercises(routineId);
+        //     return (exerciseList.Count > 0)? Results.Ok(exerciseList.MapToResponse()) : Results.NotFound();
+        // });
 
         // update:
 
@@ -60,6 +76,12 @@ public static class RoutineEndpoints
         var setGroup = exerciseGroup.MapGroup("/{exerciseId:guid}/sets");
 
         // create:
+        setGroup.MapPost("/", async (IRoutineService routineService,Guid routineId,  Guid exerciseId, CreateRoutineExerciseSetRequest request) => 
+        {
+            RoutineExerciseSet set = request.MapToRoutineExerciseSet(exerciseId);
+            RoutineExerciseSet? createdSet = await routineService.CreateExerciseSet(set);
+            return Results.Created($"routines/{routineId}/exercises/{exerciseId}/sets/{createdSet.Id}", createdSet.MapToResponse());
+        });
         
         // read:
 

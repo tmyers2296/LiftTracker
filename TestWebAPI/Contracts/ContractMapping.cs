@@ -1,6 +1,7 @@
 public static class ContractMapping
 {
-    // exercise mapping methods:
+    // * exercise mapping methods *
+    // request -> object:
     public static Exercise MapToExercise(this CreateExerciseRequest request)
     {
         return new Exercise
@@ -22,6 +23,7 @@ public static class ContractMapping
     }
 
 
+    // object -> response:
     public static ExerciseResponse MapToResponse(this Exercise exercise)
     {
         return new ExerciseResponse
@@ -32,7 +34,8 @@ public static class ContractMapping
         };
     }
 
-    // routine mapping methods:
+    // * routine mapping methods *
+    // request -> object:
     public static Routine MapToRoutine(this CreateRoutineRequest request)
     {
         return new Routine
@@ -54,50 +57,64 @@ public static class ContractMapping
         };
     }
 
-    public static RoutineExerciseSet MapToRoutineExerciseSet(this CreateRoutineExerciseSetRequest request)
+    public static RoutineExerciseSet MapToRoutineExerciseSet(this CreateRoutineExerciseSetRequest request, Guid routineExerciseId)
     {
         return new RoutineExerciseSet
         {
             Id = Guid.NewGuid(),
-            RoutineExerciseId = request.RoutineExerciseId,
+            RoutineExerciseId = routineExerciseId,
             RepRangeLow = request.RepRangeLow,
             RepRangeHigh = request.RepRangeHigh
         };
     }
 
-    public static RoutineResponse MapToResponse(this Routine routine)
+    // object -> response:
+    public static RoutineResponse MapToResponse(this Routine routine, List<RoutineExerciseResponse> exercisesResponseList)
     {
         return new RoutineResponse
         {
             Id = routine.Id,
             Name = routine.Name,
-            CreatedBy = routine.CreatedBy
+            CreatedBy = routine.CreatedBy,
+            ExercisesList = exercisesResponseList
         };
     }
 
-    public static RoutineExercisesResponse MapToResponse(this List<RoutineExercise> exerciseList)
-    {
-        List<RoutineExerciseResponse> exerciseReponseList = new List<RoutineExerciseResponse>();
+    // public static RoutineExercisesResponse MapToResponse(this List<RoutineExercise> exerciseList)
+    // {
+    //     List<RoutineExerciseResponse> exerciseReponseList = new List<RoutineExerciseResponse>();
 
-        foreach (RoutineExercise exercise in exerciseList)
-        {
-            exerciseReponseList.Add(exercise.MapToResponse());
-        }
+    //     foreach (RoutineExercise exercise in exerciseList)
+    //     {
+    //         exerciseReponseList.Add(exercise.MapToResponse());
+    //     }
 
-        return new RoutineExercisesResponse
-        {
-            ExecisesList = exerciseReponseList
-        };
-    }
+    //     return new RoutineExercisesResponse
+    //     {
+    //         ExecisesList = exerciseReponseList
+    //     };
+    // }
 
-        public static RoutineExerciseResponse MapToResponse(this RoutineExercise exercise)
+    public static RoutineExerciseResponse MapToResponse(this RoutineExercise exercise, List<RoutineExerciseSetResponse> setsResponseList)
     {
         return new RoutineExerciseResponse
         {
             Id = exercise.Id,
             ExerciseId = exercise.ExerciseId,
             RoutineId = exercise.RoutineId,
-            Order = exercise.Order
+            Order = exercise.Order,
+            SetsList = setsResponseList
+        };
+    }
+
+        public static RoutineExerciseSetResponse MapToResponse(this RoutineExerciseSet set)
+    {
+        return new RoutineExerciseSetResponse
+        {
+            Id = set.Id,
+            RoutineExerciseId = set.RoutineExerciseId,
+            RepRangeLow = set.RepRangeLow,
+            RepRangeHigh = set.RepRangeHigh
         };
     }
 

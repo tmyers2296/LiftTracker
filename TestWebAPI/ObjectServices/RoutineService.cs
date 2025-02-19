@@ -42,6 +42,11 @@ public class RoutineService : IRoutineService
         return await _dbContext.RoutineExercises.Where(re => re.RoutineId == id).ToListAsync();
     }
 
+    public async Task<List<RoutineExerciseSet>> GetExerciseSets(Guid id)
+    {
+        return await _dbContext.RoutineExerciseSets.Where(res => res.RoutineExerciseId == id).ToListAsync();
+    }
+
     // update methods:
     public async Task<Routine?> Update(Routine routine)
     {
@@ -80,6 +85,7 @@ public interface IRoutineService
     // read:
     Task<Routine?> GetById(Guid id);
     Task<List<RoutineExercise>> GetExercises(Guid id);
+    Task<List<RoutineExerciseSet>> GetExerciseSets(Guid id);
 
     // update:
     Task<Routine?> Update(Routine routine);

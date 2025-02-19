@@ -3,6 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class RoutineExercise
 {
+    public RoutineExercise()
+    {
+        // navigation properties:
+        this.routine = null;
+        this.exercise = null;
+        this.sets = new List<RoutineExerciseSet>();
+    }
+
     [Key]
     public required Guid Id { get; init; }
 
@@ -14,4 +22,8 @@ public class RoutineExercise
 
     public required int Order { get; set; }
 
+    // navigation properties:
+    public Routine? routine { get; set; }
+    public Exercise? exercise { get; set; }
+    public List<RoutineExerciseSet> sets { get; set; } = new List<RoutineExerciseSet>();
 }
