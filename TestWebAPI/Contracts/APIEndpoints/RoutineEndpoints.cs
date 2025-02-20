@@ -10,30 +10,14 @@ public static class RoutineEndpoints
         {
             Routine routine = request.MapToRoutine();
             Routine? createdRoutine = await routineService.Create(routine);
-            return Results.Created($"/routines/{createdRoutine.Id}", createdRoutine.MapToResponse(new List<RoutineExerciseResponse>()));
+            return Results.Created($"/routines/{createdRoutine.Id}", createdRoutine.MapToResponse());
         });
 
         // read individual:
         group.MapGet("/{id:guid}", async (IRoutineService routineService, Guid id) =>
         {
             Routine? routine = await routineService.GetById(id);
-            List<RoutineExercise> exercisesList = await routineService.GetExercises(id);
-            List<RoutineExerciseResponse> exerciseResponseList = new List<RoutineExerciseResponse>();
-
-            foreach (RoutineExercise exercise in exercisesList)
-                {
-                    List<RoutineExerciseSet> setList = await routineService.GetExerciseSets(exercise.Id);
-                    List<RoutineExerciseSetResponse> setsResponseList = new List<RoutineExerciseSetResponse>();
-
-                    foreach (RoutineExerciseSet set in setList)
-                    {
-                        setsResponseList.Add(set.MapToResponse());
-                    }
-
-                    exerciseResponseList.Add(exercise.MapToResponse(setsResponseList));
-                }
-
-            return (routine != null)? Results.Ok(routine.MapToResponse(exerciseResponseList)) : Results.NotFound();
+            return (routine != null)? Results.Ok(routine.MapToResponse()) : Results.NotFound();
         });
 
         // read group:
@@ -53,7 +37,7 @@ public static class RoutineEndpoints
         {
             RoutineExercise exercise = request.MapToRoutineExercise(routineId);
             RoutineExercise? createdExercise = await routineService.CreateExercise(exercise);
-            return Results.Created($"routines/{createdExercise.RoutineId}/exercises/{createdExercise.Id}", createdExercise.MapToResponse(new List<RoutineExerciseSetResponse>()));
+            return Results.Created($"routines/{createdExercise.RoutineId}/exercises/{createdExercise.Id}", createdExercise.MapToResponse());
         });
         
         // read:

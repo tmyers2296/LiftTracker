@@ -1,4 +1,4 @@
 public class RoutineExercisesResponse
 {
-    required public List<RoutineExerciseResponse> ExecisesList { get; init; }
+    required public List<RoutineExercise> ExercisesList { get; init; }
 }

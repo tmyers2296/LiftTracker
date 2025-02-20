@@ -34,7 +34,10 @@ public class RoutineService : IRoutineService
     // read methods:
     public async Task<Routine?> GetById(Guid id)
     {
-        return await _dbContext.Routines.FindAsync(id);
+        return await _dbContext.Routines
+        .Include(routine => routine.exercises)
+        .ThenInclude(routineExercise => routineExercise.sets)
+        .FirstOrDefaultAsync(routine => routine.Id == id);
     }
 
     public async Task<List<RoutineExercise>> GetExercises(Guid id)

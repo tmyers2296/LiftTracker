@@ -69,14 +69,14 @@ public static class ContractMapping
     }
 
     // object -> response:
-    public static RoutineResponse MapToResponse(this Routine routine, List<RoutineExerciseResponse> exercisesResponseList)
+    public static RoutineResponse MapToResponse(this Routine routine)
     {
         return new RoutineResponse
         {
             Id = routine.Id,
             Name = routine.Name,
             CreatedBy = routine.CreatedBy,
-            ExercisesList = exercisesResponseList
+            ExercisesList = routine.exercises.Select(e => e.MapToResponse()).ToList()
         };
     }
 
@@ -95,7 +95,7 @@ public static class ContractMapping
     //     };
     // }
 
-    public static RoutineExerciseResponse MapToResponse(this RoutineExercise exercise, List<RoutineExerciseSetResponse> setsResponseList)
+    public static RoutineExerciseResponse MapToResponse(this RoutineExercise exercise)
     {
         return new RoutineExerciseResponse
         {
@@ -103,7 +103,7 @@ public static class ContractMapping
             ExerciseId = exercise.ExerciseId,
             RoutineId = exercise.RoutineId,
             Order = exercise.Order,
-            SetsList = setsResponseList
+            setsList = exercise.sets.Select(s => s.MapToResponse()).ToList()
         };
     }
 
