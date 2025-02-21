@@ -46,23 +46,23 @@ public static class ContractMapping
         };
     }
 
-    public static RoutineExercise MapToRoutineExercise(this CreateRoutineExerciseRequest request, Guid routineId)
+    public static RoutineExercise MapToRoutineExercise(this CreateRoutineExerciseRequest request)
     {
         return new RoutineExercise
         {
             Id = Guid.NewGuid(),
             ExerciseId = request.ExerciseId,
-            RoutineId = routineId,
+            RoutineId = request.RoutineId,
             Order = request.Order
         };
     }
 
-    public static RoutineExerciseSet MapToRoutineExerciseSet(this CreateRoutineExerciseSetRequest request, Guid routineExerciseId)
+    public static RoutineExerciseSet MapToRoutineExerciseSet(this CreateRoutineExerciseSetRequest request)
     {
         return new RoutineExerciseSet
         {
             Id = Guid.NewGuid(),
-            RoutineExerciseId = routineExerciseId,
+            RoutineExerciseId = request.RoutineExerciseId,
             RepRangeLow = request.RepRangeLow,
             RepRangeHigh = request.RepRangeHigh
         };
@@ -79,21 +79,6 @@ public static class ContractMapping
             ExercisesList = routine.exercises.Select(e => e.MapToResponse()).ToList()
         };
     }
-
-    // public static RoutineExercisesResponse MapToResponse(this List<RoutineExercise> exerciseList)
-    // {
-    //     List<RoutineExerciseResponse> exerciseReponseList = new List<RoutineExerciseResponse>();
-
-    //     foreach (RoutineExercise exercise in exerciseList)
-    //     {
-    //         exerciseReponseList.Add(exercise.MapToResponse());
-    //     }
-
-    //     return new RoutineExercisesResponse
-    //     {
-    //         ExecisesList = exerciseReponseList
-    //     };
-    // }
 
     public static RoutineExerciseResponse MapToResponse(this RoutineExercise exercise)
     {

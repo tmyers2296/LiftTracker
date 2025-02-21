@@ -32,22 +32,24 @@ public class RoutineService : IRoutineService
     }
 
     // read methods:
-    public async Task<Routine?> GetById(Guid id)
+    public async Task<Routine?> GetById(Guid id) 
     {
         return await _dbContext.Routines
-        .Include(routine => routine.exercises)
-        .ThenInclude(routineExercise => routineExercise.sets)
-        .FirstOrDefaultAsync(routine => routine.Id == id);
+        .Include(r => r.exercises)
+        .ThenInclude(re => re.sets)
+        .FirstOrDefaultAsync(r => r.Id == id);
     }
 
-    public async Task<List<RoutineExercise>> GetExercises(Guid id)
+    public async Task<RoutineExercise?> GetExercise(Guid id)
     {
-        return await _dbContext.RoutineExercises.Where(re => re.RoutineId == id).ToListAsync();
+        return await _dbContext.RoutineExercises
+        .Include(res => res.sets)
+        .FirstOrDefaultAsync(re => re.Id == id);
     }
 
-    public async Task<List<RoutineExerciseSet>> GetExerciseSets(Guid id)
+    public async Task<RoutineExerciseSet?> GetExerciseSet(Guid id)
     {
-        return await _dbContext.RoutineExerciseSets.Where(res => res.RoutineExerciseId == id).ToListAsync();
+        return await _dbContext.RoutineExerciseSets.FindAsync(id);
     }
 
     // update methods:
@@ -87,8 +89,8 @@ public interface IRoutineService
 
     // read:
     Task<Routine?> GetById(Guid id);
-    Task<List<RoutineExercise>> GetExercises(Guid id);
-    Task<List<RoutineExerciseSet>> GetExerciseSets(Guid id);
+    Task<RoutineExercise?> GetExercise(Guid id);
+    Task<RoutineExerciseSet?> GetExerciseSet(Guid id);
 
     // update:
     Task<Routine?> Update(Routine routine);
