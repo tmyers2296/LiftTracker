@@ -55,9 +55,23 @@ public class RoutineService : IRoutineService
     // update methods:
     public async Task<Routine?> Update(Routine routine)
     {
-          _dbContext.Routines.Update(routine);
-          var result = await _dbContext.SaveChangesAsync();
-           return result > 0 ? routine : null;
+        _dbContext.Routines.Update(routine);
+        var result = await _dbContext.SaveChangesAsync();
+        return result > 0 ? routine : null;
+    }
+
+    public async Task<RoutineExercise?> UpdateExercise(RoutineExercise routineExercise)
+    {
+        _dbContext.RoutineExercises.Update(routineExercise);
+        var result = await _dbContext.SaveChangesAsync();
+        return result > 0 ? routineExercise : null;
+    }
+
+    public async Task<RoutineExerciseSet?> UpdateExerciseSet(RoutineExerciseSet routineExerciseSet)
+    {
+        _dbContext.RoutineExerciseSets.Update(routineExerciseSet);
+        var result = await _dbContext.SaveChangesAsync();
+        return result > 0 ? routineExerciseSet : null;
     }
 
     // delete methods:
@@ -94,7 +108,9 @@ public interface IRoutineService
 
     // update:
     Task<Routine?> Update(Routine routine);
-
+    Task<RoutineExercise?> UpdateExercise(RoutineExercise routineExercise);
+    Task<RoutineExerciseSet?> UpdateExerciseSet(RoutineExerciseSet routineExerciseSet);
+    
     // delete:
     Task<bool> DeleteById(Guid id);
     Task<bool> DeleteExerciseById(Guid id);

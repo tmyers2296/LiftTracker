@@ -49,6 +49,7 @@ public static class RoutineEndpoints
         });
 
         // update:
+        
 
         // delete:
         exerciseGroupDirect.MapDelete("/{exerciseId:guid}", async (IRoutineService routineService, Guid exerciseId) => 
