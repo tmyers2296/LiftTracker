@@ -78,7 +78,7 @@ public static class ContractMapping
         };
     }
 
-    public static RoutineExercise MapToRoutine(this UpdateRoutineExerciseRequest request, Guid id)
+    public static RoutineExercise MapToRoutineExercise(this UpdateRoutineExerciseRequest request, Guid id)
     {
         return new RoutineExercise
         {
@@ -89,7 +89,7 @@ public static class ContractMapping
         };
     }
 
-    public static RoutineExerciseSet MapToRoutine(this UpdateRoutineExerciseSetRequest request, Guid id)
+    public static RoutineExerciseSet MapToRoutineExerciseSet(this UpdateRoutineExerciseSetRequest request, Guid id)
     {
         return new RoutineExerciseSet
         {
