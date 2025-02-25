@@ -22,6 +22,14 @@ public static class RoutineEndpoints
 
         // read group:
 
+        // update:
+        group.MapPut("/{id:guid}", async (IRoutineService routineService, Guid id, UpdateRoutineRequest request) => 
+        {
+            Routine? routine = request.MapToRoutine(id);
+            Routine? resultRoutine = await exerciseService.Update(exercise);
+            return (resultRoutine != null)? Results.Ok() : Results.NotFound();
+        });
+
         // delete:
         group.MapDelete("/{id:guid}", async (IRoutineService routineService, Guid id) => 
         {
@@ -49,7 +57,7 @@ public static class RoutineEndpoints
         });
 
         // update:
-        
+
 
         // delete:
         exerciseGroupDirect.MapDelete("/{exerciseId:guid}", async (IRoutineService routineService, Guid exerciseId) => 

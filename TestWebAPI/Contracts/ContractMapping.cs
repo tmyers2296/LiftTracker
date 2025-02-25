@@ -68,6 +68,38 @@ public static class ContractMapping
         };
     }
 
+    public static Routine MapToRoutine(this UpdateRoutineRequest request, Guid id)
+    {
+        return new Routine
+        {
+            Id = id,
+            Name = request.Name,
+            CreatedBy = request.CreatedBy
+        };
+    }
+
+    public static RoutineExercise MapToRoutine(this UpdateRoutineExerciseRequest request, Guid id)
+    {
+        return new RoutineExercise
+        {
+            Id = id,
+            ExerciseId = request.ExerciseId,
+            RoutineId = request.RoutineId,
+            Order = request.Order
+        };
+    }
+
+    public static RoutineExerciseSet MapToRoutine(this UpdateRoutineExerciseSetRequest request, Guid id)
+    {
+        return new RoutineExerciseSet
+        {
+            Id = id,
+            RoutineExerciseId = request.RoutineExerciseId,
+            RepRangeLow = request.RepRangeLow,
+            RepRangeHigh = request.RepRangeHigh
+        };
+    }
+
     // object -> response:
     public static RoutineResponse MapToResponse(this Routine routine)
     {
