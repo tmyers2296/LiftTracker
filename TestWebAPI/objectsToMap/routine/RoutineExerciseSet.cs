@@ -10,10 +10,11 @@ public class RoutineExerciseSet
     }
 
     [Key]
-    public required Guid Id { get; init; }
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; init; }
 
     [ForeignKey("RoutineExercise")]
-    public required Guid RoutineExerciseId { get; set; }
+    public required int RoutineExerciseId { get; set; }
 
     public required int RepRangeLow { get; set; }
 

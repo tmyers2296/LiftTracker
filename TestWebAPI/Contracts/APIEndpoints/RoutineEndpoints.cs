@@ -1,6 +1,6 @@
 public static class RoutineEndpoints
 {
-    public static void MapRoutineEndpoints(this WebApplication app)
+    public static void MapRoutineEndpoints(this WebApplication app) 
     {
         // * general routine group *
         var group = app.MapGroup("routines");

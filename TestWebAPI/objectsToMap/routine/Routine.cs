@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class Routine
 {
@@ -9,7 +10,8 @@ public class Routine
     }
 
     [Key]
-    public required Guid Id { get; init; }
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; init; }
     
     public required string Name { get; set; }
 

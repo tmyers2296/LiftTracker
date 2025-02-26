@@ -4,10 +4,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class WorkoutExerciseSet
 {
     [Key]
-    public required Guid Id { get; init; }
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; init; }
 
     [ForeignKey("WorkoutExercise")]
-    public required Guid WorkoutExerciseId { get; set; }
+    public required int WorkoutExerciseId { get; set; }
 
     public required int Weight { get; set; }
     

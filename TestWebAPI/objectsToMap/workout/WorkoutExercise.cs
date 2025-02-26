@@ -4,13 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 public class WorkoutExercise
 {
     [Key]
-    public required Guid Id { get; init; }
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; init; }
 
     [ForeignKey("Exercise")]
-    public required Guid ExerciseId { get; set; }
+    public required int ExerciseId { get; set; }
 
     [ForeignKey("Workout")]
-    public required Guid WorkoutId { get; set; }
+    public required int WorkoutId { get; set; }
     
     public required int Order { get; set; }
 

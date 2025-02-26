@@ -12,13 +12,14 @@ public class RoutineExercise
     }
 
     [Key]
-    public required Guid Id { get; init; }
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; init; }
 
     [ForeignKey("Exercise")]
-    public required Guid ExerciseId { get; set; }
+    public required int ExerciseId { get; set; }
 
     [ForeignKey("Routine")]
-    public required Guid RoutineId { get; set; }
+    public required int RoutineId { get; set; }
 
     public required int Order { get; set; }
 

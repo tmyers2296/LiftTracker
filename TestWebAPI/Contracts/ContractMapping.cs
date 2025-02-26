@@ -6,13 +6,12 @@ public static class ContractMapping
     {
         return new Exercise
         {
-            Id = Guid.NewGuid(),
             Name = request.Name,
             CreatedBy = request.CreatedBy
         };
     }
 
-    public static Exercise MapToExercise(this UpdateExerciseRequest request, Guid id)
+    public static Exercise MapToExercise(this UpdateExerciseRequest request, int id)
     {
         return new Exercise
         {
@@ -40,7 +39,6 @@ public static class ContractMapping
     {
         return new Routine
         {
-            Id = Guid.NewGuid(),
             Name = request.Name,
             CreatedBy = request.CreatedBy
         };
@@ -50,7 +48,6 @@ public static class ContractMapping
     {
         return new RoutineExercise
         {
-            Id = Guid.NewGuid(),
             ExerciseId = request.ExerciseId,
             RoutineId = request.RoutineId,
             Order = request.Order
@@ -61,14 +58,13 @@ public static class ContractMapping
     {
         return new RoutineExerciseSet
         {
-            Id = Guid.NewGuid(),
             RoutineExerciseId = request.RoutineExerciseId,
             RepRangeLow = request.RepRangeLow,
             RepRangeHigh = request.RepRangeHigh
         };
     }
 
-    public static Routine MapToRoutine(this UpdateRoutineRequest request, Guid id)
+    public static Routine MapToRoutine(this UpdateRoutineRequest request, int id)
     {
         return new Routine
         {
@@ -78,7 +74,7 @@ public static class ContractMapping
         };
     }
 
-    public static RoutineExercise MapToRoutineExercise(this UpdateRoutineExerciseRequest request, Guid id)
+    public static RoutineExercise MapToRoutineExercise(this UpdateRoutineExerciseRequest request, int id)
     {
         return new RoutineExercise
         {
@@ -89,7 +85,7 @@ public static class ContractMapping
         };
     }
 
-    public static RoutineExerciseSet MapToRoutineExerciseSet(this UpdateRoutineExerciseSetRequest request, Guid id)
+    public static RoutineExerciseSet MapToRoutineExerciseSet(this UpdateRoutineExerciseSetRequest request, int id)
     {
         return new RoutineExerciseSet
         {
