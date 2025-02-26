@@ -16,7 +16,7 @@ public class ExerciseService : IExerciseService
         return exercise;
     }
 
-    public async Task<Exercise?> GetById(Guid id)
+    public async Task<Exercise?> GetById(int id)
     {
         return await _dbContext.Exercises.FindAsync(id);
     }
@@ -28,7 +28,7 @@ public class ExerciseService : IExerciseService
         return result > 0 ? exercise : null;
     }
 
-    public async Task<bool> DeleteById(Guid id)
+    public async Task<bool> DeleteById(int id)
     {
         var result = await _dbContext.Exercises.Where(x => x.Id == id).ExecuteDeleteAsync();
         return result > 0;
@@ -39,9 +39,9 @@ public interface IExerciseService
 {
     Task<Exercise> Create(Exercise exercise);
 
-    Task<Exercise?> GetById(Guid id);
+    Task<Exercise?> GetById(int id);
 
     Task<Exercise?> Update(Exercise exercise);
 
-    Task<bool> DeleteById(Guid id);
+    Task<bool> DeleteById(int id);
 }

@@ -87,9 +87,11 @@ namespace TestWebAPI.Migrations
 
             modelBuilder.Entity("Exercise", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -238,9 +240,11 @@ namespace TestWebAPI.Migrations
 
             modelBuilder.Entity("Routine", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -257,18 +261,20 @@ namespace TestWebAPI.Migrations
 
             modelBuilder.Entity("RoutineExercise", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
 
-                    b.Property<Guid>("ExerciseId")
-                        .HasColumnType("uuid");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Order")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("RoutineId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("RoutineId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -281,9 +287,11 @@ namespace TestWebAPI.Migrations
 
             modelBuilder.Entity("RoutineExerciseSet", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("RepRangeHigh")
                         .HasColumnType("integer");
@@ -291,8 +299,8 @@ namespace TestWebAPI.Migrations
                     b.Property<int>("RepRangeLow")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("RoutineExerciseId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("RoutineExerciseId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -303,9 +311,11 @@ namespace TestWebAPI.Migrations
 
             modelBuilder.Entity("Workout", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -321,34 +331,38 @@ namespace TestWebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Workout");
+                    b.ToTable("Workouts");
                 });
 
             modelBuilder.Entity("WorkoutExercise", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
 
-                    b.Property<Guid>("ExerciseId")
-                        .HasColumnType("uuid");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Order")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("WorkoutId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("WorkoutId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.ToTable("WorkoutExercise");
+                    b.ToTable("WorkoutExercises");
                 });
 
             modelBuilder.Entity("WorkoutExerciseSet", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Reps")
                         .HasColumnType("integer");
@@ -356,12 +370,12 @@ namespace TestWebAPI.Migrations
                     b.Property<int>("Weight")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("WorkoutExerciseId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("WorkoutExerciseId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.ToTable("WorkoutExerciseSet");
+                    b.ToTable("WorkoutExerciseSets");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

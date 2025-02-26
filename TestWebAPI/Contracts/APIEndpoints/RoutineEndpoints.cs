@@ -14,7 +14,7 @@ public static class RoutineEndpoints
         });
 
         // read individual:
-        group.MapGet("/{id:guid}", async (IRoutineService routineService, Guid id) =>
+        group.MapGet("/{id:int}", async (IRoutineService routineService, int id) =>
         {
             Routine? routine = await routineService.GetById(id);
             return (routine != null)? Results.Ok(routine.MapToResponse()) : Results.NotFound();
@@ -23,7 +23,7 @@ public static class RoutineEndpoints
         // read group:
 
         // update:
-        group.MapPut("/{id:guid}", async (IRoutineService routineService, Guid id, UpdateRoutineRequest request) => 
+        group.MapPut("/{id:int}", async (IRoutineService routineService, int id, UpdateRoutineRequest request) => 
         {
             Routine? routine = request.MapToRoutine(id);
             Routine? resultRoutine = await routineService.Update(routine);
@@ -31,14 +31,14 @@ public static class RoutineEndpoints
         });
 
         // delete:
-        group.MapDelete("/{id:guid}", async (IRoutineService routineService, Guid id) => 
+        group.MapDelete("/{id:int}", async (IRoutineService routineService, int id) => 
         {
             bool routineDeleted = await routineService.DeleteById(id);
             return routineDeleted? Results.Ok() : Results.NotFound();
         });
 
         // * routine exercise group *
-        var exerciseGroupNested = group.MapGroup("/{routineId:guid}/exercises");
+        var exerciseGroupNested = group.MapGroup("/{routineId:int}/exercises");
         var exerciseGroupDirect = app.MapGroup("/routine-exercises");
 
         // create:
@@ -50,14 +50,14 @@ public static class RoutineEndpoints
         });
         
         // read:
-        exerciseGroupNested.MapGet("/{exerciseId:guid}", async (IRoutineService routineService, Guid routineId, Guid exerciseId) =>
+        exerciseGroupNested.MapGet("/{exerciseId:int}", async (IRoutineService routineService, int routineId, int exerciseId) =>
         {
             RoutineExercise? routineExercise = await routineService.GetExercise(exerciseId);
             return (routineExercise != null)? Results.Ok(routineExercise.MapToResponse()) : Results.NotFound();
         });
 
         // update:
-        exerciseGroupDirect.MapPut("/{exerciseId:guid}", async (IRoutineService routineService, Guid exerciseId, UpdateRoutineExerciseRequest request) =>
+        exerciseGroupDirect.MapPut("/{exerciseId:int}", async (IRoutineService routineService, int exerciseId, UpdateRoutineExerciseRequest request) =>
         {
             RoutineExercise? routineExercise = request.MapToRoutineExercise(exerciseId);
             RoutineExercise? resultRoutineExercise = await routineService.UpdateExercise(routineExercise);
@@ -65,7 +65,7 @@ public static class RoutineEndpoints
         });
 
         // delete:
-        exerciseGroupDirect.MapDelete("/{exerciseId:guid}", async (IRoutineService routineService, Guid exerciseId) => 
+        exerciseGroupDirect.MapDelete("/{exerciseId:int}", async (IRoutineService routineService, int exerciseId) => 
         {
             bool routineExerciseDeleted = await routineService.DeleteExerciseById(exerciseId);
             return routineExerciseDeleted? Results.Ok() : Results.NotFound();
@@ -84,14 +84,14 @@ public static class RoutineEndpoints
         });
         
         // read:
-        setGroupNested.MapGet("/{setId:guid}", async (IRoutineService routineService, Guid routineId, Guid exerciseId, Guid setId) =>
+        setGroupNested.MapGet("/{setId:guid}", async (IRoutineService routineService, int routineId, int exerciseId, int setId) =>
         {
             RoutineExerciseSet? routineExerciseSet = await routineService.GetExerciseSet(setId);
             return (routineExerciseSet != null)? Results.Ok(routineExerciseSet.MapToResponse()) : Results.NotFound();
         });
 
         // update:
-        setGroupDirect.MapPut("/{setId:guid}", async (IRoutineService routineService, Guid setId, UpdateRoutineExerciseSetRequest request) =>
+        setGroupDirect.MapPut("/{setId:guid}", async (IRoutineService routineService, int setId, UpdateRoutineExerciseSetRequest request) =>
         {
             RoutineExerciseSet? routineExerciseSet = request.MapToRoutineExerciseSet(setId);
             RoutineExerciseSet? resultRoutineExerciseSet = await routineService.UpdateExerciseSet(routineExerciseSet);
@@ -99,7 +99,7 @@ public static class RoutineEndpoints
         });
 
         // delete:
-        setGroupDirect.MapDelete("/{setId:guid}", async (IRoutineService routineService, Guid setId) => 
+        setGroupDirect.MapDelete("/{setId:guid}", async (IRoutineService routineService, int setId) => 
         {
             bool routineExerciseSetDeleted = await routineService.DeleteExerciseSetById(setId);
             return routineExerciseSetDeleted? Results.Ok() : Results.NotFound();

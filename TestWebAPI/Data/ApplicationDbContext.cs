@@ -17,8 +17,8 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<RoutineExerciseSet> RoutineExerciseSets { get; set; }
 
     // workout relations
-    public DbSet<Workout> Workout { get; set; }
-    public DbSet<WorkoutExercise> WorkoutExercise { get; set; }
-    public DbSet<WorkoutExerciseSet> WorkoutExerciseSet { get; set; }
+    public DbSet<Workout> Workouts { get; set; }
+    public DbSet<WorkoutExercise> WorkoutExercises { get; set; }
+    public DbSet<WorkoutExerciseSet> WorkoutExerciseSets { get; set; }
     
 }

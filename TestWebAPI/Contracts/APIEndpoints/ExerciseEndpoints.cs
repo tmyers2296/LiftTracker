@@ -15,7 +15,7 @@ public static class ExerciseEndpoints
         });
 
         // read individual:
-        group.MapGet("/{id:guid}", async (IExerciseService exerciseService, Guid id) => 
+        group.MapGet("/{id:int}", async (IExerciseService exerciseService, int id) => 
         {
             Exercise? resultExercise = await exerciseService.GetById(id);
             return (resultExercise != null)? Results.Ok(resultExercise.MapToResponse()) : Results.NotFound();
@@ -24,7 +24,7 @@ public static class ExerciseEndpoints
         // read group:
 
         // update:
-        group.MapPut("/{id:guid}", async (IExerciseService exerciseService, Guid id, UpdateExerciseRequest request) =>
+        group.MapPut("/{id:int}", async (IExerciseService exerciseService, int id, UpdateExerciseRequest request) =>
         {
             Exercise? exercise = request.MapToExercise(id);
             Exercise? resultExercise = await exerciseService.Update(exercise);
@@ -32,7 +32,7 @@ public static class ExerciseEndpoints
         });
 
         // delete:
-        group.MapDelete("/{id:guid}", async (IExerciseService exerciseService, Guid id) => 
+        group.MapDelete("/{id:int}", async (IExerciseService exerciseService, int id) => 
         {
             bool result = await exerciseService.DeleteById(id);
             return result? Results.Ok() : Results.NotFound();

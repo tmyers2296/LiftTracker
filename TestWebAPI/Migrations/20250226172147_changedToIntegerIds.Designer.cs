@@ -11,8 +11,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace TestWebAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250217122245_NewObjectsMigration")]
-    partial class NewObjectsMigration
+    [Migration("20250226172147_changedToIntegerIds")]
+    partial class changedToIntegerIds
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -90,9 +90,11 @@ namespace TestWebAPI.Migrations
 
             modelBuilder.Entity("Exercise", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -241,9 +243,11 @@ namespace TestWebAPI.Migrations
 
             modelBuilder.Entity("Routine", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -260,29 +264,37 @@ namespace TestWebAPI.Migrations
 
             modelBuilder.Entity("RoutineExercise", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
 
-                    b.Property<Guid>("ExerciseId")
-                        .HasColumnType("uuid");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Order")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("RoutineId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("RoutineId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ExerciseId");
+
+                    b.HasIndex("RoutineId");
 
                     b.ToTable("RoutineExercises");
                 });
 
             modelBuilder.Entity("RoutineExerciseSet", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("RepRangeHigh")
                         .HasColumnType("integer");
@@ -290,19 +302,23 @@ namespace TestWebAPI.Migrations
                     b.Property<int>("RepRangeLow")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("RoutineExerciseId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("RoutineExerciseId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("RoutineExerciseId");
 
                     b.ToTable("RoutineExerciseSets");
                 });
 
             modelBuilder.Entity("Workout", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("CreatedBy")
                         .IsRequired()
@@ -318,34 +334,38 @@ namespace TestWebAPI.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Workout");
+                    b.ToTable("Workouts");
                 });
 
             modelBuilder.Entity("WorkoutExercise", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
 
-                    b.Property<Guid>("ExerciseId")
-                        .HasColumnType("uuid");
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("Order")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("WorkoutId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("WorkoutId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.ToTable("WorkoutExercise");
+                    b.ToTable("WorkoutExercises");
                 });
 
             modelBuilder.Entity("WorkoutExerciseSet", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("Reps")
                         .HasColumnType("integer");
@@ -353,12 +373,12 @@ namespace TestWebAPI.Migrations
                     b.Property<int>("Weight")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("WorkoutExerciseId")
-                        .HasColumnType("uuid");
+                    b.Property<int>("WorkoutExerciseId")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.ToTable("WorkoutExerciseSet");
+                    b.ToTable("WorkoutExerciseSets");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -410,6 +430,46 @@ namespace TestWebAPI.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("RoutineExercise", b =>
+                {
+                    b.HasOne("Exercise", "exercise")
+                        .WithMany()
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Routine", "routine")
+                        .WithMany("exercises")
+                        .HasForeignKey("RoutineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("exercise");
+
+                    b.Navigation("routine");
+                });
+
+            modelBuilder.Entity("RoutineExerciseSet", b =>
+                {
+                    b.HasOne("RoutineExercise", "routineExercise")
+                        .WithMany("sets")
+                        .HasForeignKey("RoutineExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("routineExercise");
+                });
+
+            modelBuilder.Entity("Routine", b =>
+                {
+                    b.Navigation("exercises");
+                });
+
+            modelBuilder.Entity("RoutineExercise", b =>
+                {
+                    b.Navigation("sets");
                 });
 #pragma warning restore 612, 618
         }

@@ -32,7 +32,7 @@ public class RoutineService : IRoutineService
     }
 
     // read methods:
-    public async Task<Routine?> GetById(Guid id) 
+    public async Task<Routine?> GetById(int id) 
     {
         return await _dbContext.Routines
         .Include(r => r.exercises)
@@ -40,14 +40,14 @@ public class RoutineService : IRoutineService
         .FirstOrDefaultAsync(r => r.Id == id);
     }
 
-    public async Task<RoutineExercise?> GetExercise(Guid id)
+    public async Task<RoutineExercise?> GetExercise(int id)
     {
         return await _dbContext.RoutineExercises
         .Include(res => res.sets)
         .FirstOrDefaultAsync(re => re.Id == id);
     }
 
-    public async Task<RoutineExerciseSet?> GetExerciseSet(Guid id)
+    public async Task<RoutineExerciseSet?> GetExerciseSet(int id)
     {
         return await _dbContext.RoutineExerciseSets.FindAsync(id);
     }
@@ -75,19 +75,19 @@ public class RoutineService : IRoutineService
     }
 
     // delete methods:
-    public async Task<bool> DeleteById(Guid id)
+    public async Task<bool> DeleteById(int id)
     {
         var result = await _dbContext.Routines.Where(x => x.Id == id).ExecuteDeleteAsync();
         return result > 0;
     }
 
-    public async Task<bool> DeleteExerciseById(Guid id)
+    public async Task<bool> DeleteExerciseById(int id)
     {
         var result = await _dbContext.RoutineExercises.Where(x => x.Id == id).ExecuteDeleteAsync();
         return result > 0;
     }
 
-     public async Task<bool> DeleteExerciseSetById(Guid id)
+     public async Task<bool> DeleteExerciseSetById(int id)
     {
         var result = await _dbContext.RoutineExerciseSets.Where(x => x.Id == id).ExecuteDeleteAsync();
         return result > 0;
@@ -102,9 +102,9 @@ public interface IRoutineService
     Task<RoutineExerciseSet> CreateExerciseSet(RoutineExerciseSet set);
 
     // read:
-    Task<Routine?> GetById(Guid id);
-    Task<RoutineExercise?> GetExercise(Guid id);
-    Task<RoutineExerciseSet?> GetExerciseSet(Guid id);
+    Task<Routine?> GetById(int id);
+    Task<RoutineExercise?> GetExercise(int id);
+    Task<RoutineExerciseSet?> GetExerciseSet(int id);
 
     // update:
     Task<Routine?> Update(Routine routine);
@@ -112,7 +112,7 @@ public interface IRoutineService
     Task<RoutineExerciseSet?> UpdateExerciseSet(RoutineExerciseSet routineExerciseSet);
     
     // delete:
-    Task<bool> DeleteById(Guid id);
-    Task<bool> DeleteExerciseById(Guid id);
-    Task<bool> DeleteExerciseSetById(Guid id);
+    Task<bool> DeleteById(int id);
+    Task<bool> DeleteExerciseById(int id);
+    Task<bool> DeleteExerciseSetById(int id);
 }
