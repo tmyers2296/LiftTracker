@@ -104,19 +104,20 @@ public static class ContractMapping
             Id = routine.Id,
             Name = routine.Name,
             CreatedBy = routine.CreatedBy,
-            ExercisesList = routine.exercises.Select(e => e.MapToResponse()).ToList()
+            ExercisesList = routine.Exercises.Select(e => e.MapToResponse()).ToList()
         };
     }
 
-    public static RoutineExerciseResponse MapToResponse(this RoutineExercise exercise)
+    public static RoutineExerciseResponse MapToResponse(this RoutineExercise resultExercise)
     {
         return new RoutineExerciseResponse
         {
-            Id = exercise.Id,
-            ExerciseId = exercise.ExerciseId,
-            RoutineId = exercise.RoutineId,
-            Order = exercise.Order,
-            setsList = exercise.sets.Select(s => s.MapToResponse()).ToList()
+            Id = resultExercise.Id,
+            ExerciseId = resultExercise.ExerciseId,
+            RoutineId = resultExercise.RoutineId,
+            ExerciseName = (resultExercise.Exercise != null)? resultExercise.Exercise.Name : "no exercise",
+            Order = resultExercise.Order,
+            setsList = resultExercise.Sets.Select(s => s.MapToResponse()).ToList()
         };
     }
 

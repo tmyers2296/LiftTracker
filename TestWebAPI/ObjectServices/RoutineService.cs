@@ -35,15 +35,15 @@ public class RoutineService : IRoutineService
     public async Task<Routine?> GetById(int id) 
     {
         return await _dbContext.Routines
-        .Include(r => r.exercises)
-        .ThenInclude(re => re.sets)
+        .Include(r => r.Exercises)
+        .ThenInclude(re => re.Sets)
         .FirstOrDefaultAsync(r => r.Id == id);
     }
 
     public async Task<RoutineExercise?> GetExercise(int id)
     {
         return await _dbContext.RoutineExercises
-        .Include(res => res.sets)
+        .Include(res => res.Sets)
         .FirstOrDefaultAsync(re => re.Id == id);
     }
 

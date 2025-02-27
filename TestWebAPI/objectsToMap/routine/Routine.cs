@@ -6,7 +6,7 @@ public class Routine
     public Routine()
     {
         // navigation properties:
-        this.exercises = new List<RoutineExercise>();
+        this.Exercises = new List<RoutineExercise>();
     }
 
     [Key]
@@ -18,6 +18,6 @@ public class Routine
     public required string CreatedBy { get; set; }
 
     // navigation properties:
-    public List<RoutineExercise> exercises { get; set; }
+    public virtual List<RoutineExercise> Exercises { get; set; }
 
 }

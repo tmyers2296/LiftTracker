@@ -6,6 +6,8 @@ public class RoutineExerciseResponse
 
     public required int RoutineId { get; init; }
 
+    public required string ExerciseName { get; init; }
+
     public required int Order { get; init; }
 
     public required List<RoutineExerciseSetResponse> setsList { get; init; }
