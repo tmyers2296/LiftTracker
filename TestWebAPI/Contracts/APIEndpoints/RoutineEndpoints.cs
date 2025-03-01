@@ -1,3 +1,5 @@
+using System.Data.Common;
+
 public static class RoutineEndpoints
 {
     public static void MapRoutineEndpoints(this WebApplication app) 
@@ -21,6 +23,11 @@ public static class RoutineEndpoints
         });
 
         // read group:
+        group.MapGet("/", async (IRoutineService routineService, int pageNumber, int pageSize) =>
+        {
+            List<Routine> routineList= await routineService.GetPaginated(pageNumber, pageSize);
+            return Results.Ok(routineList.MapToResponse());
+        });
 
         // update:
         group.MapPut("/{id:int}", async (IRoutineService routineService, int id, UpdateRoutineRequest request) => 

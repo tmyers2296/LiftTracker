@@ -108,6 +108,21 @@ public static class ContractMapping
         };
     }
 
+        public static RoutinePaginatedResponse MapToResponse(this List<Routine> routineList)
+    {
+        List<RoutineResponse> routineResponses = new List<RoutineResponse>();
+
+        foreach (Routine routine in routineList)
+        {
+            routineResponses.Add(routine.MapToResponse());
+        }
+
+        return new RoutinePaginatedResponse
+        {
+            Routines = routineResponses
+        };
+    }
+
     public static RoutineExerciseResponse MapToResponse(this RoutineExercise resultExercise)
     {
         return new RoutineExerciseResponse
@@ -115,13 +130,13 @@ public static class ContractMapping
             Id = resultExercise.Id,
             ExerciseId = resultExercise.ExerciseId,
             RoutineId = resultExercise.RoutineId,
-            ExerciseName = (resultExercise.Exercise != null)? resultExercise.Exercise.Name : "no exercise",
+            ExerciseName = resultExercise.Exercise?.Name ?? "no exercise",
             Order = resultExercise.Order,
             setsList = resultExercise.Sets.Select(s => s.MapToResponse()).ToList()
         };
     }
 
-        public static RoutineExerciseSetResponse MapToResponse(this RoutineExerciseSet set)
+    public static RoutineExerciseSetResponse MapToResponse(this RoutineExerciseSet set)
     {
         return new RoutineExerciseSetResponse
         {
