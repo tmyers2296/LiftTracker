@@ -21,6 +21,14 @@ public class ExerciseService : IExerciseService
         return await _dbContext.Exercises.FindAsync(id);
     }
 
+    public async Task<List<Exercise>> GetPaginated(int page, int pageSize)
+    {
+        return await _dbContext.Exercises
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+    }
+
     public async Task<Exercise?> Update(Exercise exercise)
     {
         _dbContext.Exercises.Update(exercise);
@@ -40,6 +48,8 @@ public interface IExerciseService
     Task<Exercise> Create(Exercise exercise);
 
     Task<Exercise?> GetById(int id);
+
+    Task<List<Exercise>> GetPaginated(int page, int pageSize);
 
     Task<Exercise?> Update(Exercise exercise);
 

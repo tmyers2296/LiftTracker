@@ -22,6 +22,11 @@ public static class ExerciseEndpoints
         });
 
         // read group:
+        group.MapGet("/", async (IExerciseService exerciseService, int pageNumber, int pageSize) =>
+        {
+            List<Exercise> exerciseList= await exerciseService.GetPaginated(pageNumber, pageSize);
+            return Results.Ok(exerciseList.MapToResponse());
+        });
 
         // update:
         group.MapPut("/{id:int}", async (IExerciseService exerciseService, int id, UpdateExerciseRequest request) =>

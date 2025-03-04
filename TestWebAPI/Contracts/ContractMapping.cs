@@ -33,6 +33,21 @@ public static class ContractMapping
         };
     }
 
+    public static ExercisePaginatedResponse MapToResponse(this List<Exercise> exerciseList)
+    {
+        List<ExerciseResponse> exerciseResponses = new List<ExerciseResponse>();
+
+        foreach (Exercise exercise in exerciseList)
+        {
+            exerciseResponses.Add(exercise.MapToResponse());
+        }
+
+        return new ExercisePaginatedResponse
+        {
+            Exercises = exerciseResponses
+        };
+    }
+
     // * routine mapping methods *
     // request -> object:
     public static Routine MapToRoutine(this CreateRoutineRequest request)
@@ -108,7 +123,7 @@ public static class ContractMapping
         };
     }
 
-        public static RoutinePaginatedResponse MapToResponse(this List<Routine> routineList)
+    public static RoutinePaginatedResponse MapToResponse(this List<Routine> routineList)
     {
         List<RoutineResponse> routineResponses = new List<RoutineResponse>();
 
