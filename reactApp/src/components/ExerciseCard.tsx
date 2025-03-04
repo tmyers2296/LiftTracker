@@ -39,9 +39,15 @@ function ExerciseCard({ id }: ExerciseCardProps) {
     }
 
     fetchExerciseData(url);
-  }, []);
+  }, [id]);
 
-  return <div>{exerciseData.name}</div>;
+  let result = "couldn't find exercise..";
+
+  if (exerciseData) {
+    result = exerciseData.name;
+  }
+
+  return <div>{result}</div>;
 }
 
 export default ExerciseCard;
