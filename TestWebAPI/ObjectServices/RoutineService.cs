@@ -1,3 +1,4 @@
+using System.Collections.Immutable;
 using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
 
@@ -68,6 +69,65 @@ public class RoutineService : IRoutineService
     }
 
     // update methods:
+    public async Task<Routine?> DeepUpdate(Routine routineWithUpdates)
+    {
+        // return existing routine with same Id..
+        Routine? routineToEdit = await _dbContext.Routines
+        .Include(r => r.Exercises)
+        .ThenInclude(re => re.Sets)
+        .FirstOrDefaultAsync(r => r.Id == routineWithUpdates.Id);
+        
+        // break out of method if routine not found:
+        if (routineToEdit == null)
+        {
+            return null;
+        }
+
+        // update fields for routine:
+        routineToEdit.Name = routineWithUpdates.Name;
+
+        // dictionary of exercises
+        Dictionary<int, RoutineExercise> exercisesToEditDict = routineToEdit.Exercises.ToDictionary(e => e.Id);
+
+        // iterate through routine exercises:
+        foreach (RoutineExercise exerciseWithUpdates in routineWithUpdates.Exercises)
+        {
+            // if id == 0 create a new exercise:
+            if (exerciseWithUpdates.Id == 0) 
+            {
+                // New exercise (Id = 0 means it's not in DB yet)
+                routineToEdit.Exercises.Add(exerciseWithUpdates);
+            }
+            else
+            {
+                // set variable for current exercise to edit
+                RoutineExercise exerciseToEdit = exercisesToEditDict[exerciseWithUpdates.Id];
+
+                // Update existing exercise fields:
+                exerciseToEdit.ExerciseId = exerciseWithUpdates.ExerciseId;
+                exerciseToEdit.Order = exerciseWithUpdates.Order;
+
+                // remove existing exercise from the dictionary of exercises to edit:
+                exercisesToEditDict.Remove(exerciseWithUpdates.Id);
+
+                // dictionary of sets
+                Dictionary<int, RoutineExerciseSet> setsToEditDict = exerciseToEdit.Sets.ToDictionary(s => s.Id);
+
+                // iterate through exercise sets:
+                foreach (RoutineExerciseSet setWithUpdates in exerciseWithUpdates.Sets)
+                {
+                    // if id == 0 create a new set:
+                    if (setWithUpdates.Id == 0)
+                    {
+                        // New exercise (Id = 0 means it's not in DB yet)
+                        exerciseToEdit.Sets.Add(setWithUpdates);
+                    }
+                }
+            }
+        }
+    
+    }
+
     public async Task<Routine?> Update(Routine routine)
     {
         _dbContext.Routines.Update(routine);
@@ -126,6 +186,7 @@ public interface IRoutineService
     Task<List<Routine>> GetPaginated(int page, int pageSize);
 
     // update:
+    Task<Routine?> DeepUpdate(Routine routine);
     Task<Routine?> Update(Routine routine);
     Task<RoutineExercise?> UpdateExercise(RoutineExercise routineExercise);
     Task<RoutineExerciseSet?> UpdateExerciseSet(RoutineExerciseSet routineExerciseSet);
