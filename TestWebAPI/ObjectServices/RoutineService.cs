@@ -83,49 +83,22 @@ public class RoutineService : IRoutineService
             return null;
         }
 
-        // update fields for routine:
-        routineToEdit.Name = routineWithUpdates.Name;
+        // make updates (use routine generated from update request to write to fields
+        // for the existing routine & nested objects):
+        _dbContext.Entry(routineToEdit).CurrentValues.SetValues(routineWithUpdates);
 
-        // dictionary of exercises
-        Dictionary<int, RoutineExercise> exercisesToEditDict = routineToEdit.Exercises.ToDictionary(e => e.Id);
+        // delete any nested objets no longer present in the routine:
+        List<RoutineExercise> exercisesToRemove = routineToEdit.Exercises
+                        .Where(e => !routineWithUpdates.Exercises.Any(ue => ue.Id == e.Id))
+                        .ToList();
 
-        // iterate through routine exercises:
-        foreach (RoutineExercise exerciseWithUpdates in routineWithUpdates.Exercises)
-        {
-            // if id == 0 create a new exercise:
-            if (exerciseWithUpdates.Id == 0) 
-            {
-                // New exercise (Id = 0 means it's not in DB yet)
-                routineToEdit.Exercises.Add(exerciseWithUpdates);
-            }
-            else
-            {
-                // set variable for current exercise to edit
-                RoutineExercise exerciseToEdit = exercisesToEditDict[exerciseWithUpdates.Id];
+        _dbContext.RoutineExercises.RemoveRange(exercisesToRemove);
 
-                // Update existing exercise fields:
-                exerciseToEdit.ExerciseId = exerciseWithUpdates.ExerciseId;
-                exerciseToEdit.Order = exerciseWithUpdates.Order;
+        // save changes:
+        await _dbContext.SaveChangesAsync();
 
-                // remove existing exercise from the dictionary of exercises to edit:
-                exercisesToEditDict.Remove(exerciseWithUpdates.Id);
-
-                // dictionary of sets
-                Dictionary<int, RoutineExerciseSet> setsToEditDict = exerciseToEdit.Sets.ToDictionary(s => s.Id);
-
-                // iterate through exercise sets:
-                foreach (RoutineExerciseSet setWithUpdates in exerciseWithUpdates.Sets)
-                {
-                    // if id == 0 create a new set:
-                    if (setWithUpdates.Id == 0)
-                    {
-                        // New exercise (Id = 0 means it's not in DB yet)
-                        exerciseToEdit.Sets.Add(setWithUpdates);
-                    }
-                }
-            }
-        }
-    
+        // return the existing routine (with changes):
+        return routineToEdit;
     }
 
     public async Task<Routine?> Update(Routine routine)
