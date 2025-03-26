@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authorization.Infrastructure;
+
 public static class ContractMapping
 {
     // * exercise mapping methods *
@@ -104,6 +106,45 @@ public static class ContractMapping
             RepRangeLow = request.RepRangeLow,
             RepRangeHigh = request.RepRangeHigh
         };
+    }
+
+    public static Routine MapToRoutine(this UpdateFullRoutineRequest request, int id)
+    {
+        // create new routine:
+        Routine comparisonRoutine = new Routine
+        {
+            Id = request.Id,
+            Name = request.Name,
+            CreatedBy = request.CreatedBy
+        };
+
+         // create new exercises for routine:
+        List<RoutineExercise> comparisonExercises = request.Exercises.Select(exerciseRequest => {
+            
+            RoutineExercise comparisonExercise = new RoutineExercise{
+            Id = exerciseRequest.Id,
+            RoutineId = comparisonRoutine.Id,
+            ExerciseId = exerciseRequest.ExerciseId,
+            Order = exerciseRequest.Order
+            };
+
+            // create new sets for exercise:
+            comparisonExercise.Sets = exerciseRequest.Sets.Select(setRequest => new RoutineExerciseSet{
+                Id = setRequest.Id,
+                RoutineExerciseId = comparisonExercise.Id,
+                RepRangeLow = setRequest.RepRangeLow,
+                RepRangeHigh = setRequest.RepRangeHigh
+            }).ToList();
+
+            // return to createdRoutine.Exercises for each call of Select:
+            return comparisonExercise;
+
+        }).ToList();
+
+        comparisonRoutine.Exercises = comparisonExercises;
+
+        // return the final comparisonRoutine:
+        return comparisonRoutine;
     }
 
     public static Routine MapToRoutine(this UpdateRoutineRequest request, int id)

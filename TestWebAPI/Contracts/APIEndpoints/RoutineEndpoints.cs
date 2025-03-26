@@ -30,10 +30,10 @@ public static class RoutineEndpoints
         });
 
         // update:
-        group.MapPut("/{id:int}", async (IRoutineService routineService, int id, UpdateRoutineRequest request) => 
+        group.MapPut("/{id:int}", async (IRoutineService routineService, int id, UpdateFullRoutineRequest request) => 
         {
             Routine? routine = request.MapToRoutine(id);
-            Routine? resultRoutine = await routineService.Update(routine);
+            Routine? resultRoutine = await routineService.DeepUpdate(routine);
             return (resultRoutine != null)? Results.Ok() : Results.NotFound();
         });
 
