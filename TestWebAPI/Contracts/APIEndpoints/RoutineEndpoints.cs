@@ -8,7 +8,7 @@ public static class RoutineEndpoints
         var group = app.MapGroup("routines");
 
         // create:
-        group.MapPost("/", async (IRoutineService routineService, CreateRoutineRequest request) => 
+        group.MapPost("/", async (IRoutineService routineService, CreateFullRoutineRequest request) => 
         {
             Routine routine = request.MapToRoutine();
             Routine? createdRoutine = await routineService.Create(routine);

@@ -50,13 +50,40 @@ public static class ContractMapping
 
     // * routine mapping methods *
     // request -> object:
-    public static Routine MapToRoutine(this CreateRoutineRequest request)
+    public static Routine MapToRoutine(this CreateFullRoutineRequest request)
     {
-        return new Routine
+        // create new routine:
+        Routine createdRoutine = new Routine
         {
             Name = request.Name,
             CreatedBy = request.CreatedBy
         };
+
+         // create new exercises for routine:
+        List<RoutineExercise> createdExercises = request.Exercises.Select(exerciseRequest => {
+            
+            RoutineExercise createdExercise = new RoutineExercise{
+            RoutineId = createdRoutine.Id,
+            ExerciseId = exerciseRequest.ExerciseId,
+            Order = exerciseRequest.Order
+            };
+
+            // create new sets for exercise:
+            createdExercise.Sets = exerciseRequest.Sets.Select(setRequest => new RoutineExerciseSet{
+                RoutineExerciseId = createdExercise.Id,
+                RepRangeLow = setRequest.RepRangeLow,
+                RepRangeHigh = setRequest.RepRangeHigh
+            }).ToList();
+
+            // return to createdRoutine.Exercises for each call of Select:
+            return createdExercise;
+
+        }).ToList();
+
+        createdRoutine.Exercises = createdExercises;
+
+        // return the final createdRoutine:
+        return createdRoutine;
     }
 
     public static RoutineExercise MapToRoutineExercise(this CreateRoutineExerciseRequest request)
