@@ -3,6 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 public class Workout
 {
+     public Workout()
+    {
+        // navigation properties:
+        this.Exercises = new List<WorkoutExercise>();
+    }
+
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; init; }
@@ -12,4 +18,7 @@ public class Workout
     public required string Type { get; set; }
 
     public required string CreatedBy { get; set; }
+
+    // navigation properties:
+    public virtual List<WorkoutExercise> Exercises { get; set; }
 }

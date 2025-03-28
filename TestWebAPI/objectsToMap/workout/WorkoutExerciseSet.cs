@@ -14,4 +14,7 @@ public class WorkoutExerciseSet
     
     public required int Reps { get; set; }
 
+    // navigation properties:
+    public virtual WorkoutExercise? WorkoutExercise { get; set; }
+
 }
