@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization.Infrastructure;
+using System.Text.Json;
 
 public static class ContractMapping
 {
@@ -119,7 +120,7 @@ public static class ContractMapping
         };
 
          // create new exercises for routine:
-        List<RoutineExercise> comparisonExercises = request.Exercises.Select(exerciseRequest => {
+        comparisonRoutine.Exercises = request.Exercises.Select(exerciseRequest => {
             
             RoutineExercise comparisonExercise = new RoutineExercise{
             Id = exerciseRequest.Id,
@@ -127,6 +128,8 @@ public static class ContractMapping
             ExerciseId = exerciseRequest.ExerciseId,
             Order = exerciseRequest.Order
             };
+
+            Console.WriteLine(JsonSerializer.Serialize(comparisonExercise.MapToResponse(), new JsonSerializerOptions { WriteIndented = true }));
 
             // create new sets for exercise:
             comparisonExercise.Sets = exerciseRequest.Sets.Select(setRequest => new RoutineExerciseSet{
@@ -140,8 +143,6 @@ public static class ContractMapping
             return comparisonExercise;
 
         }).ToList();
-
-        comparisonRoutine.Exercises = comparisonExercises;
 
         // return the final comparisonRoutine:
         return comparisonRoutine;

@@ -72,7 +72,7 @@ public class RoutineService : IRoutineService
     public async Task<Routine?> DeepUpdate(Routine routineWithUpdates)
     {
         // return existing routine with same Id..
-        Routine? routineToEdit = await _dbContext.Routines
+        Routine? routineToEdit = await _dbContext.Routines 
         .Include(r => r.Exercises)
         .ThenInclude(re => re.Sets)
         .FirstOrDefaultAsync(r => r.Id == routineWithUpdates.Id);
@@ -84,15 +84,38 @@ public class RoutineService : IRoutineService
         }
 
         // make updates (use routine generated from update request to write to fields
-        // for the existing routine & nested objects):
+        // loop through updated entities & make changes for equivalent entity in routineToEdit.
+
+        // routine:
         _dbContext.Entry(routineToEdit).CurrentValues.SetValues(routineWithUpdates);
+        Dictionary<int, RoutineExercise> exercisesToEdit = routineToEdit.Exercises.ToDictionary(e => e.Id, e=> e);
 
         // delete any nested objets no longer present in the routine:
         List<RoutineExercise> exercisesToRemove = routineToEdit.Exercises
                         .Where(e => !routineWithUpdates.Exercises.Any(ue => ue.Id == e.Id))
                         .ToList();
-
+        
         _dbContext.RoutineExercises.RemoveRange(exercisesToRemove);
+
+        // Iterate through routineExercises:
+        foreach (RoutineExercise updatedExercise in routineWithUpdates.Exercises){
+            RoutineExercise exerciseToEdit = exercisesToEdit[updatedExercise.Id];
+            _dbContext.Entry(exerciseToEdit).CurrentValues.SetValues(updatedExercise);
+            Dictionary<int, RoutineExerciseSet> setsToEdit = exerciseToEdit.Sets.ToDictionary(s => s.Id, s => s);
+
+            // delete any nested objets no longer present in the Exercise:
+            List<RoutineExerciseSet> setsToRemove = exerciseToEdit.Sets
+                        .Where(s => !updatedExercise.Sets.Any(us => us.Id == s.Id))
+                        .ToList();
+
+            _dbContext.RoutineExerciseSets.RemoveRange(setsToRemove);
+
+            // Iterate through routineExerciseSets:
+            foreach (RoutineExerciseSet updatedSet in updatedExercise.Sets){
+                RoutineExerciseSet setToEdit = setsToEdit[updatedSet.Id];
+                _dbContext.Entry(setToEdit).CurrentValues.SetValues(updatedSet);
+            }
+        }
 
         // save changes:
         await _dbContext.SaveChangesAsync();

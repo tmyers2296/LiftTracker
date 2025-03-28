@@ -1,4 +1,5 @@
 using System.Data.Common;
+using System.Text.Json;
 
 public static class RoutineEndpoints
 {
@@ -33,6 +34,9 @@ public static class RoutineEndpoints
         group.MapPut("/{id:int}", async (IRoutineService routineService, int id, UpdateFullRoutineRequest request) => 
         {
             Routine? routine = request.MapToRoutine(id);
+            RoutineResponse routineResponse = routine.MapToResponse();
+            //Console.WriteLine("!!!! Updated Routine: !!!!!");
+            //Console.WriteLine(JsonSerializer.Serialize(routineResponse, new JsonSerializerOptions { WriteIndented = true }));
             Routine? resultRoutine = await routineService.DeepUpdate(routine);
             return (resultRoutine != null)? Results.Ok() : Results.NotFound();
         });
