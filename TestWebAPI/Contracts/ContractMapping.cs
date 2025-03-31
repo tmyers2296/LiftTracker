@@ -233,10 +233,130 @@ public static class ContractMapping
 
     // * workout tracking methods *
     // request -> object
-    // - Create Workout
-    // - Update Workout
+        public static Workout MapToWorkout(this CreateFullWorkoutRequest request)
+    {
+        // create new routine:
+        Workout createdWorkout = new Workout
+        {
+            Date = request.Date,
+            Type = request.Type,
+            CreatedBy = request.CreatedBy
+        };
+
+         // create new exercises for routine:
+        List<WorkoutExercise> createdExercises = request.Exercises.Select(exerciseRequest => {
+            
+            WorkoutExercise createdExercise = new WorkoutExercise{
+            WorkoutId = createdWorkout.Id,
+            ExerciseId = exerciseRequest.ExerciseId,
+            Order = exerciseRequest.Order
+            };
+
+            // create new sets for exercise:
+            createdExercise.Sets = exerciseRequest.Sets.Select(setRequest => new WorkoutExerciseSet{
+                WorkoutExerciseId = createdExercise.Id,
+                Weight = setRequest.Weight,
+                Reps = setRequest.Reps
+            }).ToList();
+
+            // return to createdRoutine.Exercises for each call of Select:
+            return createdExercise;
+
+        }).ToList();
+
+        createdWorkout.Exercises = createdExercises;
+
+        // return the final createdRoutine:
+        return createdWorkout;
+    }
+
+    public static Workout MapToWorkout(this UpdateFullWorkoutRequest request, int id)
+    {
+        // create new routine:
+        Workout comparisonWorkout = new Workout
+        {
+            Id = request.Id,
+            Date = request.Date,
+            Type = request.Type,
+            CreatedBy = request.CreatedBy
+        };
+
+         // create new exercises for routine:
+        comparisonWorkout.Exercises = request.Exercises.Select(exerciseRequest => {
+            
+            WorkoutExercise comparisonExercise = new WorkoutExercise{
+            Id = exerciseRequest.Id,
+            WorkoutId = comparisonWorkout.Id,
+            ExerciseId = exerciseRequest.ExerciseId,
+            Order = exerciseRequest.Order
+            };
+
+            // create new sets for exercise:
+            comparisonExercise.Sets = exerciseRequest.Sets.Select(setRequest => new WorkoutExerciseSet{
+                Id = setRequest.Id,
+                WorkoutExerciseId = comparisonExercise.Id,
+                Weight = setRequest.Weight,
+                Reps = setRequest.Reps
+            }).ToList();
+
+            // return to createdRoutine.Exercises for each call of Select:
+            return comparisonExercise;
+
+        }).ToList();
+
+        // return the final comparisonRoutine:
+        return comparisonWorkout;
+    }
 
     // object -> request
-    // - get workout
-    // - get workouts (paginated)
+    public static WorkoutResponse MapToResponse(this Workout workout)
+    {
+        return new WorkoutResponse
+        {
+            Id = workout.Id,
+            Date = workout.Date,
+            Type = workout.Type,
+            CreatedBy = workout.CreatedBy,
+            ExercisesList = workout.Exercises.Select(e => e.MapToResponse()).ToList()
+        };
+    }
+
+    public static WorkoutPaginatedResponse MapToResponse(this List<Workout> workoutList)
+    {
+        List<WorkoutResponse> workoutResponses = new List<WorkoutResponse>();
+
+        foreach (Workout workout in workoutList)
+        {
+            workoutResponses.Add(workout.MapToResponse());
+        }
+
+        return new WorkoutPaginatedResponse
+        {
+            Workouts = workoutResponses
+        };
+    }
+    public static WorkoutExerciseResponse MapToResponse(this WorkoutExercise resultExercise)
+    {
+        return new WorkoutExerciseResponse
+        {
+            Id = resultExercise.Id,
+            ExerciseId = resultExercise.ExerciseId,
+            WorkoutId = resultExercise.WorkoutId,
+            ExerciseName = resultExercise.Exercise?.Name ?? "no exercise",
+            Order = resultExercise.Order,
+            setsList = resultExercise.Sets.Select(s => s.MapToResponse()).ToList()
+        };
+    }
+
+    public static WorkoutExerciseSetResponse MapToResponse(this WorkoutExerciseSet set)
+    {
+        return new WorkoutExerciseSetResponse
+        {
+            Id = set.Id,
+            WorkoutExerciseId = set.WorkoutExerciseId,
+            Weight = set.Weight,
+            Reps = set.Reps
+        };
+    }
+    
 }
