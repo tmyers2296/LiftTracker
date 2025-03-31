@@ -231,4 +231,12 @@ public static class ContractMapping
         };
     }
 
+    // * workout tracking methods *
+    // request -> object
+    // - Create Workout
+    // - Update Workout
+
+    // object -> request
+    // - get workout
+    // - get workouts (paginated)
 }
