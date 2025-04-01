@@ -72,5 +72,6 @@ app.UseAuthorization();
 // endpoints for application objects:
 app.MapExerciseEndpoints();
 app.MapRoutineEndpoints();
+app.MapWorkoutEndpoints();
 
 app.Run();
