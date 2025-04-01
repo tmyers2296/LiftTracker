@@ -14,6 +14,8 @@ public class RoutineExerciseSet
 
     public required int RepRangeHigh { get; set; }
 
+    public required int Order { get; set; }
+
     // navigation properties:
     public virtual RoutineExercise? RoutineExercise { get; set; }
 

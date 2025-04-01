@@ -14,11 +14,16 @@ public class Workout
     public int Id { get; init; }
 
     public required string Date { get; set; }
-    
-    public required string Type { get; set; }
 
+    public required string Type { get; set; }
+    public required string Name { get; set; }
+
+    [ForeignKey("Routine")]
+    public required int? RoutineId { get; set; }
     public required string CreatedBy { get; set; }
 
     // navigation properties:
     public virtual List<WorkoutExercise> Exercises { get; set; }
+    public virtual Routine? Routine { get; set; }
+
 }
