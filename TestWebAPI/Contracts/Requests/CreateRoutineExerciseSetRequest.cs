@@ -6,4 +6,6 @@ public class CreateRoutineExerciseSetRequest
 
     public required int RepRangeHigh { get; set; }
 
+    public required int Order { get; set; }
+
 }

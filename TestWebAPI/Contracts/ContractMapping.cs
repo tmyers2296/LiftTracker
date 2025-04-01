@@ -75,7 +75,8 @@ public static class ContractMapping
             createdExercise.Sets = exerciseRequest.Sets.Select(setRequest => new RoutineExerciseSet{
                 RoutineExerciseId = createdExercise.Id,
                 RepRangeLow = setRequest.RepRangeLow,
-                RepRangeHigh = setRequest.RepRangeHigh
+                RepRangeHigh = setRequest.RepRangeHigh,
+                Order = setRequest.Order
             }).ToList();
 
             // return to createdRoutine.Exercises for each call of Select:
@@ -105,7 +106,8 @@ public static class ContractMapping
         {
             RoutineExerciseId = request.RoutineExerciseId,
             RepRangeLow = request.RepRangeLow,
-            RepRangeHigh = request.RepRangeHigh
+            RepRangeHigh = request.RepRangeHigh,
+            Order = request.Order
         };
     }
 
@@ -136,7 +138,8 @@ public static class ContractMapping
                 Id = setRequest.Id,
                 RoutineExerciseId = comparisonExercise.Id,
                 RepRangeLow = setRequest.RepRangeLow,
-                RepRangeHigh = setRequest.RepRangeHigh
+                RepRangeHigh = setRequest.RepRangeHigh,
+                Order = setRequest.Order
             }).ToList();
 
             // return to createdRoutine.Exercises for each call of Select:
@@ -176,7 +179,8 @@ public static class ContractMapping
             Id = id,
             RoutineExerciseId = request.RoutineExerciseId,
             RepRangeLow = request.RepRangeLow,
-            RepRangeHigh = request.RepRangeHigh
+            RepRangeHigh = request.RepRangeHigh,
+            Order = request.Order
         };
     }
 
@@ -239,7 +243,9 @@ public static class ContractMapping
         Workout createdWorkout = new Workout
         {
             Date = request.Date,
-            Type = request.Type,
+            IsImprovised = request.IsImprovised,
+            Name = request.Name,
+            RoutineId = request.RoutineId,
             CreatedBy = request.CreatedBy
         };
 
@@ -256,7 +262,8 @@ public static class ContractMapping
             createdExercise.Sets = exerciseRequest.Sets.Select(setRequest => new WorkoutExerciseSet{
                 WorkoutExerciseId = createdExercise.Id,
                 Weight = setRequest.Weight,
-                Reps = setRequest.Reps
+                Reps = setRequest.Reps,
+                Order = setRequest.Order
             }).ToList();
 
             // return to createdRoutine.Exercises for each call of Select:
@@ -277,7 +284,9 @@ public static class ContractMapping
         {
             Id = request.Id,
             Date = request.Date,
-            Type = request.Type,
+            IsImprovised = request.IsImprovised,
+            Name = request.Name,
+            RoutineId = request.RoutineId,
             CreatedBy = request.CreatedBy
         };
 
@@ -296,7 +305,8 @@ public static class ContractMapping
                 Id = setRequest.Id,
                 WorkoutExerciseId = comparisonExercise.Id,
                 Weight = setRequest.Weight,
-                Reps = setRequest.Reps
+                Reps = setRequest.Reps,
+                Order = setRequest.Order
             }).ToList();
 
             // return to createdRoutine.Exercises for each call of Select:
@@ -315,7 +325,7 @@ public static class ContractMapping
         {
             Id = workout.Id,
             Date = workout.Date,
-            Type = workout.Type,
+            IsImprovised = workout.IsImprovised,
             CreatedBy = workout.CreatedBy,
             ExercisesList = workout.Exercises.Select(e => e.MapToResponse()).ToList()
         };

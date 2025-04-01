@@ -15,7 +15,7 @@ public class Workout
 
     public required string Date { get; set; }
 
-    public required string Type { get; set; }
+    public required bool IsImprovised { get; set; }
     public required string Name { get; set; }
 
     [ForeignKey("Routine")]
