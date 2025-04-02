@@ -4,7 +4,7 @@ public class UpdateFullWorkoutRequest
     public required string Date { get; init; }
     public required bool IsImprovised { get; init; }
     public required string Name { get; init; }
-    public required int RoutineId { get; init; }
+    public int RoutineId { get; init; }
     public required string CreatedBy { get; init; }
     public List<UpdateFullWorkoutExerciseRequest> Exercises { get; init; } = new();
 }

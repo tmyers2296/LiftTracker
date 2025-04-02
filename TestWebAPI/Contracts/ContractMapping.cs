@@ -245,9 +245,12 @@ public static class ContractMapping
             Date = request.Date,
             IsImprovised = request.IsImprovised,
             Name = request.Name,
-            RoutineId = request.RoutineId,
             CreatedBy = request.CreatedBy
         };
+
+        if (request.RoutineId != 0){
+                createdWorkout.RoutineId = request.RoutineId;
+            }
 
          // create new exercises for routine:
         List<WorkoutExercise> createdExercises = request.Exercises.Select(exerciseRequest => {
@@ -286,9 +289,12 @@ public static class ContractMapping
             Date = request.Date,
             IsImprovised = request.IsImprovised,
             Name = request.Name,
-            RoutineId = request.RoutineId,
             CreatedBy = request.CreatedBy
         };
+
+        if (request.RoutineId != 0){
+            comparisonWorkout.RoutineId = request.RoutineId;
+        }
 
          // create new exercises for routine:
         comparisonWorkout.Exercises = request.Exercises.Select(exerciseRequest => {

@@ -19,7 +19,7 @@ public class Workout
     public required string Name { get; set; }
 
     [ForeignKey("Routine")]
-    public required int? RoutineId { get; set; }
+    public int? RoutineId { get; set; }
     public required string CreatedBy { get; set; }
 
     // navigation properties:
