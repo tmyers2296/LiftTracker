@@ -31,6 +31,7 @@ builder.Services.AddSwaggerGen();
 // custom services..
 builder.Services.AddScoped<IExerciseService, ExerciseService>();
 builder.Services.AddScoped<IRoutineService, RoutineService>();
+builder.Services.AddScoped<IWorkoutService, WorkoutService>();
 
 var app = builder.Build();
 
