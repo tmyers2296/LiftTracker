@@ -32,7 +32,28 @@ public class WorkoutService : IWorkoutService
         return set;
     }
 
-    public async Task<List<Workout>> GetPaginated(int page, int pageSize)
+    // read:
+    public async Task<Workout?> GetById(int id)
+    {
+        return await _dbContext.Workouts
+        .Include(w => w.Exercises)
+        .ThenInclude(we => we.Exercise)
+        .Include(w => w.Exercises)
+        .ThenInclude(we => we.Sets)
+        .FirstOrDefaultAsync(w => w.Id == id);
+    }
+
+    public async Task<WorkoutExercise?> GetExercise(int id)
+    {
+        return await _dbContext.WorkoutExercises.FindAsync(id);
+    }
+
+    public async Task<WorkoutExerciseSet?> GetExerciseSet(int id)
+    {
+        return await _dbContext.WorkoutExerciseSets.FindAsync(id);
+    }
+
+        public async Task<List<Workout>> GetPaginated(int page, int pageSize)
     {
         return await _dbContext.Workouts
                 .Include(w => w.Exercises)
@@ -46,27 +67,11 @@ public class WorkoutService : IWorkoutService
     }
 
 
-    // read:
-    public async Task<Workout?> GetById(int id)
-    {
-        return await _dbContext.Workouts.FindAsync(id);
-    }
-
-    public async Task<WorkoutExercise?> GetExercise(int id)
-    {
-        return await _dbContext.WorkoutExercises.FindAsync(id);
-    }
-
-    public async Task<WorkoutExerciseSet?> GetExerciseSet(int id)
-    {
-        return await _dbContext.WorkoutExerciseSets.FindAsync(id);
-    }
-
     // update:
     public async Task<Workout?> DeepUpdate(Workout workoutWithUpdates)
     {
         // return existing routine with same Id..
-        Workout? workoutToEdit = await _dbContext.Workouts 
+        Workout? workoutToEdit = await _dbContext.Workouts
         .Include(w => w.Exercises)
         .ThenInclude(we => we.Sets)
         .FirstOrDefaultAsync(w => w.Id == workoutWithUpdates.Id);

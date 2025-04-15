@@ -300,10 +300,10 @@ public static class ContractMapping
         comparisonWorkout.Exercises = request.Exercises.Select(exerciseRequest => {
             
             WorkoutExercise comparisonExercise = new WorkoutExercise{
-            Id = exerciseRequest.Id,
-            WorkoutId = comparisonWorkout.Id,
-            ExerciseId = exerciseRequest.ExerciseId,
-            Order = exerciseRequest.Order
+                Id = exerciseRequest.Id,
+                WorkoutId = comparisonWorkout.Id,
+                ExerciseId = exerciseRequest.ExerciseId,
+                Order = exerciseRequest.Order
             };
 
             // create new sets for exercise:
