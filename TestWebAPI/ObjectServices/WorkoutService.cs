@@ -1,5 +1,7 @@
 using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
+using System.Data.Common;
+using System.Text.Json;
 
 public class WorkoutService : IWorkoutService
 {
@@ -75,11 +77,21 @@ public class WorkoutService : IWorkoutService
         .Include(w => w.Exercises)
         .ThenInclude(we => we.Sets)
         .FirstOrDefaultAsync(w => w.Id == workoutWithUpdates.Id);
-        
+
         // break out of method if routine not found:
         if (workoutToEdit == null)
         {
             return null;
+        }
+
+        Console.WriteLine("Original workout exercises:");
+        foreach (var exercise in workoutToEdit.Exercises) {
+            Console.WriteLine($"Original Exercise ID: {exercise.Id}");
+        }
+
+        Console.WriteLine("\nUpdated workout exercises:");
+        foreach (var exercise in workoutWithUpdates.Exercises) {
+            Console.WriteLine($"Updated Exercise ID: {exercise.Id}");
         }
 
         // make updates (use routine generated from update request to write to fields
@@ -93,12 +105,26 @@ public class WorkoutService : IWorkoutService
         List<WorkoutExercise> exercisesToRemove = workoutToEdit.Exercises
                         .Where(e => !workoutWithUpdates.Exercises.Any(ue => ue.Id == e.Id))
                         .ToList();
+
+        Console.WriteLine("\nExercises marked for deletion:");
+        foreach (WorkoutExercise exerciseToRemove in exercisesToRemove){
+            Console.WriteLine($"Exercise ID to remove: {exerciseToRemove.Id}");
+            Console.WriteLine("Checking if this ID exists in updated exercises:");
+            var exists = workoutWithUpdates.Exercises.Any(ue => ue.Id == exerciseToRemove.Id);
+            Console.WriteLine($"Exists in updated exercises? {exists}");
+        }
         
         _dbContext.WorkoutExercises.RemoveRange(exercisesToRemove);
 
         // Iterate through routineExercises:
         foreach (WorkoutExercise updatedExercise in workoutWithUpdates.Exercises){
+            Console.WriteLine($"\nProcessing Updated Exercise ID: {updatedExercise.Id}");
+            if (!exercisesToEdit.ContainsKey(updatedExercise.Id)) {
+                Console.WriteLine($"Warning: Exercise ID {updatedExercise.Id} not found in original exercises");
+                continue;
+            }
             WorkoutExercise exerciseToEdit = exercisesToEdit[updatedExercise.Id];
+            Console.WriteLine($"Matched with original Exercise ID: {exerciseToEdit.Id}");
             _dbContext.Entry(exerciseToEdit).CurrentValues.SetValues(updatedExercise);
             Dictionary<int, WorkoutExerciseSet> setsToEdit = exerciseToEdit.Sets.ToDictionary(s => s.Id, s => s);
 

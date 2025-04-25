@@ -83,6 +83,32 @@ public class RoutineService : IRoutineService
             return null;
         }
 
+        Console.WriteLine("\n=== Debugging IDs ===");
+        Console.WriteLine($"Routine to edit ID: {routineToEdit.Id}");
+        Console.WriteLine($"Routine with updates ID: {routineWithUpdates.Id}");
+
+        Console.WriteLine("\nExercise IDs in routineToEdit:");
+        foreach (var ex in routineToEdit.Exercises)
+        {
+            Console.WriteLine($"Exercise ID: {ex.Id}");
+            Console.WriteLine("Set IDs:");
+            foreach (var set in ex.Sets)
+            {
+                Console.WriteLine($"- Set ID: {set.Id}");
+            }
+        }
+
+        Console.WriteLine("\nExercise IDs in routineWithUpdates:");
+        foreach (var ex in routineWithUpdates.Exercises)
+        {
+            Console.WriteLine($"Exercise ID: {ex.Id}");
+            Console.WriteLine("Set IDs:");
+            foreach (var set in ex.Sets)
+            {
+                Console.WriteLine($"- Set ID: {set.Id}");
+            }
+        }
+
         // make updates (use routine generated from update request to write to fields
         // loop through updated entities & make changes for equivalent entity in routineToEdit.
 
@@ -95,6 +121,12 @@ public class RoutineService : IRoutineService
                         .Where(e => !routineWithUpdates.Exercises.Any(ue => ue.Id == e.Id))
                         .ToList();
         
+        Console.WriteLine("\nExercises to remove:");
+        foreach (var ex in exercisesToRemove)
+        {
+            Console.WriteLine($"Removing exercise ID: {ex.Id}");
+        }
+
         _dbContext.RoutineExercises.RemoveRange(exercisesToRemove);
 
         // Iterate through routineExercises:
@@ -107,6 +139,12 @@ public class RoutineService : IRoutineService
             List<RoutineExerciseSet> setsToRemove = exerciseToEdit.Sets
                         .Where(s => !updatedExercise.Sets.Any(us => us.Id == s.Id))
                         .ToList();
+
+            Console.WriteLine($"\nSets to remove for Exercise {updatedExercise.Id}:");
+            foreach (var set in setsToRemove)
+            {
+                Console.WriteLine($"Removing set ID: {set.Id}");
+            }
 
             _dbContext.RoutineExerciseSets.RemoveRange(setsToRemove);
 

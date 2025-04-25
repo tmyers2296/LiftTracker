@@ -8,4 +8,6 @@ public class WorkoutExerciseSetResponse
 
     public required int Reps { get; init; }
 
+    public required int Order { get; init; }
+
 }

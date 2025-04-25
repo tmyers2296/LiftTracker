@@ -330,6 +330,7 @@ public static class ContractMapping
         return new WorkoutResponse
         {
             Id = workout.Id,
+            Name = workout.Name,
             Date = workout.Date,
             IsImprovised = workout.IsImprovised,
             CreatedBy = workout.CreatedBy,
@@ -371,7 +372,8 @@ public static class ContractMapping
             Id = set.Id,
             WorkoutExerciseId = set.WorkoutExerciseId,
             Weight = set.Weight,
-            Reps = set.Reps
+            Reps = set.Reps,
+            Order = set.Order
         };
     }
     
