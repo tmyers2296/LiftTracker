@@ -192,7 +192,7 @@ public static class ContractMapping
             Id = routine.Id,
             Name = routine.Name,
             CreatedBy = routine.CreatedBy,
-            ExercisesList = routine.Exercises.Select(e => e.MapToResponse()).ToList()
+            Exercises = routine.Exercises.Select(e => e.MapToResponse()).ToList()
         };
     }
 
@@ -217,10 +217,8 @@ public static class ContractMapping
         {
             Id = resultExercise.Id,
             ExerciseId = resultExercise.ExerciseId,
-            RoutineId = resultExercise.RoutineId,
-            ExerciseName = resultExercise.Exercise?.Name ?? "no exercise",
             Order = resultExercise.Order,
-            setsList = resultExercise.Sets.Select(s => s.MapToResponse()).ToList()
+            Sets = resultExercise.Sets.Select(s => s.MapToResponse()).ToList()
         };
     }
 
@@ -229,7 +227,6 @@ public static class ContractMapping
         return new RoutineExerciseSetResponse
         {
             Id = set.Id,
-            RoutineExerciseId = set.RoutineExerciseId,
             RepRangeLow = set.RepRangeLow,
             RepRangeHigh = set.RepRangeHigh
         };
@@ -334,7 +331,7 @@ public static class ContractMapping
             Date = workout.Date,
             IsImprovised = workout.IsImprovised,
             CreatedBy = workout.CreatedBy,
-            ExercisesList = workout.Exercises.Select(e => e.MapToResponse()).ToList()
+            Exercises = workout.Exercises.Select(e => e.MapToResponse()).ToList()
         };
     }
 
@@ -358,10 +355,8 @@ public static class ContractMapping
         {
             Id = resultExercise.Id,
             ExerciseId = resultExercise.ExerciseId,
-            WorkoutId = resultExercise.WorkoutId,
-            ExerciseName = resultExercise.Exercise?.Name ?? "no exercise",
             Order = resultExercise.Order,
-            setsList = resultExercise.Sets.Select(s => s.MapToResponse()).ToList()
+            Sets = resultExercise.Sets.Select(s => s.MapToResponse()).ToList()
         };
     }
 
@@ -370,7 +365,6 @@ public static class ContractMapping
         return new WorkoutExerciseSetResponse
         {
             Id = set.Id,
-            WorkoutExerciseId = set.WorkoutExerciseId,
             Weight = set.Weight,
             Reps = set.Reps,
             Order = set.Order

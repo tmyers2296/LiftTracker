@@ -10,5 +10,5 @@ public class WorkoutResponse
 
     public required string CreatedBy { get; init; }
 
-    public required List<WorkoutExerciseResponse> ExercisesList { get; init; }
+    public required List<WorkoutExerciseResponse> Exercises { get; init; }
 }
