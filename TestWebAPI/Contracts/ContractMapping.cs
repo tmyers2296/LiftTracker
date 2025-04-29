@@ -228,7 +228,8 @@ public static class ContractMapping
         {
             Id = set.Id,
             RepRangeLow = set.RepRangeLow,
-            RepRangeHigh = set.RepRangeHigh
+            RepRangeHigh = set.RepRangeHigh,
+            Order = set.Order
         };
     }
 

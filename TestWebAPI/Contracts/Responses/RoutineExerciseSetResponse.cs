@@ -6,4 +6,6 @@ public class RoutineExerciseSetResponse
 
     public required int RepRangeHigh { get; init; }
 
+    public required int Order { get; init; }
+
 }
