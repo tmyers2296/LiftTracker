@@ -72,70 +72,63 @@ public class WorkoutService : IWorkoutService
     // update:
     public async Task<Workout?> DeepUpdate(Workout workoutWithUpdates)
     {
-        // return existing routine with same Id..
-        Workout? workoutToEdit = await _dbContext.Workouts
+        // return existing workout with same Id..
+        Workout? workoutToEdit = await _dbContext.Workouts 
         .Include(w => w.Exercises)
         .ThenInclude(we => we.Sets)
         .FirstOrDefaultAsync(w => w.Id == workoutWithUpdates.Id);
-
-        // break out of method if routine not found:
+        
+        // break out of method if workout not found:
         if (workoutToEdit == null)
         {
             return null;
         }
 
-        Console.WriteLine("Original workout exercises:");
-        foreach (var exercise in workoutToEdit.Exercises) {
-            Console.WriteLine($"Original Exercise ID: {exercise.Id}");
-        }
+        // make updates (use workout generated from update request to write to fields
+        // loop through updated entities & make changes for equivalent entity in workoutToEdit.
 
-        Console.WriteLine("\nUpdated workout exercises:");
-        foreach (var exercise in workoutWithUpdates.Exercises) {
-            Console.WriteLine($"Updated Exercise ID: {exercise.Id}");
-        }
-
-        // make updates (use routine generated from update request to write to fields
-        // loop through updated entities & make changes for equivalent entity in routineToEdit.
-
-        // routine:
+        // update workout:
         _dbContext.Entry(workoutToEdit).CurrentValues.SetValues(workoutWithUpdates);
-        Dictionary<int, WorkoutExercise> exercisesToEdit = workoutToEdit.Exercises.ToDictionary(e => e.Id, e=> e);
 
-        // delete any nested objets no longer present in the routine:
+        // get exercises to add, remove & edit (add & remove are both lists, edit is a dictionary with ids):
+        List<WorkoutExercise> exercisesToAdd = workoutWithUpdates.Exercises.Where(e => e.Id == 0).ToList();
+        Dictionary<int, WorkoutExercise> exercisesToEdit = workoutToEdit.Exercises.ToDictionary(e => e.Id, e=> e);
         List<WorkoutExercise> exercisesToRemove = workoutToEdit.Exercises
                         .Where(e => !workoutWithUpdates.Exercises.Any(ue => ue.Id == e.Id))
                         .ToList();
 
-        Console.WriteLine("\nExercises marked for deletion:");
-        foreach (WorkoutExercise exerciseToRemove in exercisesToRemove){
-            Console.WriteLine($"Exercise ID to remove: {exerciseToRemove.Id}");
-            Console.WriteLine("Checking if this ID exists in updated exercises:");
-            var exists = workoutWithUpdates.Exercises.Any(ue => ue.Id == exerciseToRemove.Id);
-            Console.WriteLine($"Exists in updated exercises? {exists}");
-        }
-        
+        // remove exercises to remove:
         _dbContext.WorkoutExercises.RemoveRange(exercisesToRemove);
 
-        // Iterate through routineExercises:
-        foreach (WorkoutExercise updatedExercise in workoutWithUpdates.Exercises){
-            Console.WriteLine($"\nProcessing Updated Exercise ID: {updatedExercise.Id}");
-            if (!exercisesToEdit.ContainsKey(updatedExercise.Id)) {
-                Console.WriteLine($"Warning: Exercise ID {updatedExercise.Id} not found in original exercises");
-                continue;
-            }
-            WorkoutExercise exerciseToEdit = exercisesToEdit[updatedExercise.Id];
-            Console.WriteLine($"Matched with original Exercise ID: {exerciseToEdit.Id}");
-            _dbContext.Entry(exerciseToEdit).CurrentValues.SetValues(updatedExercise);
-            Dictionary<int, WorkoutExerciseSet> setsToEdit = exerciseToEdit.Sets.ToDictionary(s => s.Id, s => s);
+        // iterate through exercises to add:
+        foreach (WorkoutExercise exercise in exercisesToAdd)
+        {
+            _dbContext.WorkoutExercises.Add(exercise);
+        }
 
-            // delete any nested objets no longer present in the Exercise:
+        // iterate through exercises to edit:
+        foreach (WorkoutExercise updatedExercise in workoutWithUpdates.Exercises.Where(e => e.Id != 0)){
+            // apply changes for current exercise 
+            WorkoutExercise exerciseToEdit = exercisesToEdit[updatedExercise.Id];
+            _dbContext.Entry(exerciseToEdit).CurrentValues.SetValues(updatedExercise);
+
+            // get sets to edit, add & remove:
+            Dictionary<int, WorkoutExerciseSet> setsToEdit = exerciseToEdit.Sets.ToDictionary(s => s.Id, s => s);
+            List<WorkoutExerciseSet> setsToAdd = updatedExercise.Sets.Where(s => s.Id == 0).ToList();
             List<WorkoutExerciseSet> setsToRemove = exerciseToEdit.Sets
                         .Where(s => !updatedExercise.Sets.Any(us => us.Id == s.Id))
                         .ToList();
 
+            // remove sets to remove:
             _dbContext.WorkoutExerciseSets.RemoveRange(setsToRemove);
 
-            // Iterate through routineExerciseSets:
+            // iterate through sets to add:
+            foreach (WorkoutExerciseSet set in setsToAdd)
+            {
+                _dbContext.WorkoutExerciseSets.Add(set);
+            }
+
+            // iterate through sets to edit:
             foreach (WorkoutExerciseSet updatedSet in updatedExercise.Sets){
                 WorkoutExerciseSet setToEdit = setsToEdit[updatedSet.Id];
                 _dbContext.Entry(setToEdit).CurrentValues.SetValues(updatedSet);
@@ -145,7 +138,7 @@ public class WorkoutService : IWorkoutService
         // save changes:
         await _dbContext.SaveChangesAsync();
 
-        // return the existing routine (with changes):
+        // return the existing workout (with changes):
         return workoutToEdit;
     }
 
