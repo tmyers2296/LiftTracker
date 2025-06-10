@@ -1,21 +1,21 @@
 export interface routineObject {
-  id: number;
-  name: string;
-  createdBy: string;
-  exercisesList: [];
+    id: number;
+    name: string;
+    createdBy: string;
+    exercises: [];
 }
 
 export interface routineExerciseObject {
-  id: number;
-  exerciseId: number;
-  routineId: number;
-  exerciseName: string;
-  order: number;
+    id: number;
+    exerciseId: number;
+    routineId: number;
+    exerciseName: string;
+    order: number;
 }
 
 export interface routineExerciseSetObject {
-  id: number;
-  routineExerciseId: number;
-  repRangeLow: number;
-  repRangeHigh: number;
+    id: number;
+    routineExerciseId: number;
+    repRangeLow: number;
+    repRangeHigh: number;
 }
