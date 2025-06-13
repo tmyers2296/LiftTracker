@@ -3,6 +3,7 @@ import AuthorizeView, { AuthorizedUser } from "../components/AuthorizeView.tsx";
 import { useState, useEffect } from "react";
 import { fetchData } from "../modules/fetchingFunctions.tsx";
 import RoutineCard from "../components/RoutineCard/RoutineCard.tsx";
+import ExpandableCard from "../components/ExpandableCard/ExpandableCard.tsx";
 import { routineObject } from "../types/routineTypes.ts";
 
 function Home() {
@@ -56,6 +57,14 @@ function Home() {
             <div>
                 {testData.map((data: routineObject) => (
                     <RoutineCard routineData={data} />
+                ))}
+            </div>
+            <div>-----------------</div>
+            <div>
+                {testData.map((data: routineObject) => (
+                    <ExpandableCard cardName={data.name}>
+                        testingg..
+                    </ExpandableCard>
                 ))}
             </div>
         </AuthorizeView>
