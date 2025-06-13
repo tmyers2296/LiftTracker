@@ -11,6 +11,7 @@ export interface routineExerciseObject {
     routineId: number;
     exerciseName: string;
     order: number;
+    sets: [];
 }
 
 export interface routineExerciseSetObject {

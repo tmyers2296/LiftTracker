@@ -2,7 +2,7 @@ import LogoutLink from "../components/LogoutLink.tsx";
 import AuthorizeView, { AuthorizedUser } from "../components/AuthorizeView.tsx";
 import { useState, useEffect } from "react";
 import { fetchData } from "../modules/fetchingFunctions.tsx";
-import RoutineCard from "../components/RoutineCard.tsx";
+import RoutineCard from "../components/RoutineCard/RoutineCard.tsx";
 import { routineObject } from "../types/routineTypes.ts";
 
 function Home() {

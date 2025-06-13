@@ -216,6 +216,7 @@ public static class ContractMapping
         return new RoutineExerciseResponse
         {
             Id = resultExercise.Id,
+            ExerciseName = resultExercise.Exercise?.Name ?? "no exercise",
             ExerciseId = resultExercise.ExerciseId,
             Order = resultExercise.Order,
             Sets = resultExercise.Sets.Select(s => s.MapToResponse()).ToList()
