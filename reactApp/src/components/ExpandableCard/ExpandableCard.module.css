@@ -29,6 +29,7 @@
     font-weight: bold;
     border-width: 2px;
     border-color: #696969;
+    margin: 0.2rem;
 }
 .toggleButton:hover {
     background-color: #202362;

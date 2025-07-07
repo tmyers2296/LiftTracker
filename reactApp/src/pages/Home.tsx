@@ -44,6 +44,7 @@ function Home() {
                     Logout <AuthorizedUser value="email" />
                 </LogoutLink>
             </div>
+
             <input
                 type="text"
                 value={idNum}
@@ -54,17 +55,10 @@ function Home() {
                     }
                 }}
             ></input>
+
             <div>
                 {testData.map((data: routineObject) => (
-                    <RoutineCard routineData={data} />
-                ))}
-            </div>
-            <div>-----------------</div>
-            <div>
-                {testData.map((data: routineObject) => (
-                    <ExpandableCard cardName={data.name}>
-                        testingg..
-                    </ExpandableCard>
+                    <RoutineCard key={data.id} routineData={data} />
                 ))}
             </div>
         </AuthorizeView>

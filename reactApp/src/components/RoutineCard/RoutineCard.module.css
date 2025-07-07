@@ -1,6 +1,6 @@
 .topLayerCard {
     margin: 1rem;
-    width: 400px;
+    width: 500px;
 }
 
 .exerciseSets {
@@ -15,6 +15,11 @@
     padding: 0.25rem 0.75rem;
     border-radius: 4px;
     font-size: 0.95rem;
-    border: 2px solid #7e7e7e;
+    border: 2px solid #717171;
     background-color: #515151;
+}
+
+.setHeader {
+    color: #909090;
+    font-weight: bold;
 }

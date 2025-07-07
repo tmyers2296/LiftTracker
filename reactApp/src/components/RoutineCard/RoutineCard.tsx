@@ -16,7 +16,7 @@ function RoutineCard({ routineData }: RoutineCardProps) {
     // rendering functions:
     const renderExercise = (exercise: routineExerciseObject) => {
         return (
-            <ExpandableCard cardName={exercise.exerciseName}>
+            <ExpandableCard key={exercise.id} cardName={exercise.exerciseName}>
                 <div className={styles.exerciseSets}>
                     {exercise.sets.map((set: routineExerciseSetObject) =>
                         renderSet(set)
@@ -29,8 +29,11 @@ function RoutineCard({ routineData }: RoutineCardProps) {
     const renderSet = (set: routineExerciseSetObject) => {
         return (
             <div key={set.id} className={styles.exerciseSet}>
-                <div key={set.id} className={styles.exerciseSet}></div>
-                {set.repRangeLow} - {set.repRangeHigh}
+                <div className={styles.setHeader}>set {set.order + 1}</div>
+
+                <div>
+                    {set.repRangeLow} - {set.repRangeHigh}
+                </div>
             </div>
         );
     };
@@ -39,6 +42,7 @@ function RoutineCard({ routineData }: RoutineCardProps) {
         <ExpandableCard
             cardName={routineData.name}
             className={styles.topLayerCard}
+            buttons={["✏️"]}
         >
             {routineData.exercises.map((exercise: routineExerciseObject) =>
                 renderExercise(exercise)

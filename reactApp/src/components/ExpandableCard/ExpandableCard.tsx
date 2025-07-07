@@ -6,12 +6,14 @@ interface ExpandableCardProps {
     cardName: string;
     className?: string;
     children?: ReactNode;
+    buttons?: [string];
 }
 
 function ExpandableCard({
     cardName,
     className,
     children,
+    buttons,
 }: ExpandableCardProps) {
     // state hooks for whether or not exercises or routine are expanded or minimised:
     const [expanded, setExpanded] = useState(false);
@@ -29,13 +31,26 @@ function ExpandableCard({
                 }`}
             >
                 <span className={styles.cardTitle}>{cardName}</span>
-                <button
-                    className={styles.toggleButton}
-                    onClick={handleToggle}
-                    type="button"
-                >
-                    {expanded ? "−" : "+"}
-                </button>
+                <div className={styles.buttonContainer}>
+                    {buttons
+                        ? buttons.map((buttonText: string) => (
+                              <button
+                                  key={buttonText}
+                                  className={styles.toggleButton}
+                                  type="button"
+                              >
+                                  {buttonText}
+                              </button>
+                          ))
+                        : ""}
+                    <button
+                        className={styles.toggleButton}
+                        onClick={handleToggle}
+                        type="button"
+                    >
+                        {expanded ? "−" : "+"}
+                    </button>
+                </div>
             </div>
             {expanded ? children : null}
         </div>
