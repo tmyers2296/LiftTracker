@@ -5,15 +5,18 @@ import Home from "./pages/Home.tsx";
 import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
 
+import EditRoutine from "./pages/RoutinePages/EditRoutine.tsx";
+
 function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/" element={<Home />} />
-      </Routes>
-    </BrowserRouter>
-  );
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/" element={<Home />} />
+                <Route path="edit-routine:id" element={<EditRoutine />} />
+            </Routes>
+        </BrowserRouter>
+    );
 }
 export default App;

@@ -1,4 +1,5 @@
 import styles from "./RoutineCard.module.css";
+import { useNavigate } from "react-router-dom";
 
 import {
     routineExerciseObject,
@@ -13,6 +14,7 @@ interface RoutineCardProps {
 }
 
 function RoutineCard({ routineData }: RoutineCardProps) {
+    const navigate = useNavigate();
     // rendering functions:
     const renderExercise = (exercise: routineExerciseObject) => {
         return (
@@ -39,10 +41,10 @@ function RoutineCard({ routineData }: RoutineCardProps) {
     };
 
     const handleEdit = (routineId: number) => {
-        console.log(routineId);
+        navigate(`/edit-routine/${routineId}`);
     };
 
-    let buttons: { [key: string]: () => void } = {
+    let buttonsCallbacks: { [key: string]: () => void } = {
         "✏️": () => {
             handleEdit(routineData.id);
         },
@@ -52,11 +54,7 @@ function RoutineCard({ routineData }: RoutineCardProps) {
         <ExpandableCard
             cardName={routineData.name}
             className={styles.topLayerCard}
-            buttons={{
-                "✏️": () => {
-                    handleEdit(routineData.id);
-                },
-            }}
+            buttons={buttonsCallbacks}
         >
             {routineData.exercises.map((exercise: routineExerciseObject) =>
                 renderExercise(exercise)
