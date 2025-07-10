@@ -38,3 +38,16 @@
     border-color: #9497d9;
     background-color: #2e3393;
 }
+
+.expandableContent {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    box-sizing: content-box;
+}
+
+.innerContent {
+    padding: 0px;
+    margin: 0;
+    box-sizing: border-box;
+}
