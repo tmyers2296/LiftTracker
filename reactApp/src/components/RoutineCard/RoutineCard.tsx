@@ -38,11 +38,25 @@ function RoutineCard({ routineData }: RoutineCardProps) {
         );
     };
 
+    const handleEdit = (routineId: number) => {
+        console.log(routineId);
+    };
+
+    let buttons: { [key: string]: () => void } = {
+        "✏️": () => {
+            handleEdit(routineData.id);
+        },
+    };
+
     return (
         <ExpandableCard
             cardName={routineData.name}
             className={styles.topLayerCard}
-            buttons={["✏️"]}
+            buttons={{
+                "✏️": () => {
+                    handleEdit(routineData.id);
+                },
+            }}
         >
             {routineData.exercises.map((exercise: routineExerciseObject) =>
                 renderExercise(exercise)

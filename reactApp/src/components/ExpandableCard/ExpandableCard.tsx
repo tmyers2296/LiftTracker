@@ -7,7 +7,7 @@ interface ExpandableCardProps {
     cardName: string;
     className?: string;
     children?: ReactNode;
-    buttons?: [string];
+    buttons?: { [buttonText: string]: () => void };
 }
 
 function ExpandableCard({
@@ -55,10 +55,11 @@ function ExpandableCard({
                 <span className={styles.cardTitle}>{cardName}</span>
                 <div className={styles.buttonContainer}>
                     {buttons
-                        ? buttons.map((buttonText: string) => (
+                        ? Object.keys(buttons).map((buttonText: string) => (
                               <button
                                   key={buttonText}
                                   className={styles.toggleButton}
+                                  onClick={buttons[buttonText]}
                                   type="button"
                               >
                                   {buttonText}
