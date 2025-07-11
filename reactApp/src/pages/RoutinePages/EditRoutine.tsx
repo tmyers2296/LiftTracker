@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import AuthorizeView from "../../components/AuthorizeView.tsx";
 import { fetchData } from "../../modules/fetchingFunctions.tsx";
 import { routineObject } from "../../types/routineTypes.ts";
+import RoutineEditCard from "../../components/RoutineComponents/RoutineEditCard/RoutineEditCard.tsx";
 
 function EditRoutine() {
     const { id } = useParams();
@@ -31,9 +32,8 @@ function EditRoutine() {
 
     return (
         <AuthorizeView>
-            <div>poop - {id}</div>
             {routineData && (
-                <div>{`id: ${routineData.id}, name: ${routineData.name}, createdBy: ${routineData.createdBy}`}</div>
+                <RoutineEditCard key={id} routineData={routineData} />
             )}
         </AuthorizeView>
     );

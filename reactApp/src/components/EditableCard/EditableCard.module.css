@@ -1,0 +1,76 @@
+.expandableCard {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem;
+    border: 2px solid #696969;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.titleRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 0.5rem;
+}
+
+.cardTitle {
+    text-align: left;
+    padding-left: 0.5rem;
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+
+.expandedBorder {
+    border-bottom: 2px solid #696969;
+}
+
+.toggleButton {
+    font-weight: bold;
+    border-width: 2px;
+    border-color: #696969;
+    margin: 0.2rem;
+}
+.toggleButton:hover {
+    background-color: #202362;
+}
+.toggleButton:active {
+    border-color: #9497d9;
+    background-color: #2e3393;
+}
+
+.expandableContent {
+    overflow: hidden;
+    box-sizing: content-box;
+}
+
+.innerContent {
+    padding: 0px;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.innerContentRow {
+    display: flex;
+    justify-content: space-between;
+    padding: 0px;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.createItemButton {
+    margin: 0.8rem;
+    font-weight: bold;
+    width: 10rem;
+    border-width: 2px;
+    border-color: #696969;
+}
+
+.createItemButton:hover {
+    background-color: #2e6245;
+    border-color: #99dec6;
+}
+.createItemButton:active {
+    border-color: #bdf2d4;
+    background-color: #367d4b;
+}

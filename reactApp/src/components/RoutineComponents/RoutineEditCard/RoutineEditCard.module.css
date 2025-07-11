@@ -1,0 +1,38 @@
+.topLayerCard {
+    margin: 1rem;
+    width: 500px;
+}
+
+.exerciseSets {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 0.5rem;
+}
+
+.exerciseSet {
+    display: flex;
+    flex-direction: row;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    border: 2px solid #717171;
+    background-color: #3d3d3d;
+}
+
+.setHeader {
+    color: #909090;
+    font-weight: bold;
+}
+
+.inputBox {
+    width: 44px;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.setEditor {
+    padding: 0.5rem;
+    font-weight: bold;
+}

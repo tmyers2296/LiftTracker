@@ -5,9 +5,9 @@ import {
     routineExerciseObject,
     routineExerciseSetObject,
     routineObject,
-} from "../../types/routineTypes";
+} from "../../../types/routineTypes";
 
-import ExpandableCard from "../ExpandableCard/ExpandableCard.tsx";
+import ExpandableCard from "../../ExpandableCard/ExpandableCard.tsx";
 
 interface RoutineCardProps {
     routineData: routineObject;

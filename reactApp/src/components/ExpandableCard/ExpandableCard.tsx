@@ -37,9 +37,9 @@ function ExpandableCard({
 
     useResizeObserver(contentRef.current, () => {
         if (contentRef.current && expanded) {
-            console.log(
-                `changing height to ${contentRef.current.scrollHeight * 1.5}`
-            );
+            // console.log(
+            //     `changing height to ${contentRef.current.scrollHeight * 1.5}`
+            // );
 
             setHeight(`${contentRef.current.scrollHeight * 1.5}px`);
         }
