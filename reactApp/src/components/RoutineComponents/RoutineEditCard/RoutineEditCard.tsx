@@ -41,12 +41,12 @@ function RoutineEditCard({ routineData }: RoutineCardProps) {
             >
                 <div className={styles.setEditor}>
                     <input
-                        value={set.repRangeLow}
+                        defaultValue={set.repRangeLow}
                         className={styles.inputBox}
                     />
                     <span> - </span>
                     <input
-                        value={set.repRangeHigh}
+                        defaultValue={set.repRangeHigh}
                         className={styles.inputBox}
                     />
                 </div>

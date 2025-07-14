@@ -74,3 +74,9 @@
     border-color: #bdf2d4;
     background-color: #367d4b;
 }
+
+.inputBox {
+    margin: 1rem;
+    font-size: 1rem;
+    font-weight: bold;
+}

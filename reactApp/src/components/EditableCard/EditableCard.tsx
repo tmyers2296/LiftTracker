@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode, Children, useState, useEffect } from "react";
 import styles from "./EditableCard.module.css";
 
 interface EditableCardProps {
@@ -6,6 +6,11 @@ interface EditableCardProps {
     className?: string;
     children?: ReactNode;
     createItemButton: boolean;
+}
+
+interface Item {
+    id: number;
+    content: ReactNode;
 }
 
 function EditableCard({
@@ -25,11 +30,26 @@ function EditableCard({
             console.log("poop");
         },
     };
+
+    const [items, setItems] = useState<Item[]>([]);
+
+    useEffect(() => {
+        const childArray = Children.toArray(children);
+        const initialItems = childArray.map((child, index) => ({
+            id: index,
+            content: child,
+        }));
+        setItems(initialItems);
+    }, [children]);
+
     return (
         <div className={`${styles.expandableCard} ${className ?? ""}`}>
             {cardName && (
                 <div className={`${styles.titleRow}`}>
-                    <span className={styles.cardTitle}>{cardName}</span>
+                    <input
+                        className={styles.inputBox}
+                        defaultValue={cardName}
+                    ></input>
                     <div className={styles.buttonContainer}>
                         {Object.keys(EDIT_BUTTONS).map((buttonText: string) => (
                             <button
