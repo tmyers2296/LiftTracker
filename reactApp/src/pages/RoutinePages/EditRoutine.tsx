@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import AuthorizeView from "../../components/AuthorizeView.tsx";
 import { fetchData } from "../../modules/fetchingFunctions.tsx";
 import { routineObject } from "../../types/routineTypes.ts";
-import RoutineEditCard from "../../components/RoutineComponents/RoutineEditCard/RoutineEditCard.tsx";
+import RoutineEditCard from "../../components/RoutineComponents/RoutineEditCards/RoutineEditCard.tsx";
 
 function EditRoutine() {
     const { id } = useParams();

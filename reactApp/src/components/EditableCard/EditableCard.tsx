@@ -1,11 +1,22 @@
 import { ReactNode, Children, useState, useEffect } from "react";
 import styles from "./EditableCard.module.css";
 
-interface EditableCardProps {
+import {
+    routineObject,
+    routineExerciseObject,
+    routineExerciseSetObject,
+} from "../../types/routineTypes";
+
+interface EditableCardProps<
+    T extends routineObject | routineExerciseObject | routineExerciseSetObject,
+    C extends routineExerciseObject | routineExerciseSetObject
+> {
     cardName?: string;
     className?: string;
     children?: ReactNode;
+    layerData: T;
     createItemButton: boolean;
+    subComponent?: (item: C) => JSX.Element;
 }
 
 interface Item {
@@ -13,12 +24,17 @@ interface Item {
     content: ReactNode;
 }
 
-function EditableCard({
+function EditableCard<
+    T extends routineObject | routineExerciseObject | routineExerciseSetObject,
+    C extends routineExerciseObject | routineExerciseSetObject
+>({
     cardName,
     className,
+    layerData,
     children,
     createItemButton,
-}: EditableCardProps) {
+    subComponent,
+}: EditableCardProps<T, C>) {
     const EDIT_BUTTONS: { [key: string]: () => void } = {
         "↑": () => {
             console.log("poop");
@@ -34,13 +50,31 @@ function EditableCard({
     const [items, setItems] = useState<Item[]>([]);
 
     useEffect(() => {
-        const childArray = Children.toArray(children);
-        const initialItems = childArray.map((child, index) => ({
-            id: index,
-            content: child,
-        }));
-        setItems(initialItems);
-    }, [children]);
+        if (subComponent) {
+            console.log(layerData);
+            let childItems: C[] = [];
+
+            if ("exercises" in layerData) childItems = layerData.exercises;
+            if ("sets" in layerData) childItems = layerData.sets;
+
+            const initialItems = childItems.map(
+                (childData: C, index: number) => ({
+                    id: index,
+                    content: subComponent(childData),
+                })
+            );
+
+            setItems(initialItems);
+        }
+    }, [subComponent, layerData]);
+
+    const handleAddItem = () => {
+        const newItem: Item = {
+            id: Date.now(),
+            content: <div>New Item</div>,
+        };
+        setItems((prev) => [...prev, newItem]);
+    };
 
     return (
         <div className={`${styles.expandableCard} ${className ?? ""}`}>
@@ -70,7 +104,7 @@ function EditableCard({
                         cardName ? styles.innerContent : styles.innerContentRow
                     }
                 >
-                    {children}
+                    {items.map((item) => item.content)}
                     {!cardName && (
                         <div className={styles.buttonContainer}>
                             {Object.keys(EDIT_BUTTONS).map(
@@ -88,7 +122,12 @@ function EditableCard({
                         </div>
                     )}
                     {createItemButton && (
-                        <button className={styles.createItemButton}>+</button>
+                        <button
+                            className={styles.createItemButton}
+                            onClick={handleAddItem}
+                        >
+                            +
+                        </button>
                     )}
                 </div>
             </div>

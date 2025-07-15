@@ -5,7 +5,7 @@ import {
     routineExerciseObject,
     routineExerciseSetObject,
     routineObject,
-} from "../../../types/routineTypes";
+} from "../../../types/routineTypes.ts";
 
 import ExpandableCard from "../../ExpandableCard/ExpandableCard.tsx";
 
