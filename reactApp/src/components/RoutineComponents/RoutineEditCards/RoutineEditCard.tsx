@@ -23,11 +23,7 @@ function RoutineEditCard({ routineData }: RoutineCardProps) {
             layerData={routineData}
             createItemButton={true}
             subComponent={RoutineExerciseEditCard}
-        >
-            {routineData.exercises.map((exercise: routineExerciseObject) =>
-                RoutineExerciseEditCard(exercise)
-            )}
-        </EditableCard>
+        ></EditableCard>
     );
 }
 

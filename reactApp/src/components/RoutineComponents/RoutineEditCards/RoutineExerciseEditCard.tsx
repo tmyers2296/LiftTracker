@@ -14,13 +14,7 @@ function RoutineExerciseEditCard(exercise: routineExerciseObject) {
             layerData={exercise}
             createItemButton={true}
             subComponent={RoutineExerciseSetEditCard}
-        >
-            <div className={styles.exerciseSets}>
-                {exercise.sets.map((set: routineExerciseSetObject) =>
-                    RoutineExerciseSetEditCard(set)
-                )}
-            </div>
-        </EditableCard>
+        ></EditableCard>
     );
 }
 

@@ -69,11 +69,42 @@ function EditableCard<
     }, [subComponent, layerData]);
 
     const handleAddItem = () => {
-        const newItem: Item = {
-            id: Date.now(),
-            content: <div>New Item</div>,
-        };
-        setItems((prev) => [...prev, newItem]);
+        if (!subComponent) return;
+
+        if ("exercises" in layerData) {
+            let newItemData: routineExerciseObject = {
+                id: 0,
+                exerciseId: 0,
+                routineId: 0,
+                exerciseName: "new exercise",
+                order: 0,
+                sets: [],
+            };
+
+            const newItem: Item = {
+                id: Date.now(),
+                content: subComponent(newItemData as C),
+            };
+
+            setItems((prev) => [...prev, newItem]);
+        }
+
+        if ("sets" in layerData) {
+            let newItemData: routineExerciseSetObject = {
+                id: 0,
+                routineExerciseId: 0,
+                repRangeLow: 0,
+                repRangeHigh: 0,
+                order: 0,
+            };
+
+            const newItem: Item = {
+                id: Date.now(),
+                content: subComponent(newItemData as C),
+            };
+
+            setItems((prev) => [...prev, newItem]);
+        }
     };
 
     return (
@@ -105,6 +136,7 @@ function EditableCard<
                     }
                 >
                     {items.map((item) => item.content)}
+                    {children}
                     {!cardName && (
                         <div className={styles.buttonContainer}>
                             {Object.keys(EDIT_BUTTONS).map(

@@ -1,11 +1,16 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useState, createContext } from "react";
 import AuthorizeView from "../../components/AuthorizeView.tsx";
 import { fetchData } from "../../modules/fetchingFunctions.tsx";
 import { routineObject } from "../../types/routineTypes.ts";
 import RoutineEditCard from "../../components/RoutineComponents/RoutineEditCards/RoutineEditCard.tsx";
 
-function EditRoutine() {
+type routineDataGetSet = {
+    routineData: routineObject | null;
+    setRoutineData: React.Dispatch<React.SetStateAction<routineObject | null>>;
+};
+
+function EditRoutine2() {
     const { id } = useParams();
     const [routineData, setRoutineData] = useState<routineObject | null>(null);
 
@@ -30,13 +35,15 @@ function EditRoutine() {
         fetchRoutineData(`https://localhost:5119/routines/${id}`);
     }, []);
 
+    const routineDataContext = createContext<routineDataGetSet | null>(null);
+
     return (
         <AuthorizeView>
-            {routineData && (
-                <RoutineEditCard key={id} routineData={routineData} />
-            )}
+            <routineDataContext.Provider
+                value={{ routineData, setRoutineData }}
+            ></routineDataContext.Provider>
         </AuthorizeView>
     );
 }
 
-export default EditRoutine;
+export default EditRoutine2;
