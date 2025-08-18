@@ -2,7 +2,7 @@ export interface routineObject {
     id: number;
     name: string;
     createdBy: string;
-    exercises: [];
+    exercises: routineExerciseObject[];
 }
 
 export interface routineExerciseObject {
@@ -11,7 +11,7 @@ export interface routineExerciseObject {
     routineId: number;
     exerciseName: string;
     order: number;
-    sets: [];
+    sets: routineExerciseSetObject[];
 }
 
 export interface routineExerciseSetObject {

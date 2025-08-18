@@ -1,14 +1,16 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState, createContext } from "react";
+import { useEffect, useState, createContext, useContext } from "react";
 import AuthorizeView from "../../components/AuthorizeView.tsx";
 import { fetchData } from "../../modules/fetchingFunctions.tsx";
 import { routineObject } from "../../types/routineTypes.ts";
-import RoutineEditCard from "../../components/RoutineComponents/RoutineEditCards/RoutineEditCard.tsx";
+import RoutineEditCard2 from "../../components/RoutineComponents/RoutineEditCards2/RoutineEditCard2.tsx";
 
 type routineDataGetSet = {
     routineData: routineObject | null;
     setRoutineData: React.Dispatch<React.SetStateAction<routineObject | null>>;
 };
+
+const routineDataContext = createContext<routineDataGetSet | null>(null);
 
 function EditRoutine2() {
     const { id } = useParams();
@@ -35,15 +37,24 @@ function EditRoutine2() {
         fetchRoutineData(`https://localhost:5119/routines/${id}`);
     }, []);
 
-    const routineDataContext = createContext<routineDataGetSet | null>(null);
-
     return (
         <AuthorizeView>
             <routineDataContext.Provider
                 value={{ routineData, setRoutineData }}
-            ></routineDataContext.Provider>
+            >
+                {routineData && <div>{routineData.name}</div>}
+                <RoutineEditCard2 />
+            </routineDataContext.Provider>
         </AuthorizeView>
     );
+}
+
+export function useRoutineData(): routineDataGetSet {
+    const context = useContext(routineDataContext);
+    if (!context) {
+        throw new Error("useCounter must be used within a CounterProvider");
+    }
+    return context;
 }
 
 export default EditRoutine2;
