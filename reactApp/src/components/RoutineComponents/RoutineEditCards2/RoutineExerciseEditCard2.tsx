@@ -7,11 +7,13 @@ import RoutineExerciseSetEditCard2 from "../RoutineEditCards2/RoutineExerciseSet
 interface RoutineExerciseEditCard2Props {
     exerciseData: routineExerciseObject;
     updateExercise: (updated: routineExerciseObject) => void;
+    exerciseIndex: number;
 }
 
 function RoutineExerciseEditCard2({
     exerciseData,
     updateExercise,
+    exerciseIndex,
 }: RoutineExerciseEditCard2Props) {
     return (
         <div>
@@ -26,10 +28,15 @@ function RoutineExerciseEditCard2({
                             })
                         }
                     ></input>
-                    <div>{` exercise => ${exerciseData.id}`}</div>
-                    {exerciseData.sets.map((set: routineExerciseSetObject) => (
-                        <RoutineExerciseSetEditCard2 setData={set} />
-                    ))}
+                    <div>{` * exercise => ${exerciseData.id} | index => ${exerciseIndex} * `}</div>
+                    {exerciseData.sets.map(
+                        (set: routineExerciseSetObject, index: number) => (
+                            <RoutineExerciseSetEditCard2
+                                setData={set}
+                                setIndex={index}
+                            />
+                        )
+                    )}
                 </div>
             )}
         </div>

@@ -62,6 +62,7 @@ function RoutineEditCard2() {
                                 updateExercise={(updated) =>
                                     updateExercise(index, updated)
                                 }
+                                exerciseIndex={index}
                             />
                         )
                     )}
