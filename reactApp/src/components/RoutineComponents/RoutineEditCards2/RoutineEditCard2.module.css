@@ -1,0 +1,34 @@
+.topLayerCard {
+    margin: 1rem;
+    width: 500px;
+}
+
+.exerciseSets {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 0.5rem;
+}
+
+.exerciseSet {
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    border: 2px solid #717171;
+    background-color: #515151;
+}
+
+.setHeader {
+    color: #909090;
+    font-weight: bold;
+}
+
+.inputBoxMed {
+    color: rgb(170, 255, 221);
+}
+
+.inputBoxSmall {
+    color: rgb(198, 165, 255);
+    max-width: 40px;
+}
