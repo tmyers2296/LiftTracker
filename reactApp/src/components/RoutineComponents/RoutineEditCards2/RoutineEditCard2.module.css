@@ -32,3 +32,8 @@
     color: rgb(198, 165, 255);
     max-width: 40px;
 }
+
+.inputBoxSmallBlue {
+    color: rgb(174, 194, 253);
+    max-width: 20px;
+}

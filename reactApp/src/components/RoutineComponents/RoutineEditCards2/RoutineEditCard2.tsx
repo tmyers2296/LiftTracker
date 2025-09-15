@@ -24,22 +24,28 @@ function RoutineEditCard2() {
             {routineData && (
                 <div>
                     <div>
-                        {routineData.exercises.map(
-                            (exercise: routineExerciseObject) => (
+                        {routineData.exercises
+                            .sort((a, b) => a.order - b.order)
+                            .map((exercise: routineExerciseObject) => (
                                 <div key={exercise.id}>
-                                    <div>{`context exercise - ${exercise.id} ${exercise.exerciseName}`}</div>
+                                    <div>{`----------------`}</div>
+                                    <div>{`| ${exercise.id} (${exercise.order}) ${exercise.exerciseName} |`}</div>
+                                    <div>{`----------------`}</div>
                                     <div>
-                                        {exercise.sets.map(
-                                            (set: routineExerciseSetObject) => (
-                                                <div
-                                                    key={set.id}
-                                                >{`context set - ${set.id}`}</div>
-                                            )
-                                        )}
+                                        {exercise.sets
+                                            .sort((a, b) => a.order - b.order)
+                                            .map(
+                                                (
+                                                    set: routineExerciseSetObject
+                                                ) => (
+                                                    <div
+                                                        key={set.id}
+                                                    >{`${set.id}: (${set.order}) [${set.repRangeLow} - ${set.repRangeHigh}]`}</div>
+                                                )
+                                            )}
                                     </div>
                                 </div>
-                            )
-                        )}
+                            ))}
                     </div>
                     <br />
                     <div>{`${routineData.id} -> ${routineData.name}`}</div>
@@ -62,7 +68,6 @@ function RoutineEditCard2() {
                                 updateExercise={(updated) =>
                                     updateExercise(index, updated)
                                 }
-                                exerciseIndex={index}
                             />
                         )
                     )}

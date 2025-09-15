@@ -10,22 +10,20 @@ import { useRoutineData } from "../../../pages/RoutinePages/EditRoutine";
 interface RoutineExerciseEditCard2Props {
     exerciseData: routineExerciseObject;
     updateExercise: (updated: routineExerciseObject) => void;
-    exerciseIndex: number;
 }
 
 function RoutineExerciseEditCard2({
     exerciseData,
-    exerciseIndex,
 }: RoutineExerciseEditCard2Props) {
     const { routineData, setRoutineData } = useRoutineData();
 
-    const updateExercise = (index: number, updated: routineExerciseObject) => {
+    const updateExercise = (eId: number, updated: routineExerciseObject) => {
         if (routineData) {
-            const newExercises: routineExerciseObject[] = [
-                ...routineData.exercises,
-            ];
+            const newExercises = routineData.exercises.map((exercise) => {
+                if (exercise.id !== eId) return exercise;
+                return updated;
+            });
 
-            newExercises[index] = updated;
             setRoutineData({ ...routineData, exercises: newExercises });
         }
     };
@@ -38,22 +36,20 @@ function RoutineExerciseEditCard2({
                         className={styles.inputBoxMed}
                         defaultValue={exerciseData.exerciseName}
                         onChange={(e) =>
-                            updateExercise(exerciseIndex, {
+                            updateExercise(exerciseData.id, {
                                 ...exerciseData,
                                 exerciseName: e.target.value,
                             })
                         }
                     ></input>
-                    <div>{` * exercise => ${exerciseData.id} | index => ${exerciseIndex} * `}</div>
-                    {exerciseData.sets.map(
-                        (set: routineExerciseSetObject, index: number) => (
-                            <RoutineExerciseSetEditCard2
-                                setData={set}
-                                exerciseIndex={exerciseIndex}
-                                setIndex={index}
-                            />
-                        )
-                    )}
+                    <div>{` * exercise => ${exerciseData.id} * `}</div>
+                    {exerciseData.sets.map((set: routineExerciseSetObject) => (
+                        <RoutineExerciseSetEditCard2
+                            key={set.id}
+                            exerciseId={exerciseData.id}
+                            setData={set}
+                        />
+                    ))}
                 </div>
             )}
         </div>
