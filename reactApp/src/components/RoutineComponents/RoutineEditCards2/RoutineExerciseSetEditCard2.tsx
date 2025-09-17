@@ -34,7 +34,7 @@ function RoutineExerciseEditCard2({
         setRoutineData({ ...routineData, exercises: newExercises });
     };
 
-    const shiftOrder = (
+    const shiftOrderUp = (
         exerciseId: number,
         setData: routineExerciseSetObject
     ) => {
@@ -62,16 +62,50 @@ function RoutineExerciseEditCard2({
         setRoutineData({ ...routineData, exercises: newExercises });
     };
 
+    const shiftOrderDown = (
+        exerciseId: number,
+        setData: routineExerciseSetObject
+    ) => {
+        if (!routineData) return;
+
+        const newExercises = routineData.exercises.map((exercise) => {
+            if (exercise.id !== exerciseId) return exercise;
+
+            if (!(setData.order > 0)) return exercise;
+
+            return {
+                ...exercise,
+                sets: exercise.sets.map((set) => {
+                    if (set.id === setData.id) {
+                        return { ...set, order: set.order - 1 };
+                    } else if (set.order === setData.order - 1) {
+                        return { ...set, order: set.order + 1 };
+                    }
+                    return set;
+                }),
+            };
+        });
+
+        setRoutineData({ ...routineData, exercises: newExercises });
+    };
+
     return (
         <div>
             {setData && (
                 <div>
                     {/* <div>{`     set => ${setData.repRangeLow} | id => ${setData.id}`}</div> */}
-                    <button className={styles.updownButton}>↑</button>
                     <button
                         className={styles.updownButton}
                         onClick={() => {
-                            shiftOrder(exerciseId, setData);
+                            shiftOrderDown(exerciseId, setData);
+                        }}
+                    >
+                        ↑
+                    </button>
+                    <button
+                        className={styles.updownButton}
+                        onClick={() => {
+                            shiftOrderUp(exerciseId, setData);
                         }}
                     >
                         ↓
