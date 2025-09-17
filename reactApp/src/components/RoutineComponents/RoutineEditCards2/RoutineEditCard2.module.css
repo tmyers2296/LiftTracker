@@ -24,6 +24,22 @@
     font-weight: bold;
 }
 
+.updownButton {
+    color: #777777;
+    background-color: #2f2839;
+    margin: 5px;
+}
+
+.updownButton:hover {
+    background-color: #3d344a;
+    color: #a4a4a4;
+}
+.updownButton:active {
+    background-color: #7344c0;
+    border-color: aqua;
+    color: #8aedff;
+}
+
 .inputBoxMed {
     color: rgb(170, 255, 221);
 }

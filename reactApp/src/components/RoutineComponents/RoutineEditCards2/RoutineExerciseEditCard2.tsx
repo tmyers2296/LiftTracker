@@ -32,6 +32,8 @@ function RoutineExerciseEditCard2({
         <div>
             {exerciseData && (
                 <div>
+                    <div>{"----------"}</div>
+                    {/* <div>{` * exercise id => ${exerciseData.id} * `}</div> */}
                     <input
                         className={styles.inputBoxMed}
                         defaultValue={exerciseData.exerciseName}
@@ -42,7 +44,6 @@ function RoutineExerciseEditCard2({
                             })
                         }
                     ></input>
-                    <div>{` * exercise => ${exerciseData.id} * `}</div>
                     {exerciseData.sets.map((set: routineExerciseSetObject) => (
                         <RoutineExerciseSetEditCard2
                             key={set.id}
