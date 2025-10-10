@@ -8,7 +8,7 @@ interface RoutineExerciseSetEditCard2Props {
     exerciseId: number;
 }
 
-function RoutineExerciseEditCard2({
+function RoutineExerciseEditSetCard2({
     setData,
     exerciseId,
 }: RoutineExerciseSetEditCard2Props) {
@@ -45,6 +45,8 @@ function RoutineExerciseEditCard2({
 
             if (!(setData.order >= 0 && exercise.sets.length > 1))
                 return exercise;
+
+            if (setData.order >= exercise.sets.length - 1) return exercise;
 
             return {
                 ...exercise,
@@ -148,4 +150,4 @@ function RoutineExerciseEditCard2({
     );
 }
 
-export default RoutineExerciseEditCard2;
+export default RoutineExerciseEditSetCard2;

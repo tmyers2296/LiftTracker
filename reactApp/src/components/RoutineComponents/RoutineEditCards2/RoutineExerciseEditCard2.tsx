@@ -28,6 +28,44 @@ function RoutineExerciseEditCard2({
         }
     };
 
+    const shiftOrderUp = (exerciseData: routineExerciseObject) => {
+        if (!routineData) return;
+
+        const newExercises = routineData.exercises.map((exercise) => {
+            if (!(exerciseData.order >= 0 && routineData.exercises.length > 1))
+                return exercise;
+
+            if (exerciseData.order >= routineData.exercises.length - 1)
+                return exercise;
+
+            if (exercise.id === exerciseData.id) {
+                return { ...exercise, order: exercise.order + 1 };
+            } else if (exercise.order === exerciseData.order + 1) {
+                return { ...exercise, order: exercise.order - 1 };
+            }
+            return exercise;
+        });
+
+        setRoutineData({ ...routineData, exercises: newExercises });
+    };
+
+    const shiftOrderDown = (exerciseData: routineExerciseSetObject) => {
+        if (!routineData) return;
+
+        const newExercises = routineData.exercises.map((exercise) => {
+            if (!(exerciseData.order > 0)) return exercise;
+
+            if (exercise.id === exerciseData.id) {
+                return { ...exercise, order: exercise.order - 1 };
+            } else if (exercise.order === exerciseData.order - 1) {
+                return { ...exercise, order: exercise.order + 1 };
+            }
+            return exercise;
+        });
+
+        setRoutineData({ ...routineData, exercises: newExercises });
+    };
+
     return (
         <div>
             {exerciseData && (
