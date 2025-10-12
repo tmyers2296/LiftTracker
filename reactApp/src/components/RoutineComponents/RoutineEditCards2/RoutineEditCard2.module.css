@@ -40,6 +40,26 @@
     color: #8aedff;
 }
 
+.updownButton2 {
+    color: #777777;
+    background-color: #1b1d28;
+    margin: 5px;
+}
+
+.updownButton2:hover {
+    background-color: #20212e;
+    color: #60f5f7;
+}
+.updownButton2:active {
+    background-color: #333048;
+    border-color: rgb(153, 255, 255);
+    color: #8aedff;
+}
+
+.inputBoxMed {
+    color: rgb(170, 255, 221);
+}
+
 .inputBoxMed {
     color: rgb(170, 255, 221);
 }

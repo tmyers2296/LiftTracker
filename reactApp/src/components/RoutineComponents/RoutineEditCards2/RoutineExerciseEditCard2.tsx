@@ -4,6 +4,7 @@ import {
     routineExerciseObject,
     routineExerciseSetObject,
 } from "../../../types/routineTypes";
+import { exerciseObject } from "../../../types/generalTypes";
 import RoutineExerciseSetEditCard2 from "../RoutineEditCards2/RoutineExerciseSetEditCard2.tsx";
 import { useRoutineData } from "../../../pages/RoutinePages/EditRoutine";
 
@@ -15,7 +16,7 @@ interface RoutineExerciseEditCard2Props {
 function RoutineExerciseEditCard2({
     exerciseData,
 }: RoutineExerciseEditCard2Props) {
-    const { routineData, setRoutineData } = useRoutineData();
+    const { routineData, setRoutineData, allExercises } = useRoutineData();
 
     const updateExercise = (eId: number, updated: routineExerciseObject) => {
         if (routineData) {
@@ -49,7 +50,7 @@ function RoutineExerciseEditCard2({
         setRoutineData({ ...routineData, exercises: newExercises });
     };
 
-    const shiftOrderDown = (exerciseData: routineExerciseSetObject) => {
+    const shiftOrderDown = (exerciseData: routineExerciseObject) => {
         if (!routineData) return;
 
         const newExercises = routineData.exercises.map((exercise) => {
@@ -71,6 +72,22 @@ function RoutineExerciseEditCard2({
             {exerciseData && (
                 <div>
                     <div>{"----------"}</div>
+                    <button
+                        className={styles.updownButton2}
+                        onClick={() => {
+                            shiftOrderDown(exerciseData);
+                        }}
+                    >
+                        ↑
+                    </button>
+                    <button
+                        className={styles.updownButton2}
+                        onClick={() => {
+                            shiftOrderUp(exerciseData);
+                        }}
+                    >
+                        ↓
+                    </button>
                     {/* <div>{` * exercise id => ${exerciseData.id} * `}</div> */}
                     <input
                         className={styles.inputBoxMed}
@@ -82,6 +99,14 @@ function RoutineExerciseEditCard2({
                             })
                         }
                     ></input>
+                    <select defaultValue={exerciseData.exerciseId ?? ""}>
+                        {allExercises.map((exercise: exerciseObject) => (
+                            <option key={exercise.id} value={exercise.id}>
+                                {exercise.name}
+                            </option>
+                        ))}
+                    </select>
+                    <div>{"* * * *"}</div>
                     {exerciseData.sets.map((set: routineExerciseSetObject) => (
                         <RoutineExerciseSetEditCard2
                             key={set.id}
