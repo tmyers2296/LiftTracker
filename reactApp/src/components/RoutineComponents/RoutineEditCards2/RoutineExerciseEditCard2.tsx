@@ -89,16 +89,6 @@ function RoutineExerciseEditCard2({
                         ↓
                     </button>
                     {/* <div>{` * exercise id => ${exerciseData.id} * `}</div> */}
-                    <input
-                        className={styles.inputBoxMed}
-                        defaultValue={exerciseData.exerciseName}
-                        onChange={(e) =>
-                            updateExercise(exerciseData.id, {
-                                ...exerciseData,
-                                exerciseName: e.target.value,
-                            })
-                        }
-                    ></input>
                     <select defaultValue={exerciseData.exerciseId ?? ""}>
                         {allExercises.map((exercise: exerciseObject) => (
                             <option key={exercise.id} value={exercise.id}>
