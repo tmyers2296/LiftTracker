@@ -68,10 +68,9 @@ function RoutineExerciseEditCard2({
     };
 
     return (
-        <div>
+        <div className={styles.exerciseCard}>
             {exerciseData && (
                 <div>
-                    <div>{"----------"}</div>
                     <button
                         className={styles.updownButton2}
                         onClick={() => {
@@ -88,7 +87,6 @@ function RoutineExerciseEditCard2({
                     >
                         ↓
                     </button>
-                    {/* <div>{` * exercise id => ${exerciseData.id} * `}</div> */}
                     <select defaultValue={exerciseData.exerciseId ?? ""}>
                         {allExercises.map((exercise: exerciseObject) => (
                             <option key={exercise.id} value={exercise.id}>
@@ -96,14 +94,15 @@ function RoutineExerciseEditCard2({
                             </option>
                         ))}
                     </select>
-                    <div>{"* * * *"}</div>
-                    {exerciseData.sets.map((set: routineExerciseSetObject) => (
-                        <RoutineExerciseSetEditCard2
-                            key={set.id}
-                            exerciseId={exerciseData.id}
-                            setData={set}
-                        />
-                    ))}
+                    {exerciseData.sets
+                        .sort((a, b) => a.order - b.order)
+                        .map((set: routineExerciseSetObject) => (
+                            <RoutineExerciseSetEditCard2
+                                key={set.id}
+                                exerciseId={exerciseData.id}
+                                setData={set}
+                            />
+                        ))}
                 </div>
             )}
         </div>
