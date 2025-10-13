@@ -56,6 +56,23 @@
     color: #8aedff;
 }
 
+.deleteButton {
+    color: #777777;
+    background-color: #1b1d28;
+    border-width: 2px;
+    margin: 5px;
+}
+
+.deleteButton:hover {
+    background-color: #20212e;
+    border-color: rgb(113, 24, 46);
+}
+.deleteButton:active {
+    background-color: #333048;
+    border-color: rgb(191, 43, 80);
+    color: #8aedff;
+}
+
 .addButton {
     background-color: #143520;
     border-color: #3fcd78;

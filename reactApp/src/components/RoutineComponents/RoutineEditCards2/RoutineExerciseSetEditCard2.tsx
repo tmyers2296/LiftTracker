@@ -34,6 +34,21 @@ function RoutineExerciseEditSetCard2({
         setRoutineData({ ...routineData, exercises: newExercises });
     };
 
+    const removeSet = (exerciseId: number, setId: number) => {
+        if (!routineData) return;
+
+        const newExercises = routineData.exercises.map((exercise) => {
+            if (exercise.id !== exerciseId) return exercise;
+
+            return {
+                ...exercise,
+                sets: exercise.sets.filter((set) => set.id !== setId),
+            };
+        });
+
+        setRoutineData({ ...routineData, exercises: newExercises });
+    };
+
     const shiftOrderUp = (
         exerciseId: number,
         setData: routineExerciseSetObject
@@ -144,6 +159,14 @@ function RoutineExerciseEditSetCard2({
                             })
                         }
                     ></input>
+                    <button
+                        className={styles.deleteButton}
+                        onClick={() => {
+                            removeSet(exerciseId, setData.id);
+                        }}
+                    >
+                        ✖️
+                    </button>
                 </div>
             )}
         </div>
