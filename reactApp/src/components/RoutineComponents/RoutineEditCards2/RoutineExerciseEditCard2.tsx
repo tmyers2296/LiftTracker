@@ -29,6 +29,25 @@ function RoutineExerciseEditCard2({
         }
     };
 
+    const addSet = (exercise: routineExerciseObject) => {
+        if (exercise) {
+            const newExercise: routineExerciseObject = exerciseData;
+
+            const newSet: routineExerciseSetObject = {
+                id: 0,
+                routineExerciseId: exercise.id,
+                repRangeLow: 6,
+                repRangeHigh: 8,
+                order: exercise.sets.length,
+            };
+
+            newExercise.sets = [...exercise.sets, newSet];
+            newExercise.sets;
+
+            updateExercise(exerciseData.id, newExercise);
+        }
+    };
+
     const shiftOrderUp = (exerciseData: routineExerciseObject) => {
         if (!routineData) return;
 
@@ -103,6 +122,14 @@ function RoutineExerciseEditCard2({
                                 setData={set}
                             />
                         ))}
+                    <button
+                        className={styles.addButton}
+                        onClick={() => {
+                            addSet(exerciseData);
+                        }}
+                    >
+                        +
+                    </button>
                 </div>
             )}
         </div>

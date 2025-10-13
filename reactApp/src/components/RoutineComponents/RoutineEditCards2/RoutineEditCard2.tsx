@@ -1,12 +1,10 @@
 import { useRoutineData } from "../../../pages/RoutinePages/EditRoutine";
 import RoutineExerciseEditCard2 from "../RoutineEditCards2/RoutineExerciseEditCard2.tsx";
-import {
-    routineExerciseObject,
-    routineExerciseSetObject,
-} from "../../../types/routineTypes.ts";
+import { routineExerciseObject } from "../../../types/routineTypes.ts";
+import styles from "./RoutineEditCard2.module.css";
 
 function RoutineEditCard2() {
-    const { routineData, setRoutineData } = useRoutineData();
+    const { routineData, setRoutineData, allExercises } = useRoutineData();
 
     const updateExercise = (index: number, updated: routineExerciseObject) => {
         if (routineData) {
@@ -15,6 +13,26 @@ function RoutineEditCard2() {
             ];
 
             newExercises[index] = updated;
+            setRoutineData({ ...routineData, exercises: newExercises });
+        }
+    };
+
+    const addExercise = () => {
+        if (routineData) {
+            const newExercise: routineExerciseObject = {
+                id: 0,
+                exerciseId: allExercises[0].id,
+                routineId: routineData.id,
+                exerciseName: allExercises[0].name,
+                order: routineData.exercises.length,
+                sets: [],
+            };
+
+            const newExercises: routineExerciseObject[] = [
+                ...routineData.exercises,
+                newExercise,
+            ];
+
             setRoutineData({ ...routineData, exercises: newExercises });
         }
     };
@@ -39,6 +57,14 @@ function RoutineEditCard2() {
                                 />
                             )
                         )}
+                    <button
+                        className={styles.addButton}
+                        onClick={() => {
+                            addExercise();
+                        }}
+                    >
+                        +
+                    </button>
                 </div>
             )}
         </div>

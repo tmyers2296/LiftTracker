@@ -56,6 +56,25 @@
     color: #8aedff;
 }
 
+.addButton {
+    background-color: #143520;
+    border-color: #3fcd78;
+    color: #84d4a4;
+    margin: 5px;
+    width: 6rem;
+}
+
+.addButton:hover {
+    background-color: #1c412a;
+    border-color: #3fcd78;
+    color: #5cd18b;
+}
+.addButton:active {
+    background-color: #296742;
+    border-color: #73c494;
+    color: #d8efe1;
+}
+
 .inputBoxMed {
     color: rgb(170, 255, 221);
 }
