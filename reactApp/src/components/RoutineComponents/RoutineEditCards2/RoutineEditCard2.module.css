@@ -92,6 +92,25 @@
     color: #d8efe1;
 }
 
+.saveButton {
+    background-color: #281435;
+    border-color: #863fcd;
+    color: #b184d4;
+    margin: 5px;
+    width: 6rem;
+}
+
+.saveButton:hover {
+    background-color: #2f1c41;
+    border-color: #cd3fcb;
+    color: #b65cd1;
+}
+.saveButton:active {
+    background-color: #612967;
+    border-color: #b873c4;
+    color: #e8d8ef;
+}
+
 .inputBoxMed {
     color: rgb(170, 255, 221);
 }

@@ -13,6 +13,49 @@ function RoutineEditCard2() {
         return tempIdCounter.current--; // e.g. -1, -2, -3...
     }
 
+    async function saveRoutine() {
+        if (!routineData) return;
+
+        const payload = {
+            ...routineData,
+            exercises: routineData.exercises.map((exercise) => ({
+                ...exercise,
+                id: exercise.id < 0 ? 0 : exercise.id,
+                sets: exercise.sets.map((set) => ({
+                    ...set,
+                    id: set.id < 0 ? 0 : set.id,
+                })),
+            })),
+        };
+
+        try {
+            // ✅ Step 2: Send PUT or POST request to your API
+            const response = await fetch(
+                `https://localhost:5119/routines/${routineData.id}`,
+                {
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                }
+            );
+
+            if (!response.ok) {
+                throw new Error("Failed to save routine");
+            }
+
+            const updatedRoutine = await response.json();
+
+            // ✅ Step 3: Update local state with server data (real IDs)
+            setRoutineData(updatedRoutine);
+
+            // ✅ Step 4: Optionally notify the user or reset edit mode
+            console.log("Routine saved successfully!");
+        } catch (error) {
+            console.error("Error saving routine:", error);
+            alert("There was an issue saving your routine.");
+        }
+    }
+
     const updateExercise = (index: number, updated: routineExerciseObject) => {
         if (routineData) {
             const newExercises: routineExerciseObject[] = [
@@ -48,6 +91,17 @@ function RoutineEditCard2() {
         <div>
             {routineData && (
                 <div>
+                    <div>
+                        <span>{routineData.name} →</span>
+                        <button
+                            className={styles.saveButton}
+                            onClick={() => {
+                                saveRoutine();
+                            }}
+                        >
+                            💾
+                        </button>
+                    </div>
                     {routineData.exercises
                         .sort((a, b) => a.order - b.order)
                         .map(

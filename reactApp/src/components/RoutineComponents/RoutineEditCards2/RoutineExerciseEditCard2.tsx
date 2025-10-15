@@ -93,6 +93,16 @@ function RoutineExerciseEditCard2({
         setRoutineData({ ...routineData, exercises: newExercises });
     };
 
+    const removeExercise = (exerciseId: number) => {
+        if (!routineData) return;
+
+        const newExercises = routineData.exercises.filter(
+            (exercise) => exercise.id !== exerciseId
+        );
+
+        setRoutineData({ ...routineData, exercises: newExercises });
+    };
+
     return (
         <div className={styles.exerciseCard}>
             {exerciseData && (
@@ -120,6 +130,14 @@ function RoutineExerciseEditCard2({
                             </option>
                         ))}
                     </select>
+                    <button
+                        className={styles.deleteButton}
+                        onClick={() => {
+                            removeExercise(exerciseData.id);
+                        }}
+                    >
+                        ✖️
+                    </button>
                     {exerciseData.sets
                         .sort((a, b) => a.order - b.order)
                         .map((set: routineExerciseSetObject) => (

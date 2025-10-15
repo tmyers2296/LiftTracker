@@ -50,7 +50,6 @@ function EditRoutine2() {
             <routineDataContext.Provider
                 value={{ routineData, setRoutineData, allExercises }}
             >
-                {routineData && <div>{routineData.name}</div>}
                 <RoutineEditCard2 />
             </routineDataContext.Provider>
         </AuthorizeView>
