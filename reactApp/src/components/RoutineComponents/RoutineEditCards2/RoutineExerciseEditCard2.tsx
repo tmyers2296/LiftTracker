@@ -1,4 +1,5 @@
 import styles from "./RoutineEditCard2.module.css";
+import { useRef } from "react";
 
 import {
     routineExerciseObject,
@@ -18,6 +19,12 @@ function RoutineExerciseEditCard2({
 }: RoutineExerciseEditCard2Props) {
     const { routineData, setRoutineData, allExercises } = useRoutineData();
 
+    let tempIdCounter = useRef(-1);
+
+    function createTempId() {
+        return tempIdCounter.current--; // e.g. -1, -2, -3...
+    }
+
     const updateExercise = (eId: number, updated: routineExerciseObject) => {
         if (routineData) {
             const newExercises = routineData.exercises.map((exercise) => {
@@ -34,7 +41,7 @@ function RoutineExerciseEditCard2({
             const newExercise: routineExerciseObject = exerciseData;
 
             const newSet: routineExerciseSetObject = {
-                id: 0,
+                id: createTempId(),
                 routineExerciseId: exercise.id,
                 repRangeLow: 6,
                 repRangeHigh: 8,
