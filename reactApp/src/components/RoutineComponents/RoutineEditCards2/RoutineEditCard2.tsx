@@ -28,8 +28,10 @@ function RoutineEditCard2() {
             })),
         };
 
+        console.log(payload);
+
         try {
-            // ✅ Step 2: Send PUT or POST request to your API
+            // Step 2: Send PUT or POST request to your API
             const response = await fetch(
                 `https://localhost:5119/routines/${routineData.id}`,
                 {
@@ -45,10 +47,10 @@ function RoutineEditCard2() {
 
             const updatedRoutine = await response.json();
 
-            // ✅ Step 3: Update local state with server data (real IDs)
+            // Step 3: Update local state with server data (real IDs)
             setRoutineData(updatedRoutine);
 
-            // ✅ Step 4: Optionally notify the user or reset edit mode
+            // Step 4: Optionally notify the user or reset edit mode
             console.log("Routine saved successfully!");
         } catch (error) {
             console.error("Error saving routine:", error);

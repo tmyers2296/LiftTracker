@@ -16,7 +16,6 @@ export interface routineExerciseObject {
 
 export interface routineExerciseSetObject {
     id: number;
-    routineExerciseId: number;
     repRangeLow: number;
     repRangeHigh: number;
     order: number;

@@ -42,7 +42,6 @@ function RoutineExerciseEditCard2({
 
             const newSet: routineExerciseSetObject = {
                 id: createTempId(),
-                routineExerciseId: exercise.id,
                 repRangeLow: 6,
                 repRangeHigh: 8,
                 order: exercise.sets.length,
