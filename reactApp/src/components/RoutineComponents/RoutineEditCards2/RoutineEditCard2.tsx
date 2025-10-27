@@ -1,6 +1,6 @@
 import { useRoutineData } from "../../../pages/RoutinePages/EditRoutine";
 import { useRef } from "react";
-import RoutineExerciseEditCard2 from "../RoutineEditCards2/RoutineExerciseEditCard2.tsx";
+import RoutineExerciseEditCard2 from "../RoutineEditCards2/RoutineExerciseEditCard2";
 import { routineExerciseObject } from "../../../types/routineTypes.ts";
 import styles from "./RoutineEditCard2.module.css";
 
@@ -18,7 +18,7 @@ function RoutineEditCard2() {
 
         const payload = {
             ...routineData,
-            exercises: routineData.exercises.map((exercise) => ({
+            exercises: routineData.exercises?.map((exercise) => ({
                 ...exercise,
                 id: exercise.id < 0 ? 0 : exercise.id,
                 sets: exercise.sets.map((set) => ({
@@ -29,6 +29,7 @@ function RoutineEditCard2() {
         };
 
         console.log(payload);
+        console.log(JSON.stringify(payload, null, 2));
 
         try {
             // Step 2: Send PUT or POST request to your API
@@ -40,6 +41,11 @@ function RoutineEditCard2() {
                     body: JSON.stringify(payload),
                 }
             );
+
+            console.log("Response status:", response.status);
+            console.log("Response ok:", response.ok);
+            const text = await response.text(); // always get raw text
+            console.log("Raw response body:", text);
 
             if (!response.ok) {
                 throw new Error("Failed to save routine");

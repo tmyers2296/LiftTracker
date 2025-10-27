@@ -35,8 +35,8 @@ public static class RoutineEndpoints
         {
             Routine? routine = request.MapToRoutine(id);
             RoutineResponse routineResponse = routine.MapToResponse();
-            //Console.WriteLine("!!!! Updated Routine: !!!!!");
-            //Console.WriteLine(JsonSerializer.Serialize(routineResponse, new JsonSerializerOptions { WriteIndented = true }));
+            Console.WriteLine("!!!! Updated Routine: !!!!!");
+            Console.WriteLine(JsonSerializer.Serialize(routineResponse, new JsonSerializerOptions { WriteIndented = true }));
             Routine? resultRoutine = await routineService.DeepUpdate(routine);
             return (resultRoutine != null)? Results.Ok() : Results.NotFound();
         });

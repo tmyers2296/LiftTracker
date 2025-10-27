@@ -72,7 +72,8 @@ public class RoutineService : IRoutineService
     public async Task<Routine?> DeepUpdate(Routine routineWithUpdates)
     {
         // return existing routine with same Id..
-        Routine? routineToEdit = await _dbContext.Routines 
+        Routine? routineToEdit = await _dbContext.Routines
+        .AsSplitQuery() 
         .Include(r => r.Exercises)
         .ThenInclude(re => re.Sets)
         .FirstOrDefaultAsync(r => r.Id == routineWithUpdates.Id);
@@ -128,10 +129,11 @@ public class RoutineService : IRoutineService
             }
 
             // iterate through sets to edit:
-            foreach (RoutineExerciseSet updatedSet in updatedExercise.Sets){
+            foreach (RoutineExerciseSet updatedSet in updatedExercise.Sets.Where(s => s.Id != 0)){
                 RoutineExerciseSet setToEdit = setsToEdit[updatedSet.Id];
                 _dbContext.Entry(setToEdit).CurrentValues.SetValues(updatedSet);
             }
+
         }
 
         // save changes:
