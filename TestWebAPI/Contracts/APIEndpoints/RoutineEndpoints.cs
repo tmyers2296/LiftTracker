@@ -38,7 +38,7 @@ public static class RoutineEndpoints
             Console.WriteLine("!!!! Updated Routine: !!!!!");
             Console.WriteLine(JsonSerializer.Serialize(routineResponse, new JsonSerializerOptions { WriteIndented = true }));
             Routine? resultRoutine = await routineService.DeepUpdate(routine);
-            return (resultRoutine != null)? Results.Ok() : Results.NotFound();
+            return (resultRoutine != null)? Results.Ok(routineResponse) : Results.NotFound();
         });
 
         // delete:

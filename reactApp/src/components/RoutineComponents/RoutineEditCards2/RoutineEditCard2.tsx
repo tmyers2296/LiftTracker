@@ -42,11 +42,6 @@ function RoutineEditCard2() {
                 }
             );
 
-            console.log("Response status:", response.status);
-            console.log("Response ok:", response.ok);
-            const text = await response.text(); // always get raw text
-            console.log("Raw response body:", text);
-
             if (!response.ok) {
                 throw new Error("Failed to save routine");
             }
