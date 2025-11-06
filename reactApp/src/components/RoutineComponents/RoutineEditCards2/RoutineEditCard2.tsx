@@ -1,17 +1,12 @@
 import { useRoutineData } from "../../../pages/RoutinePages/EditRoutine";
-import { useRef } from "react";
 import RoutineExerciseEditCard2 from "../RoutineEditCards2/RoutineExerciseEditCard2";
 import { routineExerciseObject } from "../../../types/routineTypes.ts";
 import styles from "./RoutineEditCard2.module.css";
+import { createTempId } from "../../../modules/editingFunctions.tsx";
 
 function RoutineEditCard2() {
-    const { routineData, setRoutineData, allExercises } = useRoutineData();
-
-    let tempIdCounter = useRef(-1);
-
-    function createTempId() {
-        return tempIdCounter.current--; // e.g. -1, -2, -3...
-    }
+    const { routineData, setRoutineData, allExercises, tempIdCounter } =
+        useRoutineData();
 
     async function saveRoutine() {
         if (!routineData) return;
@@ -73,7 +68,7 @@ function RoutineEditCard2() {
     const addExercise = () => {
         if (routineData) {
             const newExercise: routineExerciseObject = {
-                id: createTempId(),
+                id: createTempId(tempIdCounter),
                 exerciseId: allExercises[0].id,
                 routineId: routineData.id,
                 exerciseName: allExercises[0].name,

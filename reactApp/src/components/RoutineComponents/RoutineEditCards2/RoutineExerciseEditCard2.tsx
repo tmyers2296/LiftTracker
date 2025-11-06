@@ -1,6 +1,4 @@
 import styles from "./RoutineEditCard2.module.css";
-import { useRef } from "react";
-
 import {
     routineExerciseObject,
     routineExerciseSetObject,
@@ -9,6 +7,7 @@ import { exerciseObject } from "../../../types/generalTypes";
 import RoutineExerciseSetEditCard2 from "../RoutineEditCards2/RoutineExerciseSetEditCard2.tsx";
 import { useRoutineData } from "../../../pages/RoutinePages/EditRoutine";
 import { swapOrder } from "../../../modules/editingFunctions";
+import { createTempId } from "../../../modules/editingFunctions.tsx";
 
 interface RoutineExerciseEditCard2Props {
     exerciseData: routineExerciseObject;
@@ -18,13 +17,8 @@ interface RoutineExerciseEditCard2Props {
 function RoutineExerciseEditCard2({
     exerciseData,
 }: RoutineExerciseEditCard2Props) {
-    const { routineData, setRoutineData, allExercises } = useRoutineData();
-
-    let tempIdCounter = useRef(-1);
-
-    function createTempId() {
-        return tempIdCounter.current--; // e.g. -1, -2, -3...
-    }
+    const { routineData, setRoutineData, allExercises, tempIdCounter } =
+        useRoutineData();
 
     const updateExercise = (eId: number, updated: routineExerciseObject) => {
         if (routineData) {
@@ -42,7 +36,7 @@ function RoutineExerciseEditCard2({
             const newExercise: routineExerciseObject = exerciseData;
 
             const newSet: routineExerciseSetObject = {
-                id: createTempId(),
+                id: createTempId(tempIdCounter),
                 repRangeLow: 6,
                 repRangeHigh: 8,
                 order: exercise.sets.length,

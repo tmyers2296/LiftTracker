@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState, createContext, useContext } from "react";
+import { useEffect, useState, createContext, useContext, useRef } from "react";
 import AuthorizeView from "../../components/AuthorizeView.tsx";
 import { fetchData } from "../../modules/fetchingFunctions.tsx";
 import { routineObject } from "../../types/routineTypes.ts";
@@ -10,6 +10,7 @@ type routineDataGetSet = {
     routineData: routineObject | null;
     setRoutineData: React.Dispatch<React.SetStateAction<routineObject | null>>;
     allExercises: exerciseObject[];
+    tempIdCounter: React.MutableRefObject<number>;
 };
 
 const routineDataContext = createContext<routineDataGetSet | null>(null);
@@ -18,6 +19,7 @@ function EditRoutine2() {
     const { id } = useParams();
     const [routineData, setRoutineData] = useState<routineObject | null>(null);
     const [allExercises, setAllExercises] = useState<exerciseObject[]>([]);
+    const tempIdCounter = useRef(-1);
 
     useEffect(() => {
         async function fetchRoutineData(url: string) {
@@ -48,7 +50,12 @@ function EditRoutine2() {
     return (
         <AuthorizeView>
             <routineDataContext.Provider
-                value={{ routineData, setRoutineData, allExercises }}
+                value={{
+                    routineData,
+                    setRoutineData,
+                    allExercises,
+                    tempIdCounter,
+                }}
             >
                 <RoutineEditCard2 />
             </routineDataContext.Provider>

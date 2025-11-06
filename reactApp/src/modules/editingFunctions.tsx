@@ -26,3 +26,6 @@ export function swapOrder<
 // **CRUD functions**
 
 // **Create temp ids functions
+export function createTempId(idCounter: React.MutableRefObject<number>) {
+    return idCounter.current--; // e.g. -1, -2, -3...
+}
