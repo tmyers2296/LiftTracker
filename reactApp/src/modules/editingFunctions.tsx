@@ -1,11 +1,14 @@
+import {
+    routineExerciseObject,
+    routineExerciseSetObject,
+} from "../types/routineTypes.ts";
+
 // **Shifting functions**
 // moves the revelant item up or down in it's list for
 // instance an exercise in a routine or a set in an exercise
-export function swapOrder<T extends { id: number; order: number }>(
-    objectList: T[],
-    targetId: number,
-    direction: "up" | "down"
-): T[] {
+export function swapOrder<
+    T extends routineExerciseObject | routineExerciseSetObject
+>(objectList: T[], targetId: number, direction: "up" | "down"): T[] {
     const item = objectList.find((i) => i.id === targetId);
     if (!item) return objectList;
 
@@ -22,4 +25,4 @@ export function swapOrder<T extends { id: number; order: number }>(
 
 // **CRUD functions**
 
-// **Create temp ids functions**
+// **Create temp ids functions

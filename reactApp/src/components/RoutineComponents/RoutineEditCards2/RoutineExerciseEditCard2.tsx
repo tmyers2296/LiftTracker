@@ -8,6 +8,7 @@ import {
 import { exerciseObject } from "../../../types/generalTypes";
 import RoutineExerciseSetEditCard2 from "../RoutineEditCards2/RoutineExerciseSetEditCard2.tsx";
 import { useRoutineData } from "../../../pages/RoutinePages/EditRoutine";
+import { swapOrder } from "../../../modules/editingFunctions";
 
 interface RoutineExerciseEditCard2Props {
     exerciseData: routineExerciseObject;
@@ -54,41 +55,13 @@ function RoutineExerciseEditCard2({
         }
     };
 
-    const shiftOrderUp = (exerciseData: routineExerciseObject) => {
+    const shiftExerciseOrder = (direction: "up" | "down") => {
         if (!routineData) return;
-
-        const newExercises = routineData.exercises.map((exercise) => {
-            if (!(exerciseData.order >= 0 && routineData.exercises.length > 1))
-                return exercise;
-
-            if (exerciseData.order >= routineData.exercises.length - 1)
-                return exercise;
-
-            if (exercise.id === exerciseData.id) {
-                return { ...exercise, order: exercise.order + 1 };
-            } else if (exercise.order === exerciseData.order + 1) {
-                return { ...exercise, order: exercise.order - 1 };
-            }
-            return exercise;
-        });
-
-        setRoutineData({ ...routineData, exercises: newExercises });
-    };
-
-    const shiftOrderDown = (exerciseData: routineExerciseObject) => {
-        if (!routineData) return;
-
-        const newExercises = routineData.exercises.map((exercise) => {
-            if (!(exerciseData.order > 0)) return exercise;
-
-            if (exercise.id === exerciseData.id) {
-                return { ...exercise, order: exercise.order - 1 };
-            } else if (exercise.order === exerciseData.order - 1) {
-                return { ...exercise, order: exercise.order + 1 };
-            }
-            return exercise;
-        });
-
+        const newExercises = swapOrder(
+            routineData.exercises,
+            exerciseData.id,
+            direction
+        );
         setRoutineData({ ...routineData, exercises: newExercises });
     };
 
@@ -109,7 +82,7 @@ function RoutineExerciseEditCard2({
                     <button
                         className={styles.updownButton2}
                         onClick={() => {
-                            shiftOrderDown(exerciseData);
+                            shiftExerciseOrder("down");
                         }}
                     >
                         ↑
@@ -117,7 +90,7 @@ function RoutineExerciseEditCard2({
                     <button
                         className={styles.updownButton2}
                         onClick={() => {
-                            shiftOrderUp(exerciseData);
+                            shiftExerciseOrder("up");
                         }}
                     >
                         ↓

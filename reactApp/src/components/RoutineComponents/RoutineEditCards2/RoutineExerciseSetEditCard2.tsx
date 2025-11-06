@@ -2,6 +2,7 @@ import styles from "./RoutineEditCard2.module.css";
 
 import { routineExerciseSetObject } from "../../../types/routineTypes";
 import { useRoutineData } from "../../../pages/RoutinePages/EditRoutine";
+import { swapOrder } from "../../../modules/editingFunctions";
 
 interface RoutineExerciseSetEditCard2Props {
     setData: routineExerciseSetObject;
@@ -49,61 +50,24 @@ function RoutineExerciseEditSetCard2({
         setRoutineData({ ...routineData, exercises: newExercises });
     };
 
-    const shiftOrderUp = (
-        exerciseId: number,
-        setData: routineExerciseSetObject
-    ) => {
+    // **Shifting functions**
+
+    const shiftSetOrder = (direction: "up" | "down") => {
         if (!routineData) return;
 
-        const newExercises = routineData.exercises.map((exercise) => {
-            if (exercise.id !== exerciseId) return exercise;
+        const exercise = routineData.exercises.find((e) => e.id === exerciseId);
+        if (!exercise) return;
 
-            if (!(setData.order >= 0 && exercise.sets.length > 1))
-                return exercise;
+        const newSets = swapOrder(exercise.sets, setData.id, direction);
 
-            if (setData.order >= exercise.sets.length - 1) return exercise;
-
-            return {
-                ...exercise,
-                sets: exercise.sets.map((set) => {
-                    if (set.id === setData.id) {
-                        return { ...set, order: set.order + 1 };
-                    } else if (set.order === setData.order + 1) {
-                        return { ...set, order: set.order - 1 };
-                    }
-                    return set;
-                }),
-            };
+        setRoutineData({
+            ...routineData,
+            exercises: routineData.exercises.map((exercise) =>
+                exercise.id === exerciseId
+                    ? { ...exercise, sets: newSets }
+                    : exercise
+            ),
         });
-
-        setRoutineData({ ...routineData, exercises: newExercises });
-    };
-
-    const shiftOrderDown = (
-        exerciseId: number,
-        setData: routineExerciseSetObject
-    ) => {
-        if (!routineData) return;
-
-        const newExercises = routineData.exercises.map((exercise) => {
-            if (exercise.id !== exerciseId) return exercise;
-
-            if (!(setData.order > 0)) return exercise;
-
-            return {
-                ...exercise,
-                sets: exercise.sets.map((set) => {
-                    if (set.id === setData.id) {
-                        return { ...set, order: set.order - 1 };
-                    } else if (set.order === setData.order - 1) {
-                        return { ...set, order: set.order + 1 };
-                    }
-                    return set;
-                }),
-            };
-        });
-
-        setRoutineData({ ...routineData, exercises: newExercises });
     };
 
     return (
@@ -114,7 +78,7 @@ function RoutineExerciseEditSetCard2({
                     <button
                         className={styles.updownButton}
                         onClick={() => {
-                            shiftOrderDown(exerciseId, setData);
+                            shiftSetOrder("down");
                         }}
                     >
                         ↑
@@ -122,7 +86,7 @@ function RoutineExerciseEditSetCard2({
                     <button
                         className={styles.updownButton}
                         onClick={() => {
-                            shiftOrderUp(exerciseId, setData);
+                            shiftSetOrder("up");
                         }}
                     >
                         ↓
