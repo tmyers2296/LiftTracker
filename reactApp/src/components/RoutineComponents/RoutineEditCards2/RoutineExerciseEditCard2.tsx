@@ -62,9 +62,19 @@ function RoutineExerciseEditCard2({
     const removeExercise = (exerciseId: number) => {
         if (!routineData) return;
 
-        const newExercises = routineData.exercises.filter(
-            (exercise) => exercise.id !== exerciseId
+        const exerciseToDelete = routineData.exercises.find(
+            (exercise) => exercise.id === exerciseId
         );
+
+        if (!exerciseToDelete) return;
+
+        const newExercises = routineData.exercises
+            .filter((exercise) => exercise.id !== exerciseId)
+            .map((exercise) =>
+                exercise.order > exerciseToDelete.order
+                    ? { ...exercise, order: exercise.order - 1 }
+                    : exercise
+            );
 
         setRoutineData({ ...routineData, exercises: newExercises });
     };
@@ -89,7 +99,15 @@ function RoutineExerciseEditCard2({
                     >
                         ↓
                     </button>
-                    <select defaultValue={exerciseData.exerciseId ?? ""}>
+                    <select
+                        defaultValue={exerciseData.exerciseId ?? ""}
+                        onChange={(e) =>
+                            updateExercise(exerciseData.id, {
+                                ...exerciseData,
+                                exerciseId: Number(e.target.value),
+                            })
+                        }
+                    >
                         {allExercises.map((exercise: exerciseObject) => (
                             <option key={exercise.id} value={exercise.id}>
                                 {exercise.name}
