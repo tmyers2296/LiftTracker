@@ -41,11 +41,27 @@ function RoutineExerciseEditSetCard2({
         const newExercises = routineData.exercises.map((exercise) => {
             if (exercise.id !== exerciseId) return exercise;
 
+            const setToDelete = exercise.sets.find((set) => set.id === setId);
+
+            if (!setToDelete) return exercise;
+
+            console.log("running set reorder");
+
+            const newSets = exercise.sets
+                .filter((set) => set.id !== setId)
+                .map((set) =>
+                    set.order > setToDelete.order
+                        ? { ...set, order: set.order - 1 }
+                        : set
+                );
+
             return {
                 ...exercise,
-                sets: exercise.sets.filter((set) => set.id !== setId),
+                sets: newSets,
             };
         });
+
+        if (!newExercises) return;
 
         setRoutineData({ ...routineData, exercises: newExercises });
     };
@@ -93,7 +109,7 @@ function RoutineExerciseEditSetCard2({
                     </button>
                     <input
                         className={styles.inputBoxSmallBlue}
-                        defaultValue={setData.order}
+                        value={setData.order}
                         onChange={(e) =>
                             updateExerciseSet(exerciseId, {
                                 ...setData,
