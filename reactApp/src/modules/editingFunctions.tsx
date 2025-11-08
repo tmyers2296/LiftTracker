@@ -24,6 +24,54 @@ export function swapOrder<
 }
 
 // **CRUD functions**
+export function updateItem(eId: number, updated: routineExerciseObject) {
+    if (routineData) {
+        const newExercises = routineData.exercises.map((exercise) => {
+            if (exercise.id !== eId) return exercise;
+            return updated;
+        });
+
+        setRoutineData({ ...routineData, exercises: newExercises });
+    }
+}
+
+export function addItem(exercise: routineExerciseObject) {
+    if (exercise) {
+        const newExercise: routineExerciseObject = exerciseData;
+
+        const newSet: routineExerciseSetObject = {
+            id: createTempId(tempIdCounter),
+            repRangeLow: 6,
+            repRangeHigh: 8,
+            order: exercise.sets.length,
+        };
+
+        newExercise.sets = [...exercise.sets, newSet];
+        newExercise.sets;
+
+        updateExercise(exerciseData.id, newExercise);
+    }
+}
+
+export function removeItem(exerciseId: number) {
+    if (!routineData) return;
+
+    const exerciseToDelete = routineData.exercises.find(
+        (exercise) => exercise.id === exerciseId
+    );
+
+    if (!exerciseToDelete) return;
+
+    const newExercises = routineData.exercises
+        .filter((exercise) => exercise.id !== exerciseId)
+        .map((exercise) =>
+            exercise.order > exerciseToDelete.order
+                ? { ...exercise, order: exercise.order - 1 }
+                : exercise
+        );
+
+    setRoutineData({ ...routineData, exercises: newExercises });
+}
 
 // **Create temp ids functions
 export function createTempId(idCounter: React.MutableRefObject<number>) {

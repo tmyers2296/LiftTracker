@@ -99,6 +99,10 @@ function RoutineExerciseEditCard2({
                     >
                         ↓
                     </button>
+                    <input
+                        value={exerciseData.order}
+                        className={styles.inputBoxSmall}
+                    ></input>
                     <select
                         defaultValue={exerciseData.exerciseId ?? ""}
                         onChange={(e) =>
