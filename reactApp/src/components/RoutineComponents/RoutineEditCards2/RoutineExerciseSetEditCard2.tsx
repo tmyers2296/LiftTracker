@@ -2,7 +2,11 @@ import styles from "./RoutineEditCard2.module.css";
 
 import { routineExerciseSetObject } from "../../../types/routineTypes";
 import { useRoutineData } from "../../../pages/RoutinePages/EditRoutine";
-import { swapOrder } from "../../../modules/editingFunctions";
+import {
+    swapOrder,
+    updateItem,
+    removeItem,
+} from "../../../modules/editingFunctions";
 
 interface RoutineExerciseSetEditCard2Props {
     setData: routineExerciseSetObject;
@@ -17,20 +21,23 @@ function RoutineExerciseEditSetCard2({
 
     const updateExerciseSet = (
         exerciseId: number,
-        updated: routineExerciseSetObject
+        updatedSet: routineExerciseSetObject
     ) => {
         if (!routineData) return;
 
-        const newExercises = routineData.exercises.map((exercise) => {
-            if (exercise.id !== exerciseId) return exercise;
+        const exerciseToUpdate = routineData.exercises.find(
+            (ex) => ex.id === exerciseId
+        );
 
-            return {
-                ...exercise,
-                sets: exercise.sets.map((set) =>
-                    set.id === updated.id ? updated : set
-                ),
-            };
-        });
+        if (!exerciseToUpdate) return;
+
+        // 👇 Nested call: first update sets, then update exercises
+        const updatedExercise = {
+            ...exerciseToUpdate,
+            sets: updateItem(exerciseToUpdate.sets, updatedSet),
+        };
+
+        const newExercises = updateItem(routineData.exercises, updatedExercise);
 
         setRoutineData({ ...routineData, exercises: newExercises });
     };
@@ -38,32 +45,19 @@ function RoutineExerciseEditSetCard2({
     const removeSet = (exerciseId: number, setId: number) => {
         if (!routineData) return;
 
-        const newExercises = routineData.exercises.map((exercise) => {
-            if (exercise.id !== exerciseId) return exercise;
+        const exerciseToUpdate = routineData.exercises.find(
+            (ex) => ex.id === exerciseId
+        );
 
-            const setToDelete = exercise.sets.find((set) => set.id === setId);
+        if (!exerciseToUpdate) return;
 
-            if (!setToDelete) return exercise;
-
-            console.log("running set reorder");
-
-            const newSets = exercise.sets
-                .filter((set) => set.id !== setId)
-                .map((set) =>
-                    set.order > setToDelete.order
-                        ? { ...set, order: set.order - 1 }
-                        : set
-                );
-
-            return {
-                ...exercise,
-                sets: newSets,
-            };
+        const updatedExerciseSets = removeItem(exerciseToUpdate.sets, setId);
+        const updatedExercises = updateItem(routineData.exercises, {
+            ...exerciseToUpdate,
+            sets: updatedExerciseSets,
         });
 
-        if (!newExercises) return;
-
-        setRoutineData({ ...routineData, exercises: newExercises });
+        setRoutineData({ ...routineData, exercises: updatedExercises });
     };
 
     // **Shifting functions**
@@ -72,6 +66,7 @@ function RoutineExerciseEditSetCard2({
         if (!routineData) return;
 
         const exercise = routineData.exercises.find((e) => e.id === exerciseId);
+
         if (!exercise) return;
 
         const newSets = swapOrder(exercise.sets, setData.id, direction);

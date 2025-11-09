@@ -51,25 +51,18 @@ export function updateItem<
 //     }
 // }
 
-// export function removeItem(exerciseId: number) {
-//     if (!routineData) return;
+export function removeItem<
+    T extends routineExerciseObject | routineExerciseSetObject
+>(list: T[], targetId: number): T[] {
+    const target = list.find((i) => i.id === targetId);
+    if (!target) return list;
 
-//     const exerciseToDelete = routineData.exercises.find(
-//         (exercise) => exercise.id === exerciseId
-//     );
-
-//     if (!exerciseToDelete) return;
-
-//     const newExercises = routineData.exercises
-//         .filter((exercise) => exercise.id !== exerciseId)
-//         .map((exercise) =>
-//             exercise.order > exerciseToDelete.order
-//                 ? { ...exercise, order: exercise.order - 1 }
-//                 : exercise
-//         );
-
-//     setRoutineData({ ...routineData, exercises: newExercises });
-// }
+    return list
+        .filter((i) => i.id !== targetId)
+        .map((i) =>
+            i.order > target.order ? { ...i, order: i.order - 1 } : i
+        );
+}
 
 // **Create temp ids functions
 export function createTempId(idCounter: React.MutableRefObject<number>) {

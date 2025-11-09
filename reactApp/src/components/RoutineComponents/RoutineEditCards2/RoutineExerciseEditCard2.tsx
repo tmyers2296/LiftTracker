@@ -6,7 +6,11 @@ import {
 import { exerciseObject } from "../../../types/generalTypes";
 import RoutineExerciseSetEditCard2 from "../RoutineEditCards2/RoutineExerciseSetEditCard2.tsx";
 import { useRoutineData } from "../../../pages/RoutinePages/EditRoutine";
-import { swapOrder } from "../../../modules/editingFunctions";
+import {
+    swapOrder,
+    updateItem,
+    removeItem,
+} from "../../../modules/editingFunctions";
 import { createTempId } from "../../../modules/editingFunctions.tsx";
 
 interface RoutineExerciseEditCard2Props {
@@ -20,15 +24,10 @@ function RoutineExerciseEditCard2({
     const { routineData, setRoutineData, allExercises, tempIdCounter } =
         useRoutineData();
 
-    const updateExercise = (eId: number, updated: routineExerciseObject) => {
-        if (routineData) {
-            const newExercises = routineData.exercises.map((exercise) => {
-                if (exercise.id !== eId) return exercise;
-                return updated;
-            });
-
-            setRoutineData({ ...routineData, exercises: newExercises });
-        }
+    const updateExercise = (updated: routineExerciseObject) => {
+        if (!routineData) return;
+        const newExercises = updateItem(routineData.exercises, updated);
+        setRoutineData({ ...routineData, exercises: newExercises });
     };
 
     const addSet = (exercise: routineExerciseObject) => {
@@ -45,7 +44,7 @@ function RoutineExerciseEditCard2({
             newExercise.sets = [...exercise.sets, newSet];
             newExercise.sets;
 
-            updateExercise(exerciseData.id, newExercise);
+            updateExercise(newExercise);
         }
     };
 
@@ -61,22 +60,8 @@ function RoutineExerciseEditCard2({
 
     const removeExercise = (exerciseId: number) => {
         if (!routineData) return;
-
-        const exerciseToDelete = routineData.exercises.find(
-            (exercise) => exercise.id === exerciseId
-        );
-
-        if (!exerciseToDelete) return;
-
-        const newExercises = routineData.exercises
-            .filter((exercise) => exercise.id !== exerciseId)
-            .map((exercise) =>
-                exercise.order > exerciseToDelete.order
-                    ? { ...exercise, order: exercise.order - 1 }
-                    : exercise
-            );
-
-        setRoutineData({ ...routineData, exercises: newExercises });
+        const updatedExercises = removeItem(routineData.exercises, exerciseId);
+        setRoutineData({ ...routineData, exercises: updatedExercises });
     };
 
     return (
@@ -106,7 +91,7 @@ function RoutineExerciseEditCard2({
                     <select
                         defaultValue={exerciseData.exerciseId ?? ""}
                         onChange={(e) =>
-                            updateExercise(exerciseData.id, {
+                            updateExercise({
                                 ...exerciseData,
                                 exerciseId: Number(e.target.value),
                             })
