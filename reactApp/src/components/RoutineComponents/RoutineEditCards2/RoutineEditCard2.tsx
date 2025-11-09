@@ -2,7 +2,8 @@ import { useRoutineData } from "../../../pages/RoutinePages/EditRoutine";
 import RoutineExerciseEditCard2 from "../RoutineEditCards2/RoutineExerciseEditCard2";
 import { routineExerciseObject } from "../../../types/routineTypes.ts";
 import styles from "./RoutineEditCard2.module.css";
-import { createTempId } from "../../../modules/editingFunctions.tsx";
+import { createNewExercise } from "../../../modules/itemFactories.tsx";
+import { addItem } from "../../../modules/editingFunctions.tsx";
 
 function RoutineEditCard2() {
     const { routineData, setRoutineData, allExercises, tempIdCounter } =
@@ -66,23 +67,16 @@ function RoutineEditCard2() {
     };
 
     const addExercise = () => {
-        if (routineData) {
-            const newExercise: routineExerciseObject = {
-                id: createTempId(tempIdCounter),
-                exerciseId: allExercises[0].id,
-                routineId: routineData.id,
-                exerciseName: allExercises[0].name,
-                order: routineData.exercises.length,
-                sets: [],
-            };
+        if (!routineData) return;
+        const newExercise = createNewExercise(
+            routineData.id,
+            allExercises,
+            tempIdCounter,
+            routineData.exercises.length
+        );
 
-            const newExercises: routineExerciseObject[] = [
-                ...routineData.exercises,
-                newExercise,
-            ];
-
-            setRoutineData({ ...routineData, exercises: newExercises });
-        }
+        const newExercises = addItem(routineData.exercises, newExercise);
+        setRoutineData({ ...routineData, exercises: newExercises });
     };
 
     return (

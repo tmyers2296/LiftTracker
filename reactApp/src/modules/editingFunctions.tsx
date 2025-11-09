@@ -33,6 +33,12 @@ export function updateItem<
     });
 }
 
+export function addItem<
+    T extends routineExerciseObject | routineExerciseSetObject
+>(list: T[], newItem: T): T[] {
+    return [...list, newItem];
+}
+
 // export function addItem(exercise: routineExerciseObject) {
 //     if (exercise) {
 //         const newExercise: routineExerciseObject = exerciseData;

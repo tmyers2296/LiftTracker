@@ -10,8 +10,9 @@ import {
     swapOrder,
     updateItem,
     removeItem,
+    addItem,
 } from "../../../modules/editingFunctions";
-import { createTempId } from "../../../modules/editingFunctions.tsx";
+import { createNewSet } from "../../../modules/itemFactories.tsx";
 
 interface RoutineExerciseEditCard2Props {
     exerciseData: routineExerciseObject;
@@ -31,21 +32,26 @@ function RoutineExerciseEditCard2({
     };
 
     const addSet = (exercise: routineExerciseObject) => {
-        if (exercise) {
-            const newExercise: routineExerciseObject = exerciseData;
+        if (!routineData) return;
+        if (!exercise) return;
 
-            const newSet: routineExerciseSetObject = {
-                id: createTempId(tempIdCounter),
-                repRangeLow: 6,
-                repRangeHigh: 8,
-                order: exercise.sets.length,
-            };
+        const newSet: routineExerciseSetObject = createNewSet(
+            tempIdCounter,
+            exercise.sets.length
+        );
 
-            newExercise.sets = [...exercise.sets, newSet];
-            newExercise.sets;
+        const newSets = addItem(exercise.sets, newSet);
+        const newExercises = updateItem(routineData.exercises, {
+            ...exercise,
+            sets: newSets,
+        });
+        setRoutineData({ ...routineData, exercises: newExercises });
+    };
 
-            updateExercise(newExercise);
-        }
+    const removeExercise = (exerciseId: number) => {
+        if (!routineData) return;
+        const updatedExercises = removeItem(routineData.exercises, exerciseId);
+        setRoutineData({ ...routineData, exercises: updatedExercises });
     };
 
     const shiftExerciseOrder = (direction: "up" | "down") => {
@@ -56,12 +62,6 @@ function RoutineExerciseEditCard2({
             direction
         );
         setRoutineData({ ...routineData, exercises: newExercises });
-    };
-
-    const removeExercise = (exerciseId: number) => {
-        if (!routineData) return;
-        const updatedExercises = removeItem(routineData.exercises, exerciseId);
-        setRoutineData({ ...routineData, exercises: updatedExercises });
     };
 
     return (
