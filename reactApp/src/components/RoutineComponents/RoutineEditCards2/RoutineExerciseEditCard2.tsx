@@ -25,9 +25,11 @@ function RoutineExerciseEditCard2({
     const { routineData, setRoutineData, allExercises, tempIdCounter } =
         useRoutineData();
 
+    // CRUD function wrappers:
     const updateExercise = (updated: routineExerciseObject) => {
         if (!routineData) return;
         const newExercises = updateItem(routineData.exercises, updated);
+
         setRoutineData({ ...routineData, exercises: newExercises });
     };
 
@@ -40,28 +42,33 @@ function RoutineExerciseEditCard2({
             exercise.sets.length
         );
 
-        const newSets = addItem(exercise.sets, newSet);
         const newExercises = updateItem(routineData.exercises, {
             ...exercise,
-            sets: newSets,
+            sets: addItem(exercise.sets, newSet),
         });
+
         setRoutineData({ ...routineData, exercises: newExercises });
     };
 
     const removeExercise = (exerciseId: number) => {
         if (!routineData) return;
         const updatedExercises = removeItem(routineData.exercises, exerciseId);
+
         setRoutineData({ ...routineData, exercises: updatedExercises });
     };
 
+    // Shifting function wrapper:
     const shiftExerciseOrder = (direction: "up" | "down") => {
         if (!routineData) return;
-        const newExercises = swapOrder(
-            routineData.exercises,
-            exerciseData.id,
-            direction
-        );
-        setRoutineData({ ...routineData, exercises: newExercises });
+
+        setRoutineData({
+            ...routineData,
+            exercises: swapOrder(
+                routineData.exercises,
+                exerciseData.id,
+                direction
+            ),
+        });
     };
 
     return (

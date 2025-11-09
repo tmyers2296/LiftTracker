@@ -1,14 +1,13 @@
-import {
-    routineExerciseObject,
-    routineExerciseSetObject,
-} from "../types/routineTypes.ts";
+import { OrderedItem } from "../types/generalTypes.ts";
 
 // **Shifting functions**
 // moves the revelant item up or down in it's list for
 // instance an exercise in a routine or a set in an exercise
-export function swapOrder<
-    T extends routineExerciseObject | routineExerciseSetObject
->(objectList: T[], targetId: number, direction: "up" | "down"): T[] {
+export function swapOrder<T extends OrderedItem>(
+    objectList: T[],
+    targetId: number,
+    direction: "up" | "down"
+): T[] {
     const item = objectList.find((i) => i.id === targetId);
     if (!item) return objectList;
 
@@ -24,42 +23,24 @@ export function swapOrder<
 }
 
 // **CRUD functions**
-export function updateItem<
-    T extends routineExerciseObject | routineExerciseSetObject
->(objectList: T[], updatedObject: T): T[] {
+export function updateItem<T extends OrderedItem>(
+    objectList: T[],
+    updatedObject: T
+): T[] {
     return objectList.map((object) => {
         if (object.id !== updatedObject.id) return object;
         return updatedObject;
     });
 }
 
-export function addItem<
-    T extends routineExerciseObject | routineExerciseSetObject
->(list: T[], newItem: T): T[] {
+export function addItem<T extends OrderedItem>(list: T[], newItem: T): T[] {
     return [...list, newItem];
 }
 
-// export function addItem(exercise: routineExerciseObject) {
-//     if (exercise) {
-//         const newExercise: routineExerciseObject = exerciseData;
-
-//         const newSet: routineExerciseSetObject = {
-//             id: createTempId(tempIdCounter),
-//             repRangeLow: 6,
-//             repRangeHigh: 8,
-//             order: exercise.sets.length,
-//         };
-
-//         newExercise.sets = [...exercise.sets, newSet];
-//         newExercise.sets;
-
-//         updateExercise(exerciseData.id, newExercise);
-//     }
-// }
-
-export function removeItem<
-    T extends routineExerciseObject | routineExerciseSetObject
->(list: T[], targetId: number): T[] {
+export function removeItem<T extends OrderedItem>(
+    list: T[],
+    targetId: number
+): T[] {
     const target = list.find((i) => i.id === targetId);
     if (!target) return list;
 

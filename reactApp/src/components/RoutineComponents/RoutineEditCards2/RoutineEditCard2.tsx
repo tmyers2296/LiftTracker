@@ -9,6 +9,7 @@ function RoutineEditCard2() {
     const { routineData, setRoutineData, allExercises, tempIdCounter } =
         useRoutineData();
 
+    // !save function! :
     async function saveRoutine() {
         if (!routineData) return;
 
@@ -55,6 +56,7 @@ function RoutineEditCard2() {
         }
     }
 
+    // CRUD function wrappers:
     const updateExercise = (index: number, updated: routineExerciseObject) => {
         if (routineData) {
             const newExercises: routineExerciseObject[] = [

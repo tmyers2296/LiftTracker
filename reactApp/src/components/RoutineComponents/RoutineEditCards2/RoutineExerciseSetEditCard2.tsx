@@ -19,6 +19,7 @@ function RoutineExerciseEditSetCard2({
 }: RoutineExerciseSetEditCard2Props) {
     const { routineData, setRoutineData } = useRoutineData();
 
+    // CRUD function wrappers:
     const updateExerciseSet = (
         exerciseId: number,
         updatedSet: routineExerciseSetObject
@@ -31,15 +32,15 @@ function RoutineExerciseEditSetCard2({
 
         if (!exerciseToUpdate) return;
 
-        // 👇 Nested call: first update sets, then update exercises
         const updatedExercise = {
             ...exerciseToUpdate,
             sets: updateItem(exerciseToUpdate.sets, updatedSet),
         };
 
-        const newExercises = updateItem(routineData.exercises, updatedExercise);
-
-        setRoutineData({ ...routineData, exercises: newExercises });
+        setRoutineData({
+            ...routineData,
+            exercises: updateItem(routineData.exercises, updatedExercise),
+        });
     };
 
     const removeSet = (exerciseId: number, setId: number) => {
@@ -51,17 +52,15 @@ function RoutineExerciseEditSetCard2({
 
         if (!exerciseToUpdate) return;
 
-        const updatedExerciseSets = removeItem(exerciseToUpdate.sets, setId);
         const updatedExercises = updateItem(routineData.exercises, {
             ...exerciseToUpdate,
-            sets: updatedExerciseSets,
+            sets: removeItem(exerciseToUpdate.sets, setId),
         });
 
         setRoutineData({ ...routineData, exercises: updatedExercises });
     };
 
-    // **Shifting functions**
-
+    // Shifting function wrapper:
     const shiftSetOrder = (direction: "up" | "down") => {
         if (!routineData) return;
 
