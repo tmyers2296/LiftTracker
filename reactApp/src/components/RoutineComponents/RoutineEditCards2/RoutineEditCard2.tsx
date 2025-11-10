@@ -13,6 +13,11 @@ function RoutineEditCard2() {
     async function saveRoutine() {
         if (!routineData) return;
 
+        console.log(
+            "rendered exercise set IDs:",
+            routineData.exercises.map((e) => e.sets.map((s) => s.id))
+        );
+
         const payload = {
             ...routineData,
             exercises: routineData.exercises?.map((exercise) => ({
@@ -25,8 +30,12 @@ function RoutineEditCard2() {
             })),
         };
 
-        console.log(payload);
-        console.log(JSON.stringify(payload, null, 2));
+        console.log(
+            "rendered exercise set IDs:",
+            routineData.exercises.map((e) => e.sets.map((s) => s.id))
+        );
+        //console.log(payload);
+        //console.log(JSON.stringify(payload, null, 2));
 
         try {
             // Step 2: Send PUT or POST request to your API

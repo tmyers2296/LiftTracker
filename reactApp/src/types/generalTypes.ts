@@ -2,6 +2,7 @@ import {
     routineExerciseObject,
     routineExerciseSetObject,
 } from "./routineTypes";
+
 export interface exerciseObject {
     id: number;
     name: string;
