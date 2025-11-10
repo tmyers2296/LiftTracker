@@ -1,6 +1,9 @@
 import { useRoutineData } from "../../../pages/RoutinePages/EditRoutine";
 import RoutineExerciseEditCard2 from "../RoutineEditCards2/RoutineExerciseEditCard2";
-import { routineExerciseObject } from "../../../types/routineTypes.ts";
+import {
+    routineExerciseObject,
+    routineObject,
+} from "../../../types/routineTypes.ts";
 import styles from "./RoutineEditCard2.module.css";
 import { createNewExercise } from "../../../modules/itemFactories.tsx";
 import { addItem } from "../../../modules/editingFunctions.tsx";
@@ -12,11 +15,6 @@ function RoutineEditCard2() {
     // !save function! :
     async function saveRoutine() {
         if (!routineData) return;
-
-        console.log(
-            "rendered exercise set IDs:",
-            routineData.exercises.map((e) => e.sets.map((s) => s.id))
-        );
 
         const payload = {
             ...routineData,
@@ -30,10 +28,7 @@ function RoutineEditCard2() {
             })),
         };
 
-        console.log(
-            "rendered exercise set IDs:",
-            routineData.exercises.map((e) => e.sets.map((s) => s.id))
-        );
+        console.log(routineData.exercises.map((e) => e.sets.map((s) => s.id)));
         //console.log(payload);
         //console.log(JSON.stringify(payload, null, 2));
 
@@ -52,7 +47,11 @@ function RoutineEditCard2() {
                 throw new Error("Failed to save routine");
             }
 
-            const updatedRoutine = await response.json();
+            const updatedRoutine: routineObject = await response.json();
+
+            console.log(
+                updatedRoutine.exercises.map((e) => e.sets.map((s) => s.id))
+            );
 
             // Step 3: Update local state with server data (real IDs)
             setRoutineData(updatedRoutine);
