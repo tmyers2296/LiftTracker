@@ -1,62 +1,25 @@
 import { useRoutineData } from "../../../pages/RoutinePages/EditRoutine";
 import RoutineExerciseEditCard2 from "../RoutineEditCards2/RoutineExerciseEditCard2";
-import {
-    routineExerciseObject,
-    routineObject,
-} from "../../../types/routineTypes.ts";
+import { routineExerciseObject } from "../../../types/routineTypes.ts";
 import styles from "./RoutineEditCard2.module.css";
 import { createNewExercise } from "../../../modules/itemFactories.tsx";
 import { addItem } from "../../../modules/editingFunctions.tsx";
+import { saveNestedObject } from "../../../modules/savingFunctions.tsx";
 
 function RoutineEditCard2() {
     const { routineData, setRoutineData, allExercises, tempIdCounter } =
         useRoutineData();
 
-    // !save function! :
+    // Save function wrapper:
     async function saveRoutine() {
         if (!routineData) return;
 
-        const payload = {
-            ...routineData,
-            exercises: routineData.exercises?.map((exercise) => ({
-                ...exercise,
-                id: exercise.id < 0 ? 0 : exercise.id,
-                sets: exercise.sets.map((set) => ({
-                    ...set,
-                    id: set.id < 0 ? 0 : set.id,
-                })),
-            })),
-        };
-
-        console.log(routineData.exercises.map((e) => e.sets.map((s) => s.id)));
-        //console.log(payload);
-        //console.log(JSON.stringify(payload, null, 2));
-
         try {
-            // Step 2: Send PUT or POST request to your API
-            const response = await fetch(
+            await saveNestedObject(
                 `https://localhost:5119/routines/${routineData.id}`,
-                {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(payload),
-                }
+                routineData,
+                setRoutineData
             );
-
-            if (!response.ok) {
-                throw new Error("Failed to save routine");
-            }
-
-            const updatedRoutine: routineObject = await response.json();
-
-            console.log(
-                updatedRoutine.exercises.map((e) => e.sets.map((s) => s.id))
-            );
-
-            // Step 3: Update local state with server data (real IDs)
-            setRoutineData(updatedRoutine);
-
-            // Step 4: Optionally notify the user or reset edit mode
             console.log("Routine saved successfully!");
         } catch (error) {
             console.error("Error saving routine:", error);
