@@ -4,12 +4,15 @@ import { useState, useEffect } from "react";
 import { fetchData } from "../modules/fetchingFunctions.tsx";
 import RoutineCard from "../components/RoutineComponents/RoutineCard/RoutineCard.tsx";
 import { routineObject } from "../types/routineTypes.ts";
+import { useNavigate } from "react-router-dom";
+import styles from "./MainPages.module.css";
 
 function Home() {
     const [idNum, setidNum] = useState<string>("1");
     const [currentId, setCurrentId] = useState<string>("1");
 
     const [testData, setTestData] = useState<routineObject[]>([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         async function fetchExerciseData(url: string) {
@@ -33,8 +36,6 @@ function Home() {
             "https://localhost:5119/routines?pageNumber=1&pageSize=20"
         );
     }, []);
-
-    console.log(testData);
 
     return (
         <AuthorizeView>
@@ -60,6 +61,14 @@ function Home() {
                     <RoutineCard key={data.id} routineData={data} />
                 ))}
             </div>
+            <button
+                className={styles.addButton}
+                onClick={() => {
+                    navigate(`/edit-routine/0`);
+                }}
+            >
+                +
+            </button>
         </AuthorizeView>
     );
 }

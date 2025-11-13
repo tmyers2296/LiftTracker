@@ -1,9 +1,5 @@
-import {
-    routineExerciseObject,
-    routineExerciseSetObject,
-} from "../../../types/routineTypes.ts";
+import { routineExerciseObject } from "../../../types/routineTypes.ts";
 import EditableCard from "../../EditableCard/EditableCard.tsx";
-import styles from "./RoutineEditCard.module.css";
 import RoutineExerciseSetEditCard from "./RoutineExerciseSetEditCard.tsx";
 
 function RoutineExerciseEditCard(exercise: routineExerciseObject) {

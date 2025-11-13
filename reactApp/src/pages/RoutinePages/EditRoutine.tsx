@@ -26,17 +26,11 @@ function EditRoutine2() {
             try {
                 // promise for when data is retrieved from API:
                 let dataPromise = fetchData(url);
-                let exercisesPromise = fetchData(
-                    `https://localhost:5119/exercises?pageNumber=1&pageSize=100`
-                );
 
                 // waits for data to be retrieved from API:
                 const data = await dataPromise;
-                const exercises = await exercisesPromise;
-
                 // sets exerciseData:
                 setRoutineData(data);
-                setAllExercises(exercises.exercises);
 
                 // catch & show any errors:
             } catch (err) {
@@ -44,7 +38,35 @@ function EditRoutine2() {
             }
         }
 
-        fetchRoutineData(`https://localhost:5119/routines/${id}`);
+        async function fetchExercisesData() {
+            try {
+                // promise for when data is retrieved from API:
+                let exercisesPromise = fetchData(
+                    `https://localhost:5119/exercises?pageNumber=1&pageSize=100`
+                );
+
+                // waits for data to be retrieved from API:
+                const exercises = await exercisesPromise;
+
+                // sets exerciseData:
+                setAllExercises(exercises.exercises);
+
+                // catch & show any errors:
+            } catch (err) {
+                console.error(err);
+            }
+        }
+        const newRoutineData: routineObject = {
+            id: 0,
+            name: "test",
+            createdBy: "test",
+            exercises: [],
+        };
+
+        fetchExercisesData();
+
+        if (Number(id) === 0) setRoutineData(newRoutineData);
+        else fetchRoutineData(`https://localhost:5119/routines/${id}`);
     }, []);
 
     return (
