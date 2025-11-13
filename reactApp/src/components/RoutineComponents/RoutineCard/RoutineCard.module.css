@@ -23,3 +23,34 @@
     color: #909090;
     font-weight: bold;
 }
+
+.deleteButton {
+    font-weight: bold;
+    border-width: 2px;
+    border-color: #696969;
+    margin: 0.2rem;
+}
+
+.deleteButton:hover {
+    background-color: #20212e;
+    border-color: rgb(113, 24, 46);
+}
+.deleteButton:active {
+    background-color: #333048;
+    border-color: rgb(191, 43, 80);
+    color: #8aedff;
+}
+
+.toggleButton {
+    font-weight: bold;
+    border-width: 2px;
+    border-color: #696969;
+    margin: 0.2rem;
+}
+.toggleButton:hover {
+    background-color: #202362;
+}
+.toggleButton:active {
+    border-color: #9497d9;
+    background-color: #2e3393;
+}

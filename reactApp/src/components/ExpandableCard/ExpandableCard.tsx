@@ -1,4 +1,4 @@
-import { ReactNode, useState, useRef, useEffect, useReducer } from "react";
+import { ReactNode, useState, useRef, useEffect } from "react";
 import useResizeObserver from "@react-hook/resize-observer";
 
 import styles from "./ExpandableCard.module.css";
@@ -7,7 +7,7 @@ interface ExpandableCardProps {
     cardName: string;
     className?: string;
     children?: ReactNode;
-    buttons?: { [buttonText: string]: () => void };
+    buttons?: Record<string, { callback: () => void; style: string }>;
 }
 
 function ExpandableCard({
@@ -58,8 +58,8 @@ function ExpandableCard({
                         ? Object.keys(buttons).map((buttonText: string) => (
                               <button
                                   key={buttonText}
-                                  className={styles.toggleButton}
-                                  onClick={buttons[buttonText]}
+                                  className={buttons[buttonText]["style"]}
+                                  onClick={buttons[buttonText]["callback"]}
                                   type="button"
                               >
                                   {buttonText}

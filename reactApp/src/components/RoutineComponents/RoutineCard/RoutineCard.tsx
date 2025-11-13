@@ -46,7 +46,7 @@ function RoutineCard({ routineData }: RoutineCardProps) {
 
     async function handleDelete(routineId: number) {
         const response = await fetch(
-            `https://localhost:5119/routines/${routineData.id}`,
+            `https://localhost:5119/routines/${routineId}`,
             {
                 method: "DELETE",
                 headers: { "Content-Type": "application/json" },
@@ -56,12 +56,20 @@ function RoutineCard({ routineData }: RoutineCardProps) {
         if (!response.ok) throw new Error("Failed to delete entity");
     }
 
-    let buttonsCallbacks: { [key: string]: () => void } = {
-        "✏️": () => {
-            handleEdit(routineData.id);
+    let buttonsCallbacks: {
+        [key: string]: { callback: () => void; style: string };
+    } = {
+        "✏️": {
+            callback: () => {
+                handleEdit(routineData.id);
+            },
+            style: styles.toggleButton,
         },
-        "💣": () => {
-            handleDelete(routineData.id);
+        "💣": {
+            callback: () => {
+                handleDelete(routineData.id);
+            },
+            style: styles.deleteButton,
         },
     };
 

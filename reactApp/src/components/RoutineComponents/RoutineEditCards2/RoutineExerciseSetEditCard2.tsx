@@ -101,7 +101,7 @@ function RoutineExerciseEditSetCard2({
                     >
                         ↓
                     </button>
-                    <input
+                    {/* <input
                         className={styles.inputBoxSmallBlue}
                         value={setData.order}
                         onChange={(e) =>
@@ -110,8 +110,7 @@ function RoutineExerciseEditSetCard2({
                                 order: Number(e.target.value),
                             })
                         }
-                    ></input>
-                    |
+                    ></input> */}
                     <input
                         className={styles.inputBoxSmall}
                         defaultValue={setData.repRangeLow}

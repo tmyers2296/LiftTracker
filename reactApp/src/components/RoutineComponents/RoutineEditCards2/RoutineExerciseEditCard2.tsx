@@ -91,7 +91,7 @@ function RoutineExerciseEditCard2({
                     >
                         ↓
                     </button>
-                    <input
+                    {/* <input
                         value={exerciseData.order}
                         className={styles.inputBoxSmall}
                         onChange={(e) =>
@@ -100,7 +100,7 @@ function RoutineExerciseEditCard2({
                                 order: Number(e.target.value),
                             })
                         }
-                    ></input>
+                    ></input> */}
                     <select
                         defaultValue={exerciseData.exerciseId ?? ""}
                         onChange={(e) =>
@@ -122,7 +122,7 @@ function RoutineExerciseEditCard2({
                             removeExercise(exerciseData.id);
                         }}
                     >
-                        ✖️
+                        💣
                     </button>
                     {exerciseData.sets
                         .sort((a, b) => a.order - b.order)
