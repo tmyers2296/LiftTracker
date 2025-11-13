@@ -57,7 +57,15 @@ function RoutineEditCard2() {
             {routineData && (
                 <div>
                     <div>
-                        <span>{routineData.name} →</span>
+                        <input
+                            value={routineData.name}
+                            onChange={(e) => {
+                                setRoutineData({
+                                    ...routineData,
+                                    name: e.target.value,
+                                });
+                            }}
+                        ></input>
                         <button
                             className={styles.saveButton}
                             onClick={() => {
