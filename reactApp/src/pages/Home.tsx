@@ -6,6 +6,7 @@ import RoutineCard from "../components/RoutineComponents/RoutineCard/RoutineCard
 import { routineObject } from "../types/routineTypes.ts";
 import { useNavigate } from "react-router-dom";
 import styles from "./MainPages.module.css";
+import { useQuery } from "@tanstack/react-query";
 
 function Home() {
     const [idNum, setidNum] = useState<string>("1");
@@ -13,6 +14,27 @@ function Home() {
 
     const [testData, setTestData] = useState<routineObject[]>([]);
     const navigate = useNavigate();
+
+    const fetchRoutines = async () => {
+        const res = await fetchData(
+            "https://localhost:5119/routines?pageNumber=1&pageSize=20"
+        );
+
+        if (!res.ok) throw new Error("Network error");
+
+        console.log(res.routine);
+
+        return res.routine;
+    };
+
+    const {
+        data: routines,
+        isLoading,
+        isError,
+    } = useQuery({
+        queryKey: ["routines"], // cache key
+        queryFn: fetchRoutines, // function that fetches data
+    });
 
     useEffect(() => {
         async function fetchExerciseData(url: string) {
@@ -57,9 +79,12 @@ function Home() {
             ></input>
 
             <div>
-                {testData.map((data: routineObject) => (
-                    <RoutineCard key={data.id} routineData={data} />
-                ))}
+                {!isLoading &&
+                    !isError &&
+                    routines.length > 0 &&
+                    routines.map((data: routineObject) => (
+                        <RoutineCard key={data.id} routineData={data} />
+                    ))}
             </div>
             <button
                 className={styles.addButton}
