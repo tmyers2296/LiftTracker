@@ -16,15 +16,17 @@ function Home() {
     const navigate = useNavigate();
 
     const fetchRoutines = async () => {
-        const res = await fetchData(
-            "https://localhost:5119/routines?pageNumber=1&pageSize=20"
-        );
+        try {
+            const dataPromise = await fetchData(
+                "https://localhost:5119/routines?pageNumber=1&pageSize=20"
+            );
 
-        if (!res.ok) throw new Error("Network error");
+            const data = await dataPromise;
 
-        console.log(res.routine);
-
-        return res.routine;
+            return data.routines;
+        } catch (err) {
+            console.error(err);
+        }
     };
 
     const {
