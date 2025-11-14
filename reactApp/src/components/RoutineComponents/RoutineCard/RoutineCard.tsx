@@ -7,6 +7,8 @@ import {
     routineObject,
 } from "../../../types/routineTypes.ts";
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import ExpandableCard from "../../ExpandableCard/ExpandableCard.tsx";
 
 interface RoutineCardProps {
@@ -14,6 +16,7 @@ interface RoutineCardProps {
 }
 
 function RoutineCard({ routineData }: RoutineCardProps) {
+    const queryClient = useQueryClient();
     const navigate = useNavigate();
     // rendering functions:
     const renderExercise = (exercise: routineExerciseObject) => {
@@ -56,6 +59,17 @@ function RoutineCard({ routineData }: RoutineCardProps) {
         if (!response.ok) throw new Error("Failed to delete entity");
     }
 
+    const deleteMutation = useMutation({
+        mutationFn: (id: number) =>
+            fetch(`https://localhost:5119/routines/${id}`, {
+                method: "DELETE",
+            }),
+        onSuccess: () => {
+            // invalidate the 'routines' cache to refetch updated list
+            queryClient.invalidateQueries({ queryKey: ["routines"] });
+        },
+    });
+
     let buttonsCallbacks: {
         [key: string]: { callback: () => void; style: string };
     } = {
@@ -67,7 +81,7 @@ function RoutineCard({ routineData }: RoutineCardProps) {
         },
         "💣": {
             callback: () => {
-                handleDelete(routineData.id);
+                deleteMutation.mutate(routineData.id);
             },
             style: styles.deleteButton,
         },
