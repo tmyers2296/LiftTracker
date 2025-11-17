@@ -47,18 +47,6 @@ function RoutineCard({ routineData }: RoutineCardProps) {
         navigate(`/edit-routine/${routineId}`);
     };
 
-    async function handleDelete(routineId: number) {
-        const response = await fetch(
-            `https://localhost:5119/routines/${routineId}`,
-            {
-                method: "DELETE",
-                headers: { "Content-Type": "application/json" },
-            }
-        );
-
-        if (!response.ok) throw new Error("Failed to delete entity");
-    }
-
     const deleteMutation = useMutation({
         mutationFn: (id: number) =>
             fetch(`https://localhost:5119/routines/${id}`, {

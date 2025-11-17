@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState, createContext, useContext, useRef } from "react";
 import AuthorizeView from "../../components/AuthorizeView.tsx";
-import { fetchData } from "../../modules/fetchingFunctions.tsx";
+import { fetchData } from "../../modules/apiFunctions.tsx";
 import { routineObject } from "../../types/routineTypes.ts";
 import { exerciseObject } from "../../types/generalTypes.ts";
 import RoutineEditCard2 from "../../components/RoutineComponents/RoutineEditCards2/RoutineEditCard2.tsx";
