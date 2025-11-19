@@ -23,3 +23,18 @@ export function useSaveRoutine() {
         },
     });
 }
+
+export function useDeleteRoutine() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (id: number) =>
+            fetch(`https://localhost:5119/routines/${id}`, {
+                method: "DELETE",
+            }),
+        onSuccess: () => {
+            // invalidate the 'routines' cache to refetch updated list
+            queryClient.invalidateQueries({ queryKey: ["routines"] });
+        },
+    });
+}

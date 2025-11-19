@@ -1,14 +1,11 @@
 import styles from "./RoutineCard.module.css";
 import { useNavigate } from "react-router-dom";
-
 import {
     routineExerciseObject,
     routineExerciseSetObject,
     routineObject,
 } from "../../../types/routineTypes.ts";
-
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-
+import { useDeleteRoutine } from "../../../hooks/routineHooks.tsx";
 import ExpandableCard from "../../ExpandableCard/ExpandableCard.tsx";
 
 interface RoutineCardProps {
@@ -16,8 +13,8 @@ interface RoutineCardProps {
 }
 
 function RoutineCard({ routineData }: RoutineCardProps) {
-    const queryClient = useQueryClient();
     const navigate = useNavigate();
+    const deleteRoutineMutation = useDeleteRoutine();
     // rendering functions:
     const renderExercise = (exercise: routineExerciseObject) => {
         return (
@@ -47,16 +44,9 @@ function RoutineCard({ routineData }: RoutineCardProps) {
         navigate(`/edit-routine/${routineId}`);
     };
 
-    const deleteMutation = useMutation({
-        mutationFn: (id: number) =>
-            fetch(`https://localhost:5119/routines/${id}`, {
-                method: "DELETE",
-            }),
-        onSuccess: () => {
-            // invalidate the 'routines' cache to refetch updated list
-            queryClient.invalidateQueries({ queryKey: ["routines"] });
-        },
-    });
+    const handleDelete = () => {
+        deleteRoutineMutation.mutate(routineData.id);
+    };
 
     let buttonsCallbacks: {
         [key: string]: { callback: () => void; style: string };
@@ -69,7 +59,7 @@ function RoutineCard({ routineData }: RoutineCardProps) {
         },
         "💣": {
             callback: () => {
-                deleteMutation.mutate(routineData.id);
+                handleDelete();
             },
             style: styles.deleteButton,
         },
