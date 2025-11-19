@@ -1,7 +1,4 @@
 import { routineObject } from "../types/routineTypes";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-
-// const queryClient = useQueryClient();
 // // const API_BASE = "https://localhost:5119";
 
 // fetch data from api & return it:
@@ -33,7 +30,7 @@ function buildPayload<T extends routineObject>(nestedObject: T): T {
 export async function saveNestedObject<T extends routineObject>(
     endpoint: string,
     nestedObject: T
-): Promise<any> {
+): Promise<T> {
     const payload = buildPayload(nestedObject);
 
     const response = await fetch(
@@ -49,18 +46,3 @@ export async function saveNestedObject<T extends routineObject>(
 
     return response.json();
 }
-
-// const saveMutation = useMutation({
-//     mutationFn: (endpoint: string, nestedObject: routineObject) =>
-//         saveNestedObject(endpoint, nestedObject),
-//     onSuccess: (updatedRoutine) => {
-//         // Update specific routine page instantly:
-//         queryClient.setQueryData(
-//             ["routine", updatedRoutine.id],
-//             updatedRoutine
-//         );
-
-//         // Refresh routines list
-//         queryClient.invalidateQueries(["routines"]);
-//     },
-// });

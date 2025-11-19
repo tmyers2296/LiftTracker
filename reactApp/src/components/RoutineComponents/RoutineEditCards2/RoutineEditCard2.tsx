@@ -4,27 +4,25 @@ import { routineExerciseObject } from "../../../types/routineTypes.ts";
 import styles from "./RoutineEditCard2.module.css";
 import { createNewExercise } from "../../../modules/itemFactories.tsx";
 import { addItem } from "../../../modules/editingFunctions.tsx";
-import { saveNestedObject } from "../../../modules/savingFunctions.tsx";
+import { useSaveRoutine } from "../../../hooks/routineHooks.tsx";
+// import { saveNestedObject } from "../../../modules/savingFunctions.tsx";
 
 function RoutineEditCard2() {
+    //Hooks:
     const { routineData, setRoutineData, allExercises, tempIdCounter } =
         useRoutineData();
 
+    const saveRoutineMutation = useSaveRoutine();
+
     // Save function wrapper:
-    async function saveRoutine() {
+
+    function handleSave() {
         if (!routineData) return;
 
-        try {
-            await saveNestedObject(
-                `https://localhost:5119/routines/${routineData.id}`,
-                routineData,
-                setRoutineData
-            );
-            console.log("Routine saved successfully!");
-        } catch (error) {
-            console.error("Error saving routine:", error);
-            alert("There was an issue saving your routine.");
-        }
+        saveRoutineMutation.mutate({
+            endpoint: `https://localhost:5119/routines/${routineData.id}`,
+            routine: routineData,
+        });
     }
 
     // CRUD function wrappers:
@@ -69,7 +67,7 @@ function RoutineEditCard2() {
                         <button
                             className={styles.saveButton}
                             onClick={() => {
-                                saveRoutine();
+                                handleSave();
                             }}
                         >
                             💾
