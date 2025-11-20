@@ -1,0 +1,14 @@
+.navItem {
+    margin: 0.8rem;
+}
+
+.navBox {
+    display: flex;
+    align-items: center;
+    margin: 2rem;
+    padding: 1rem;
+    border-width: 0.2rem;
+    border-color: rgb(81, 81, 81);
+    border-style: solid;
+    border-radius: 1rem;
+}

@@ -3,6 +3,18 @@
     width: 500px;
 }
 
+.itemBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem;
+    padding: 1rem;
+    border-width: 0.2rem;
+    border-color: rgb(47, 47, 47);
+    border-style: solid;
+    border-radius: 1rem;
+}
+
 .exerciseSets {
     display: flex;
     flex-direction: row;

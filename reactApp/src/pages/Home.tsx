@@ -1,11 +1,11 @@
-import LogoutLink from "../components/LogoutLink.tsx";
-import AuthorizeView, { AuthorizedUser } from "../components/AuthorizeView.tsx";
+import AuthorizeView from "../components/AuthorizeView.tsx";
 import { fetchData } from "../modules/apiFunctions.tsx";
 import RoutineCard from "../components/RoutineComponents/RoutineCard/RoutineCard.tsx";
 import { routineObject } from "../types/routineTypes.ts";
 import { useNavigate } from "react-router-dom";
 import styles from "./MainPages.module.css";
 import { useQuery } from "@tanstack/react-query";
+import { NavBar } from "../components/Navigation/NavBar.tsx";
 
 function Home() {
     const navigate = useNavigate();
@@ -28,27 +28,23 @@ function Home() {
 
     return (
         <AuthorizeView>
-            <div>
-                <LogoutLink>
-                    Logout <AuthorizedUser value="email" />
-                </LogoutLink>
-            </div>
-            <div>
+            <NavBar />
+            <div className={styles.itemBox}>
                 {!isLoading &&
                     !isError &&
                     routines.length > 0 &&
                     routines.map((data: routineObject) => (
                         <RoutineCard key={data.id} routineData={data} />
                     ))}
+                <button
+                    className={styles.addButton}
+                    onClick={() => {
+                        navigate(`/edit-routine/0`);
+                    }}
+                >
+                    +
+                </button>
             </div>
-            <button
-                className={styles.addButton}
-                onClick={() => {
-                    navigate(`/edit-routine/0`);
-                }}
-            >
-                +
-            </button>
         </AuthorizeView>
     );
 }

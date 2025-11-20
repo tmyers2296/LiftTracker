@@ -4,7 +4,8 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.tsx";
 import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
-
+import RoutinesPage from "./pages/RoutinePages/RoutinesPage.tsx";
+import WorkoutsPage from "./pages/WorkoutPages/WorkoutsPAge.tsx";
 import EditRoutine from "./pages/RoutinePages/EditRoutine.tsx";
 
 function App() {
@@ -15,6 +16,8 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/" element={<Home />} />
                 <Route path="edit-routine/:id" element={<EditRoutine />} />
+                <Route path="routines" element={<RoutinesPage />} />
+                <Route path="workouts" element={<WorkoutsPage />} />
             </Routes>
         </BrowserRouter>
     );
