@@ -6,6 +6,7 @@ function WorkoutsPage() {
         <AuthorizeView>
             <div>
                 <NavBar />
+                ...
             </div>
         </AuthorizeView>
     );

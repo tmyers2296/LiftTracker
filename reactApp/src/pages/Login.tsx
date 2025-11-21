@@ -52,7 +52,7 @@ function Login() {
                     console.log(data);
                     if (data.ok) {
                         setError("Successful Login.");
-                        window.location.href = "/routines";
+                        window.location.href = "/dashboard";
                     } else setError("Error Logging In.");
                 })
                 .catch((error) => {
