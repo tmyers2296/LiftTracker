@@ -1,6 +1,7 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { saveNestedObject } from "../modules/apiFunctions";
 import { routineObject } from "../types/routineTypes";
+import { fetchRoutines } from "../modules/fetchWrappers";
 
 export function useSaveRoutine() {
     const queryClient = useQueryClient();
@@ -36,5 +37,12 @@ export function useDeleteRoutine() {
             // invalidate the 'routines' cache to refetch updated list
             queryClient.invalidateQueries({ queryKey: ["routines"] });
         },
+    });
+}
+
+export function useRoutines(page: number, size: number) {
+    return useQuery<routineObject[]>({
+        queryKey: ["routines", page, size],
+        queryFn: () => fetchRoutines(page, size),
     });
 }

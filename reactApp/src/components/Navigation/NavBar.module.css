@@ -1,5 +1,23 @@
+.navItemButton {
+    margin: 0.8rem;
+    border-color: rgb(58, 134, 109);
+}
+
+.navItemButton:hover {
+    margin: 0.8rem;
+    border-color: aquamarine;
+    background-color: rgb(4, 92, 62);
+}
+
+.navItemButton:active {
+    margin: 0.8rem;
+    border-color: rgb(170, 255, 227);
+    background-color: rgb(12, 167, 115);
+}
+
 .navItem {
     margin: 0.8rem;
+    border-color: rgb(58, 134, 109);
 }
 
 .navBox {

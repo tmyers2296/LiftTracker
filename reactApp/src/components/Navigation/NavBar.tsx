@@ -12,12 +12,11 @@ export function NavBar() {
 
     return (
         <div className={styles.navBox}>
-            <div className={styles.navItem}>Navbar:</div>
             <div>
                 {links.map((link) => (
                     <button
                         onClick={() => navigate(link.path)}
-                        className={styles.navItem}
+                        className={styles.navItemButton}
                         key={link.name}
                     >
                         {link.name}

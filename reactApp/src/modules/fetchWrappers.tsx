@@ -1,6 +1,10 @@
 import { fetchData } from "./apiFunctions";
+import { routineObject } from "../types/routineTypes";
 
-export const fetchRoutines = async (pageNum: number, pageSize: number) => {
+export const fetchRoutines = async (
+    pageNum: number,
+    pageSize: number
+): Promise<routineObject[]> => {
     const data = await fetchData(
         `https://localhost:5119/routines?pageNumber=${pageNum}&pageSize=${pageSize}`
     );
