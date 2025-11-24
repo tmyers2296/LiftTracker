@@ -4,7 +4,7 @@ public class WorkoutResponse
 
     public required string Name { get; init;}
 
-    public required string Date { get; init; }
+    public required DateTimeOffset Date { get; init; }
 
     public required bool IsImprovised { get; init; }
 

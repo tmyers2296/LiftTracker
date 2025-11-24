@@ -13,7 +13,7 @@ public class Workout
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; init; }
 
-    public required string Date { get; set; }
+    public required DateTimeOffset Date { get; set; }
 
     public required bool IsImprovised { get; set; }
     public required string Name { get; set; }

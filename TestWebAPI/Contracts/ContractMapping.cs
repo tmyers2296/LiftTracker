@@ -238,6 +238,8 @@ public static class ContractMapping
     // request -> object
         public static Workout MapToWorkout(this CreateFullWorkoutRequest request)
     {
+        // convert string to DateTimeOffset
+        
         // create new routine:
         Workout createdWorkout = new Workout
         {
@@ -281,6 +283,8 @@ public static class ContractMapping
 
     public static Workout MapToWorkout(this UpdateFullWorkoutRequest request, int id)
     {
+        // convert string to DateTimeOffset
+
         // create new routine:
         Workout comparisonWorkout = new Workout
         {
@@ -326,6 +330,8 @@ public static class ContractMapping
     // object -> request
     public static WorkoutResponse MapToResponse(this Workout workout)
     {
+        // convert DateTimeOffset to string
+        
         return new WorkoutResponse
         {
             Id = workout.Id,
