@@ -1,0 +1,46 @@
+.addButtonOrange {
+    background-color: #352514;
+    border-color: #cd8f3f;
+    color: #d4b784;
+    margin: 5px;
+    width: 6rem;
+}
+
+.addButtonOrange:hover {
+    background-color: #41321c;
+    border-color: #cd8f3f;
+    color: #d1915c;
+}
+.addButtonOrange:active {
+    background-color: #674e29;
+    border-color: #c49973;
+    color: #efe3d8;
+}
+
+.addButtonBlue {
+    background-color: #142535;
+    border-color: #3f81cd;
+    color: #8497d4;
+    margin: 5px;
+    width: 6rem;
+}
+
+.addButtonBlue:hover {
+    background-color: #1c2641;
+    border-color: #3f6ccd;
+    color: #5c9cd1;
+}
+.addButtonBlue:active {
+    background-color: #294467;
+    border-color: #7398c4;
+    color: #d8e2ef;
+}
+
+.itemBox .tooltip {
+    background-color: #757575;
+}
+
+.itemBox {
+    display: flex;
+    justify-content: center;
+}
