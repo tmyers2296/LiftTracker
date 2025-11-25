@@ -1,9 +1,12 @@
 import { NavBar } from "../../components/Navigation/NavBar";
+import { useNavigate } from "react-router-dom";
 import AuthorizeView from "../../components/AuthorizationComponents/AuthorizeView";
 import styles from "./WorkoutPages.module.css";
 import { Tooltip } from "react-tooltip";
 
 function WorkoutsPage() {
+    const navigate = useNavigate();
+
     return (
         <AuthorizeView>
             <div>
@@ -13,6 +16,9 @@ function WorkoutsPage() {
                         className={styles.addButtonOrange}
                         data-tooltip-id="routine-tooltip"
                         data-tooltip-content="Record workout from routine"
+                        onClick={() => {
+                            navigate(`/record-routine-workout/27`);
+                        }}
                     >
                         +
                     </button>

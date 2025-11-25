@@ -1,0 +1,32 @@
+.itemBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1rem;
+    padding: 1rem;
+    min-width: 15rem;
+    border-width: 0.2rem;
+    border-color: rgb(76, 76, 76);
+    border-style: solid;
+    border-radius: 1rem;
+    font-weight: bolder;
+}
+
+.itemBox2 {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem;
+    padding: 1rem;
+    min-width: 15rem;
+    border-width: 0.2rem;
+    border-color: rgb(76, 76, 76);
+    border-style: solid;
+    border-radius: 1rem;
+    font-weight: bolder;
+}
+
+.item {
+    margin: 0.5rem;
+}

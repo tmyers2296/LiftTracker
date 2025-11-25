@@ -2,17 +2,21 @@ import { useParams } from "react-router-dom";
 import { createContext, useContext, useRef } from "react";
 import AuthorizeView from "../../components/AuthorizationComponents/AuthorizeView.tsx";
 import { routineObject } from "../../types/routineTypes.ts";
-import RoutineEditCard2 from "../../components/RoutineComponents/RoutineEditCards/RoutineEditCard.tsx";
+import WorkoutEditCard from "../../components/WorkoutComponents/WorkoutEditCard.tsx";
 import { useRoutine } from "../../hooks/routineHooks.tsx";
+import { exerciseObject } from "../../types/generalTypes.ts";
+import { useExercises } from "../../hooks/exerciseHooks.tsx";
 
 type workoutDataGetSet = {
     routineData: routineObject | null;
     tempIdCounter: React.MutableRefObject<number>;
+    allExercises: exerciseObject[];
 };
 
 const workoutDataContext = createContext<workoutDataGetSet | null>(null);
 
-function EditRoutine() {
+function RecordRoutineWorkout() {
+    const { data: exercises } = useExercises(1, 100);
     const tempIdCounter = useRef(-1);
     const { id } = useParams();
     const { data: existingRoutineData } = useRoutine(id ? Number(id) : 0);
@@ -25,9 +29,10 @@ function EditRoutine() {
                         ? existingRoutineData
                         : null,
                     tempIdCounter,
+                    allExercises: exercises ?? [],
                 }}
             >
-                <RoutineEditCard2 />
+                <WorkoutEditCard />
             </workoutDataContext.Provider>
         </AuthorizeView>
     );
@@ -41,4 +46,4 @@ export function useWorkoutData(): workoutDataGetSet {
     return context;
 }
 
-export default EditRoutine;
+export default RecordRoutineWorkout;

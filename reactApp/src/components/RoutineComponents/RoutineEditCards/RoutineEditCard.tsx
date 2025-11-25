@@ -1,5 +1,5 @@
 import { useRoutineData } from "../../../pages/RoutinePages/EditRoutine.tsx";
-import RoutineExerciseEditCard2 from "./RoutineExerciseEditCard.tsx";
+import RoutineExerciseEditCard from "./RoutineExerciseEditCard.tsx";
 import { routineExerciseObject } from "../../../types/routineTypes.ts";
 import styles from "./RoutineEditCard.module.css";
 import { createNewExercise } from "../../../modules/itemFactories.tsx";
@@ -79,7 +79,7 @@ function RoutineEditCard() {
                                 exercise: routineExerciseObject,
                                 index: number
                             ) => (
-                                <RoutineExerciseEditCard2
+                                <RoutineExerciseEditCard
                                     key={exercise.id}
                                     exerciseData={exercise}
                                     updateExercise={(updated) =>

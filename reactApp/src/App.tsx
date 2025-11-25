@@ -1,13 +1,13 @@
 import "./App.css";
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home.tsx";
 import Login from "./pages/Login.tsx";
 import Register from "./pages/Register.tsx";
-import DashboardPage from "./pages/DashboardPages/dashboardPage.tsx";
+import DashboardPage from "./pages/DashboardPages/DashboardPage.tsx";
 import RoutinesPage from "./pages/RoutinePages/RoutinesPage.tsx";
 import WorkoutsPage from "./pages/WorkoutPages/WorkoutsPage.tsx";
 import EditRoutine from "./pages/RoutinePages/EditRoutine.tsx";
+import RecordRoutineWorkout from "./pages/WorkoutPages/RecordRoutineWorkout.tsx";
 
 function App() {
     return (
@@ -17,6 +17,10 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/" element={<Home />} />
                 <Route path="edit-routine/:id" element={<EditRoutine />} />
+                <Route
+                    path="record-routine-workout/:id"
+                    element={<RecordRoutineWorkout />}
+                />
                 <Route path="dashboard" element={<DashboardPage />} />
                 <Route path="routines" element={<RoutinesPage />} />
                 <Route path="workouts" element={<WorkoutsPage />} />
