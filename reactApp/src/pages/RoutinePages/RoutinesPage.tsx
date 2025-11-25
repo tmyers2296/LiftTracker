@@ -4,7 +4,7 @@ import { useRoutines } from "../../hooks/routineHooks";
 import styles from "../MainPages.module.css";
 import { routineObject } from "../../types/routineTypes";
 import RoutineCard from "../../components/RoutineComponents/RoutineCard/RoutineCard";
-import AuthorizeView from "../../components/AuthorizeView";
+import AuthorizeView from "../../components/AuthorizationComponents/AuthorizeView";
 
 function RoutinesPage() {
     const navigate = useNavigate();

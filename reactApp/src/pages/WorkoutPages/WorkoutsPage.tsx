@@ -1,5 +1,5 @@
 import { NavBar } from "../../components/Navigation/NavBar";
-import AuthorizeView from "../../components/AuthorizeView";
+import AuthorizeView from "../../components/AuthorizationComponents/AuthorizeView";
 import styles from "./WorkoutPages.module.css";
 import { Tooltip } from "react-tooltip";
 

@@ -1,4 +1,4 @@
-import AuthorizeView from "../components/AuthorizeView.tsx";
+import AuthorizeView from "../components/AuthorizationComponents/AuthorizeView.tsx";
 import { NavBar } from "../components/Navigation/NavBar.tsx";
 
 function Home() {

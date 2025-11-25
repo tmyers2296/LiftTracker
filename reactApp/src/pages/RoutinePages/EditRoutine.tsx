@@ -1,9 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState, createContext, useContext, useRef } from "react";
-import AuthorizeView from "../../components/AuthorizeView.tsx";
+import AuthorizeView from "../../components/AuthorizationComponents/AuthorizeView.tsx";
 import { routineObject } from "../../types/routineTypes.ts";
 import { exerciseObject } from "../../types/generalTypes.ts";
-import RoutineEditCard2 from "../../components/RoutineComponents/RoutineEditCards2/RoutineEditCard2.tsx";
+import RoutineEditCard from "../../components/RoutineComponents/RoutineEditCards/RoutineEditCard.tsx";
 import { useExercises } from "../../hooks/exerciseHooks.tsx";
 import { useRoutine } from "../../hooks/routineHooks.tsx";
 
@@ -48,7 +48,7 @@ function EditRoutine() {
                     tempIdCounter,
                 }}
             >
-                <RoutineEditCard2 />
+                <RoutineEditCard />
             </routineDataContext.Provider>
         </AuthorizeView>
     );

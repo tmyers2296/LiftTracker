@@ -26,9 +26,9 @@
 }
 
 .addButtonBlue:hover {
-    background-color: #1c2641;
-    border-color: #3f6ccd;
-    color: #5c9cd1;
+    background-color: #212b48;
+    border-color: #7093dd;
+    color: #6ca6d5;
 }
 .addButtonBlue:active {
     background-color: #294467;

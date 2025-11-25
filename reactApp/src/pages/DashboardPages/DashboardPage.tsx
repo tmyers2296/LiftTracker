@@ -1,4 +1,4 @@
-import AuthorizeView from "../../components/AuthorizeView";
+import AuthorizeView from "../../components/AuthorizationComponents/AuthorizeView";
 import { NavBar } from "../../components/Navigation/NavBar";
 
 function DashboardPage() {
