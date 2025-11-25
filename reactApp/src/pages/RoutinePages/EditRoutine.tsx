@@ -1,7 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState, createContext, useContext, useRef } from "react";
 import AuthorizeView from "../../components/AuthorizeView.tsx";
-import { fetchData } from "../../modules/apiFunctions.tsx";
 import { routineObject } from "../../types/routineTypes.ts";
 import { exerciseObject } from "../../types/generalTypes.ts";
 import RoutineEditCard2 from "../../components/RoutineComponents/RoutineEditCards2/RoutineEditCard2.tsx";
@@ -15,28 +14,29 @@ type routineDataGetSet = {
     tempIdCounter: React.MutableRefObject<number>;
 };
 
+const newRoutineData: routineObject = {
+    id: 0,
+    name: "test",
+    createdBy: "test",
+    exercises: [],
+};
+
 const routineDataContext = createContext<routineDataGetSet | null>(null);
 
 function EditRoutine() {
-    const newRoutineData: routineObject = {
-        id: 0,
-        name: "test",
-        createdBy: "test",
-        exercises: [],
-    };
-
-    const { id } = useParams();
     const [routineData, setRoutineData] = useState<routineObject | null>(
         newRoutineData
     );
+
     const tempIdCounter = useRef(-1);
+    const { id } = useParams();
+
     const { data: exercises } = useExercises(1, 100);
     const { data: existingRoutineData } = useRoutine(id ? Number(id) : 0);
 
     useEffect(() => {
-        if (Number(id) === 0) setRoutineData(newRoutineData);
-        else if (existingRoutineData) setRoutineData(existingRoutineData);
-    }, []);
+        if (existingRoutineData) setRoutineData(existingRoutineData);
+    }, [existingRoutineData]);
 
     return (
         <AuthorizeView>
