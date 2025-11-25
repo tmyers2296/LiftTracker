@@ -18,59 +18,24 @@ type routineDataGetSet = {
 const routineDataContext = createContext<routineDataGetSet | null>(null);
 
 function EditRoutine() {
-    const { id } = useParams();
-    const [routineData, setRoutineData] = useState<routineObject | null>(null);
-    const [allExercises, setAllExercises] = useState<exerciseObject[]>([]);
-    const tempIdCounter = useRef(-1);
+    const newRoutineData: routineObject = {
+        id: 0,
+        name: "test",
+        createdBy: "test",
+        exercises: [],
+    };
 
-    const { data: exercises, isLoading, isError } = useExercises(1, 100);
+    const { id } = useParams();
+    const [routineData, setRoutineData] = useState<routineObject | null>(
+        newRoutineData
+    );
+    const tempIdCounter = useRef(-1);
+    const { data: exercises } = useExercises(1, 100);
+    const { data: existingRoutineData } = useRoutine(id ? Number(id) : 0);
 
     useEffect(() => {
-        async function fetchRoutineData(url: string) {
-            try {
-                // promise for when data is retrieved from API:
-                let dataPromise = fetchData(url);
-
-                // waits for data to be retrieved from API:
-                const data = await dataPromise;
-                // sets exerciseData:
-                setRoutineData(data);
-
-                // catch & show any errors:
-            } catch (err) {
-                console.error(err);
-            }
-        }
-
-        async function fetchExercisesData() {
-            try {
-                // promise for when data is retrieved from API:
-                let exercisesPromise = fetchData(
-                    `https://localhost:5119/exercises?pageNumber=1&pageSize=100`
-                );
-
-                // waits for data to be retrieved from API:
-                const exercises = await exercisesPromise;
-
-                // sets exerciseData:
-                setAllExercises(exercises.exercises);
-
-                // catch & show any errors:
-            } catch (err) {
-                console.error(err);
-            }
-        }
-        const newRoutineData: routineObject = {
-            id: 0,
-            name: "test",
-            createdBy: "test",
-            exercises: [],
-        };
-
-        fetchExercisesData();
-
         if (Number(id) === 0) setRoutineData(newRoutineData);
-        else fetchRoutineData(`https://localhost:5119/routines/${id}`);
+        else if (existingRoutineData) setRoutineData(existingRoutineData);
     }, []);
 
     return (
@@ -79,19 +44,11 @@ function EditRoutine() {
                 value={{
                     routineData,
                     setRoutineData,
-                    allExercises,
+                    allExercises: exercises ?? [],
                     tempIdCounter,
                 }}
             >
                 <RoutineEditCard2 />
-                <div>
-                    {!isLoading &&
-                        !isError &&
-                        exercises &&
-                        exercises.map((data: exerciseObject) => (
-                            <div key={data.id}>{data.name}</div>
-                        ))}
-                </div>
             </routineDataContext.Provider>
         </AuthorizeView>
     );

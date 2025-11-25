@@ -51,5 +51,6 @@ export function useRoutine(routineId: number) {
     return useQuery<routineObject>({
         queryKey: ["routines", routineId],
         queryFn: () => fetchRoutine(routineId),
+        enabled: routineId !== 0,
     });
 }
