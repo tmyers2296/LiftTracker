@@ -5,6 +5,8 @@ import { fetchData } from "../../modules/apiFunctions.tsx";
 import { routineObject } from "../../types/routineTypes.ts";
 import { exerciseObject } from "../../types/generalTypes.ts";
 import RoutineEditCard2 from "../../components/RoutineComponents/RoutineEditCards2/RoutineEditCard2.tsx";
+import { useExercises } from "../../hooks/exerciseHooks.tsx";
+import { useRoutine } from "../../hooks/routineHooks.tsx";
 
 type routineDataGetSet = {
     routineData: routineObject | null;
@@ -15,11 +17,13 @@ type routineDataGetSet = {
 
 const routineDataContext = createContext<routineDataGetSet | null>(null);
 
-function EditRoutine2() {
+function EditRoutine() {
     const { id } = useParams();
     const [routineData, setRoutineData] = useState<routineObject | null>(null);
     const [allExercises, setAllExercises] = useState<exerciseObject[]>([]);
     const tempIdCounter = useRef(-1);
+
+    const { data: exercises, isLoading, isError } = useExercises(1, 100);
 
     useEffect(() => {
         async function fetchRoutineData(url: string) {
@@ -80,6 +84,14 @@ function EditRoutine2() {
                 }}
             >
                 <RoutineEditCard2 />
+                <div>
+                    {!isLoading &&
+                        !isError &&
+                        exercises &&
+                        exercises.map((data: exerciseObject) => (
+                            <div key={data.id}>{data.name}</div>
+                        ))}
+                </div>
             </routineDataContext.Provider>
         </AuthorizeView>
     );
@@ -93,4 +105,4 @@ export function useRoutineData(): routineDataGetSet {
     return context;
 }
 
-export default EditRoutine2;
+export default EditRoutine;
