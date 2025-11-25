@@ -1,92 +1,40 @@
 import { useParams } from "react-router-dom";
-import { useEffect, useState, createContext, useContext, useRef } from "react";
+import { createContext, useContext, useRef } from "react";
 import AuthorizeView from "../../components/AuthorizeView.tsx";
-import { fetchData } from "../../modules/apiFunctions.tsx";
 import { routineObject } from "../../types/routineTypes.ts";
-import { exerciseObject } from "../../types/generalTypes.ts";
 import RoutineEditCard2 from "../../components/RoutineComponents/RoutineEditCards2/RoutineEditCard2.tsx";
+import { useRoutine } from "../../hooks/routineHooks.tsx";
 
-type routineDataGetSet = {
+type workoutDataGetSet = {
     routineData: routineObject | null;
-    setRoutineData: React.Dispatch<React.SetStateAction<routineObject | null>>;
-    allExercises: exerciseObject[];
     tempIdCounter: React.MutableRefObject<number>;
 };
 
-const routineDataContext = createContext<routineDataGetSet | null>(null);
+const workoutDataContext = createContext<workoutDataGetSet | null>(null);
 
 function EditRoutine() {
-    const { id } = useParams();
-    const [routineData, setRoutineData] = useState<routineObject | null>(null);
-    const [allExercises, setAllExercises] = useState<exerciseObject[]>([]);
     const tempIdCounter = useRef(-1);
-
-    useEffect(() => {
-        async function fetchRoutineData(url: string) {
-            try {
-                // promise for when data is retrieved from API:
-                let dataPromise = fetchData(url);
-
-                // waits for data to be retrieved from API:
-                const data = await dataPromise;
-                // sets exerciseData:
-                setRoutineData(data);
-
-                // catch & show any errors:
-            } catch (err) {
-                console.error(err);
-            }
-        }
-
-        async function fetchExercisesData() {
-            try {
-                // promise for when data is retrieved from API:
-                let exercisesPromise = fetchData(
-                    `https://localhost:5119/exercises?pageNumber=1&pageSize=100`
-                );
-
-                // waits for data to be retrieved from API:
-                const exercises = await exercisesPromise;
-
-                // sets exerciseData:
-                setAllExercises(exercises.exercises);
-
-                // catch & show any errors:
-            } catch (err) {
-                console.error(err);
-            }
-        }
-        const newRoutineData: routineObject = {
-            id: 0,
-            name: "test",
-            createdBy: "test",
-            exercises: [],
-        };
-
-        fetchExercisesData();
-
-        if (Number(id) === 0) setRoutineData(newRoutineData);
-        else fetchRoutineData(`https://localhost:5119/routines/${id}`);
-    }, []);
+    const { id } = useParams();
+    const { data: existingRoutineData } = useRoutine(id ? Number(id) : 0);
 
     return (
         <AuthorizeView>
-            <routineDataContext.Provider
+            <workoutDataContext.Provider
                 value={{
-                    routineData,
-                    setRoutineData,
-                    allExercises,
+                    routineData: existingRoutineData
+                        ? existingRoutineData
+                        : null,
                     tempIdCounter,
                 }}
             >
                 <RoutineEditCard2 />
-            </routineDataContext.Provider>
+            </workoutDataContext.Provider>
         </AuthorizeView>
     );
 }
 
-export function useRoutineData(): routineDataGetSet {
-    const context = useContext(routineDataContext);
+export function useWorkoutData(): workoutDataGetSet {
+    const context = useContext(workoutDataContext);
     if (!context) {
         throw new Error("useCounter must be used within a CounterProvider");
     }
