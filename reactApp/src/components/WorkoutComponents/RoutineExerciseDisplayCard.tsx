@@ -1,6 +1,8 @@
 import { useWorkoutData } from "../../pages/WorkoutPages/RecordRoutineWorkout.tsx";
 import { routineExerciseObject } from "../../types/routineTypes.ts";
 import styles from "./WorkoutComponents.module.css";
+import { addItem } from "../../modules/editingFunctions.tsx";
+import { createNewWorkoutExercise } from "../../modules/itemFactories.tsx";
 
 interface RoutineExerciseDisplayCardProps {
     exerciseData: routineExerciseObject;
@@ -9,7 +11,22 @@ interface RoutineExerciseDisplayCardProps {
 function RoutineExerciseDisplayCard({
     exerciseData,
 }: RoutineExerciseDisplayCardProps) {
-    const { allExercises } = useWorkoutData();
+    const { allExercises, workoutData, setWorkoutData, tempIdCounter } =
+        useWorkoutData();
+
+    const addWorkoutExercise = () => {
+        if (!workoutData) return;
+
+        const newExercise = createNewWorkoutExercise(
+            workoutData.id,
+            exerciseData.exerciseId,
+            tempIdCounter,
+            workoutData.exercises.length
+        );
+
+        const newExercises = addItem(workoutData.exercises, newExercise);
+        setWorkoutData({ ...workoutData, exercises: newExercises });
+    };
 
     return (
         <div className={styles.itemBox2}>
@@ -19,7 +36,14 @@ function RoutineExerciseDisplayCard({
                         (exercise) => exercise.id === exerciseData.exerciseId
                     )?.name}
             </div>
-            <button className={styles.item}>💪</button>
+            <button
+                className={styles.item}
+                onClick={() => {
+                    addWorkoutExercise();
+                }}
+            >
+                💪
+            </button>
         </div>
     );
 }

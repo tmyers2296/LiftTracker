@@ -2,6 +2,7 @@ import {
     routineExerciseObject,
     routineExerciseSetObject,
 } from "./routineTypes";
+import { workoutExerciseObject } from "./workoutTypes";
 
 export interface exerciseObject {
     id: number;
@@ -9,4 +10,7 @@ export interface exerciseObject {
     createdBy: string;
 }
 
-export type OrderedItem = routineExerciseObject | routineExerciseSetObject;
+export type OrderedItem =
+    | routineExerciseObject
+    | routineExerciseSetObject
+    | workoutExerciseObject;

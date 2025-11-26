@@ -1,16 +1,29 @@
 import { useWorkoutData } from "../../pages/WorkoutPages/RecordRoutineWorkout.tsx";
 import RoutineExerciseDisplayCard from "./RoutineExerciseDisplayCard.tsx";
 import { routineExerciseObject } from "../../types/routineTypes.ts";
+import { workoutExerciseObject } from "../../types/workoutTypes.ts";
 import styles from "./WorkoutComponents.module.css";
+import WorkoutExerciseEditCard from "./WorkoutExerciseEditCard.tsx";
 
 function WorkoutEditCard() {
-    const { routineData, tempIdCounter } = useWorkoutData();
-
-    console.log(routineData);
-    console.log(tempIdCounter);
+    const { routineData, workoutData } = useWorkoutData();
 
     return (
         <div>
+            <div className={styles.itemBox}>
+                <div>Exercises Being Recorded</div>
+                <div>
+                    {workoutData &&
+                        workoutData.exercises.map(
+                            (exercise: workoutExerciseObject) => (
+                                <WorkoutExerciseEditCard
+                                    key={exercise.id}
+                                    exerciseData={exercise}
+                                />
+                            )
+                        )}
+                </div>
+            </div>
             <div className={styles.itemBox}>
                 <div>Exercises to Record</div>
                 <div>
