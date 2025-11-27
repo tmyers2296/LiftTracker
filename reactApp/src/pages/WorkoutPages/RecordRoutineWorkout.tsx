@@ -9,6 +9,14 @@ import { exerciseObject } from "../../types/generalTypes.ts";
 import { useExercises } from "../../hooks/exerciseHooks.tsx";
 
 type workoutDataGetSet = {
+    recordedIDList: {
+        [key: number]: number;
+    };
+    setRecordedIDList: React.Dispatch<
+        React.SetStateAction<{
+            [key: number]: number;
+        }>
+    >;
     routineData: routineObject | null;
     workoutData: workoutObject;
     setWorkoutData: React.Dispatch<React.SetStateAction<workoutObject>>;
@@ -36,10 +44,16 @@ function RecordRoutineWorkout() {
     const [workoutData, setWorkoutData] =
         useState<workoutObject>(newWorkoutData);
 
+    const [recordedIDList, setRecordedIDList] = useState<{
+        [key: number]: number;
+    }>({});
+
     return (
         <AuthorizeView>
             <workoutDataContext.Provider
                 value={{
+                    recordedIDList: recordedIDList,
+                    setRecordedIDList: setRecordedIDList,
                     routineData: existingRoutineData
                         ? existingRoutineData
                         : null,

@@ -11,8 +11,14 @@ interface RoutineExerciseDisplayCardProps {
 function RoutineExerciseDisplayCard({
     exerciseData,
 }: RoutineExerciseDisplayCardProps) {
-    const { allExercises, workoutData, setWorkoutData, tempIdCounter } =
-        useWorkoutData();
+    const {
+        recordedIDList,
+        setRecordedIDList,
+        allExercises,
+        workoutData,
+        setWorkoutData,
+        tempIdCounter,
+    } = useWorkoutData();
 
     const addWorkoutExercise = () => {
         if (!workoutData) return;
@@ -40,6 +46,10 @@ function RoutineExerciseDisplayCard({
                 className={styles.item}
                 onClick={() => {
                     addWorkoutExercise();
+                    setRecordedIDList({
+                        ...recordedIDList,
+                        [tempIdCounter.current + 1]: exerciseData.id,
+                    });
                 }}
             >
                 💪

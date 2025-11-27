@@ -6,10 +6,15 @@ import styles from "./WorkoutComponents.module.css";
 import WorkoutExerciseEditCard from "./WorkoutExerciseEditCard.tsx";
 
 function WorkoutEditCard() {
-    const { routineData, workoutData } = useWorkoutData();
+    const { recordedIDList, routineData, workoutData } = useWorkoutData();
 
     return (
         <div>
+            {Object.keys(recordedIDList).map((currentId) => (
+                <div>
+                    {currentId} | {recordedIDList[Number(currentId)]}
+                </div>
+            ))}
             <div className={styles.itemBox}>
                 <div>Exercises Being Recorded</div>
                 <div>
@@ -29,12 +34,15 @@ function WorkoutEditCard() {
                 <div>
                     {routineData &&
                         routineData.exercises.map(
-                            (exercise: routineExerciseObject) => (
-                                <RoutineExerciseDisplayCard
-                                    key={exercise.id}
-                                    exerciseData={exercise}
-                                />
-                            )
+                            (exercise: routineExerciseObject) =>
+                                !Object.values(recordedIDList).includes(
+                                    exercise.id
+                                ) && (
+                                    <RoutineExerciseDisplayCard
+                                        key={exercise.id}
+                                        exerciseData={exercise}
+                                    />
+                                )
                         )}
                 </div>
             </div>
