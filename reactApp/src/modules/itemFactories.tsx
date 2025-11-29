@@ -1,4 +1,3 @@
-import { exerciseObject } from "../types/generalTypes";
 import {
     routineExerciseObject,
     routineExerciseSetObject,
