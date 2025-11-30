@@ -2,7 +2,10 @@ import {
     routineExerciseObject,
     routineExerciseSetObject,
 } from "../types/routineTypes";
-import { workoutExerciseObject } from "../types/workoutTypes";
+import {
+    workoutExerciseObject,
+    workoutExerciseSetObject,
+} from "../types/workoutTypes";
 import { createTempId } from "./editingFunctions";
 
 // routines:
@@ -49,5 +52,17 @@ export function createNewWorkoutExercise(
         workoutId: workoutId,
         order: currentExercisesLength,
         sets: [],
+    };
+}
+
+export function createNewWorkoutExerciseSet(
+    tempIdCounter: React.MutableRefObject<number>,
+    currentSetsLength: number
+): workoutExerciseSetObject {
+    return {
+        id: createTempId(tempIdCounter),
+        weight: 0,
+        reps: 0,
+        order: currentSetsLength,
     };
 }

@@ -11,7 +11,7 @@ function WorkoutEditCard() {
     return (
         <div>
             {Object.keys(recordedIDList).map((currentId) => (
-                <div>
+                <div key={currentId}>
                     {currentId} | {recordedIDList[Number(currentId)]}
                 </div>
             ))}

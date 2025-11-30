@@ -27,6 +27,21 @@
     font-weight: bolder;
 }
 
+.itemBox2Small {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 1rem;
+    padding: 0.5rem;
+    min-width: 14rem;
+    border-width: 0.2rem;
+    border-color: rgb(76, 76, 76);
+    border-style: dashed;
+    border-radius: 1rem;
+    font-weight: bolder;
+}
+
 .item {
     margin: 0.5rem;
 }

@@ -2,7 +2,10 @@ import {
     routineExerciseObject,
     routineExerciseSetObject,
 } from "./routineTypes";
-import { workoutExerciseObject } from "./workoutTypes";
+import {
+    workoutExerciseObject,
+    workoutExerciseSetObject,
+} from "./workoutTypes";
 
 export interface exerciseObject {
     id: number;
@@ -13,4 +16,5 @@ export interface exerciseObject {
 export type OrderedItem =
     | routineExerciseObject
     | routineExerciseSetObject
-    | workoutExerciseObject;
+    | workoutExerciseObject
+    | workoutExerciseSetObject;

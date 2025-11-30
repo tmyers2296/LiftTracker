@@ -2,6 +2,7 @@ import { useWorkoutData } from "../../pages/WorkoutPages/RecordRoutineWorkout.ts
 import { workoutExerciseObject } from "../../types/workoutTypes.ts";
 import { removeItem } from "../../modules/editingFunctions.tsx";
 import styles from "./WorkoutComponents.module.css";
+import RoutineExerciseSetDisplayCard from "./RoutineExerciseSetDisplayCard.tsx";
 import { routineExerciseObject } from "../../types/routineTypes.ts";
 
 interface WorkoutExerciseDisplayCardProps {
@@ -51,20 +52,28 @@ function WorkoutExerciseEditCard({
                     💣
                 </button>
             </div>
-            <div className={styles.itemBox}>
-                {
-                    <div>
-                        {routineData?.exercises
-                            .find(
-                                (exercise: routineExerciseObject) =>
-                                    exercise.id ===
-                                    recordedIDList[exerciseData.id]
-                            )
-                            ?.sets.map((set) => (
-                                <div>{`${set.repRangeLow} - ${set.repRangeHigh}`}</div>
-                            ))}
-                    </div>
-                }
+            <div>
+                <div>
+                    {exerciseData.sets.map((set) => (
+                        <div
+                            key={set.id}
+                        >{`set #${set.order} reps: ${set.reps}`}</div>
+                    ))}
+                </div>
+                <div>
+                    {routineData?.exercises
+                        .find(
+                            (exercise: routineExerciseObject) =>
+                                exercise.id === recordedIDList[exerciseData.id]
+                        )
+                        ?.sets.map((set) => (
+                            <RoutineExerciseSetDisplayCard
+                                key={set.id}
+                                setData={set}
+                                workoutExerciseId={exerciseData.id}
+                            />
+                        ))}
+                </div>
             </div>
         </div>
     );
