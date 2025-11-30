@@ -52,26 +52,19 @@ function WorkoutExerciseEditCard({
                 </button>
             </div>
             <div className={styles.itemBox}>
-                {/* <div>
-                    {exerciseData.sets.map(
-                        (set) => `${set.reps} - ${set.reps}`
-                    )}
-                </div> */}
-                {Object.values(recordedIDList).map((exerciseId) => {
-                    const routineExerciseId = recordedIDList[exerciseId];
-
-                    return (
-                        <div>
-                            {routineExerciseId}
-                            {/* {
-                                routineData?.exercises.find(
-                                    (exercise: routineExerciseObject) =>
-                                        exercise.id === routineExerciseId
-                                )?.id
-                            } */}
-                        </div>
-                    );
-                })}
+                {
+                    <div>
+                        {routineData?.exercises
+                            .find(
+                                (exercise: routineExerciseObject) =>
+                                    exercise.id ===
+                                    recordedIDList[exerciseData.id]
+                            )
+                            ?.sets.map((set) => (
+                                <div>{`${set.repRangeLow} - ${set.repRangeHigh}`}</div>
+                            ))}
+                    </div>
+                }
             </div>
         </div>
     );
