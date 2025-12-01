@@ -15,18 +15,27 @@ export function idMappingsReducer(
                 ...state,
                 exerciseMap: {
                     ...state.exerciseMap,
-                    [action.routineExerciseId]: action.workoutExerciseId,
+                    [action.workoutExerciseId]: action.routineExerciseId,
                 },
             };
+
+        case "DELETE_EXERCISE_MAPPING":
+            const { [action.workoutExerciseId]: _, ...rest } =
+                state.exerciseMap;
+
+            return { ...state, exerciseMap: rest };
 
         case "MAP_SET":
             return {
                 ...state,
                 setMap: {
                     ...state.setMap,
-                    [action.routineSetId]: action.workoutSetId,
+                    [action.workoutSetId]: action.routineSetId,
                 },
             };
+
+        case "DELETE_SET_MAPPING":
+            return { ...state };
 
         case "RESET_ALL":
             return initialIdMappings;

@@ -1,6 +1,6 @@
 export type IdMappingsState = {
-    exerciseMap: { [routineExerciseId: number]: number };
-    setMap: { [routineSetId: number]: number };
+    exerciseMap: { [workoutExerciseId: number]: number };
+    setMap: { [workoutSetId: number]: number };
 };
 
 export type IdMappingsAction =
@@ -9,9 +9,11 @@ export type IdMappingsAction =
           routineExerciseId: number;
           workoutExerciseId: number;
       }
+    | { type: "DELETE_EXERCISE_MAPPING"; workoutExerciseId: number }
     | {
           type: "MAP_SET";
           routineSetId: number;
           workoutSetId: number;
       }
+    | { type: "DELETE_SET_MAPPING"; workoutExerciseId: number }
     | { type: "RESET_ALL" };

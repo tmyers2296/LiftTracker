@@ -12,8 +12,8 @@ function RoutineExerciseDisplayCard({
     exerciseData,
 }: RoutineExerciseDisplayCardProps) {
     const {
-        recordedIDList,
-        setRecordedIDList,
+        idMappings,
+        dispatchIdMappings,
         allExercises,
         workoutData,
         setWorkoutData,
@@ -46,9 +46,10 @@ function RoutineExerciseDisplayCard({
                 className={styles.item}
                 onClick={() => {
                     addWorkoutExercise();
-                    setRecordedIDList({
-                        ...recordedIDList,
-                        [tempIdCounter.current + 1]: exerciseData.id,
+                    dispatchIdMappings({
+                        type: "MAP_EXERCISE",
+                        workoutExerciseId: tempIdCounter.current + 1,
+                        routineExerciseId: exerciseData.id,
                     });
                 }}
             >

@@ -13,11 +13,11 @@ function WorkoutExerciseEditCard({
     exerciseData,
 }: WorkoutExerciseDisplayCardProps) {
     const {
+        idMappings,
+        dispatchIdMappings,
         allExercises,
         workoutData,
         setWorkoutData,
-        recordedIDList,
-        setRecordedIDList,
         routineData,
     } = useWorkoutData();
 
@@ -41,11 +41,9 @@ function WorkoutExerciseEditCard({
                 <button
                     onClick={() => {
                         removeExercise(exerciseData.id);
-
-                        setRecordedIDList((prev) => {
-                            const updated = { ...prev };
-                            delete updated[exerciseData.id];
-                            return updated;
+                        dispatchIdMappings({
+                            type: "DELETE_EXERCISE_MAPPING",
+                            workoutExerciseId: exerciseData.id,
                         });
                     }}
                 >
@@ -64,7 +62,8 @@ function WorkoutExerciseEditCard({
                     {routineData?.exercises
                         .find(
                             (exercise: routineExerciseObject) =>
-                                exercise.id === recordedIDList[exerciseData.id]
+                                exercise.id ===
+                                idMappings.exerciseMap[exerciseData.id]
                         )
                         ?.sets.map((set) => (
                             <RoutineExerciseSetDisplayCard
