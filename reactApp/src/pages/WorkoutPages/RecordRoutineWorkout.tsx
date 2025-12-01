@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { createContext, useContext, useRef, useState } from "react";
+import { createContext, useContext, useRef, useState, useReducer } from "react";
 import AuthorizeView from "../../components/AuthorizationComponents/AuthorizeView.tsx";
 import { routineObject } from "../../types/routineTypes.ts";
 import { workoutObject } from "../../types/workoutTypes.ts";
@@ -7,8 +7,18 @@ import WorkoutEditCard from "../../components/WorkoutComponents/WorkoutEditCard.
 import { useRoutine } from "../../hooks/routineHooks.tsx";
 import { exerciseObject } from "../../types/generalTypes.ts";
 import { useExercises } from "../../hooks/exerciseHooks.tsx";
+import {
+    idMappingsReducer,
+    initialIdMappings,
+} from "../../reducers/idmappings.reducer.ts";
+import {
+    IdMappingsAction,
+    IdMappingsState,
+} from "../../types/idmappings.types.ts";
 
 type workoutDataGetSet = {
+    idMappings: IdMappingsState;
+    dispatchIdMappings: React.Dispatch<IdMappingsAction>;
     recordedIDList: {
         [key: number]: number;
     };
@@ -48,10 +58,17 @@ function RecordRoutineWorkout() {
         [key: number]: number;
     }>({});
 
+    const [idMappings, dispatchIdMappings] = useReducer(
+        idMappingsReducer,
+        initialIdMappings
+    );
+
     return (
         <AuthorizeView>
             <workoutDataContext.Provider
                 value={{
+                    idMappings: idMappings,
+                    dispatchIdMappings: dispatchIdMappings,
                     recordedIDList: recordedIDList,
                     setRecordedIDList: setRecordedIDList,
                     routineData: existingRoutineData
