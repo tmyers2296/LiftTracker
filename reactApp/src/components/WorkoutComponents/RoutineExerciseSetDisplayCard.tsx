@@ -14,7 +14,8 @@ function RoutineExerciseSetDisplayCard({
     setData,
     workoutExerciseId,
 }: RoutineExerciseSetDisplayCardProps) {
-    const { workoutData, setWorkoutData, tempIdCounter } = useWorkoutData();
+    const { dispatchIdMappings, workoutData, setWorkoutData, tempIdCounter } =
+        useWorkoutData();
 
     const addWorkoutSet = (workoutExerciseId: number) => {
         const exercise = workoutData.exercises.find(
@@ -46,6 +47,11 @@ function RoutineExerciseSetDisplayCard({
                 className={styles.item}
                 onClick={() => {
                     addWorkoutSet(workoutExerciseId);
+                    dispatchIdMappings({
+                        type: "MAP_SET",
+                        routineSetId: setData.id,
+                        workoutSetId: tempIdCounter.current + 1,
+                    });
                 }}
             >
                 💪

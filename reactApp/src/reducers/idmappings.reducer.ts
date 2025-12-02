@@ -20,10 +20,10 @@ export function idMappingsReducer(
             };
 
         case "DELETE_EXERCISE_MAPPING":
-            const { [action.workoutExerciseId]: _, ...rest } =
+            const { [action.workoutExerciseId]: _exercises, ...restExercises } =
                 state.exerciseMap;
 
-            return { ...state, exerciseMap: rest };
+            return { ...state, exerciseMap: restExercises };
 
         case "MAP_SET":
             return {
@@ -35,7 +35,9 @@ export function idMappingsReducer(
             };
 
         case "DELETE_SET_MAPPING":
-            return { ...state };
+            const { [action.workoutSetId]: _sets, ...restSets } = state.setMap;
+
+            return { ...state, setMap: restSets };
 
         case "RESET_ALL":
             return initialIdMappings;

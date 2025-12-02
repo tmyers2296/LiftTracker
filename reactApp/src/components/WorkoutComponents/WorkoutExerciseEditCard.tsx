@@ -3,7 +3,11 @@ import { workoutExerciseObject } from "../../types/workoutTypes.ts";
 import { removeItem } from "../../modules/editingFunctions.tsx";
 import styles from "./WorkoutComponents.module.css";
 import RoutineExerciseSetDisplayCard from "./RoutineExerciseSetDisplayCard.tsx";
-import { routineExerciseObject } from "../../types/routineTypes.ts";
+import WorkoutExerciseSetEditCard from "./WorkoutExerciseSetEditCard.tsx";
+import {
+    routineExerciseObject,
+    routineExerciseSetObject,
+} from "../../types/routineTypes.ts";
 
 interface WorkoutExerciseDisplayCardProps {
     exerciseData: workoutExerciseObject;
@@ -53,25 +57,33 @@ function WorkoutExerciseEditCard({
             <div>
                 <div>
                     {exerciseData.sets.map((set) => (
-                        <div
+                        <WorkoutExerciseSetEditCard
                             key={set.id}
-                        >{`set #${set.order} reps: ${set.reps}`}</div>
+                            setData={set}
+                            exerciseId={exerciseData.id}
+                        />
                     ))}
                 </div>
                 <div>
-                    {routineData?.exercises
-                        .find(
-                            (exercise: routineExerciseObject) =>
-                                exercise.id ===
-                                idMappings.exerciseMap[exerciseData.id]
-                        )
-                        ?.sets.map((set) => (
-                            <RoutineExerciseSetDisplayCard
-                                key={set.id}
-                                setData={set}
-                                workoutExerciseId={exerciseData.id}
-                            />
-                        ))}
+                    {routineData &&
+                        routineData.exercises
+                            .find(
+                                (exercise: routineExerciseObject) =>
+                                    exercise.id ===
+                                    idMappings.exerciseMap[exerciseData.id]
+                            )
+                            ?.sets.map(
+                                (set: routineExerciseSetObject) =>
+                                    !Object.values(idMappings.setMap).includes(
+                                        set.id
+                                    ) && (
+                                        <RoutineExerciseSetDisplayCard
+                                            key={set.id}
+                                            setData={set}
+                                            workoutExerciseId={exerciseData.id}
+                                        />
+                                    )
+                            )}
                 </div>
             </div>
         </div>

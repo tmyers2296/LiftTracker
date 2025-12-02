@@ -15,5 +15,5 @@ export type IdMappingsAction =
           routineSetId: number;
           workoutSetId: number;
       }
-    | { type: "DELETE_SET_MAPPING"; workoutExerciseId: number }
+    | { type: "DELETE_SET_MAPPING"; workoutSetId: number }
     | { type: "RESET_ALL" };

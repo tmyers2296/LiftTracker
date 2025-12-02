@@ -12,7 +12,6 @@ function RoutineExerciseDisplayCard({
     exerciseData,
 }: RoutineExerciseDisplayCardProps) {
     const {
-        idMappings,
         dispatchIdMappings,
         allExercises,
         workoutData,
