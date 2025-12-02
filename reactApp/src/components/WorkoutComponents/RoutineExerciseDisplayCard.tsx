@@ -34,7 +34,7 @@ function RoutineExerciseDisplayCard({
     };
 
     return (
-        <div className={styles.itemBox2}>
+        <div className={styles.itemBox2Small}>
             <div className={styles.item}>
                 {exerciseData &&
                     allExercises?.find(

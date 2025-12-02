@@ -10,13 +10,8 @@ function WorkoutEditCard() {
 
     return (
         <div>
-            {Object.keys(idMappings.exerciseMap).map((currentId) => (
-                <div key={currentId}>
-                    {currentId} | {idMappings.exerciseMap[Number(currentId)]}
-                </div>
-            ))}
             <div className={styles.itemBox}>
-                <div>Exercises Being Recorded</div>
+                <div>Routine: {routineData?.name}</div>
                 <div>
                     {workoutData &&
                         workoutData.exercises.map(
@@ -28,9 +23,6 @@ function WorkoutEditCard() {
                             )
                         )}
                 </div>
-            </div>
-            <div className={styles.itemBox}>
-                <div>Exercises to Record</div>
                 <div>
                     {routineData &&
                         routineData.exercises.map(

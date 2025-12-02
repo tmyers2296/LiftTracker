@@ -33,8 +33,8 @@ function WorkoutExerciseEditCard({
     };
 
     return (
-        <div className={styles.itemBox}>
-            <div className={styles.itemBox2}>
+        <div className={styles.itemBoxNoPadding}>
+            <div className={styles.itemBox2header}>
                 <div className={styles.item}>
                     {exerciseData &&
                         allExercises?.find(
@@ -49,6 +49,12 @@ function WorkoutExerciseEditCard({
                             type: "DELETE_EXERCISE_MAPPING",
                             workoutExerciseId: exerciseData.id,
                         });
+                        exerciseData.sets.map((set) =>
+                            dispatchIdMappings({
+                                type: "DELETE_SET_MAPPING",
+                                workoutSetId: set.id,
+                            })
+                        );
                     }}
                 >
                     💣
