@@ -19,14 +19,6 @@ import {
 type workoutDataGetSet = {
     idMappings: IdMappingsState;
     dispatchIdMappings: React.Dispatch<IdMappingsAction>;
-    recordedIDList: {
-        [key: number]: number;
-    };
-    setRecordedIDList: React.Dispatch<
-        React.SetStateAction<{
-            [key: number]: number;
-        }>
-    >;
     routineData: routineObject | null;
     workoutData: workoutObject;
     setWorkoutData: React.Dispatch<React.SetStateAction<workoutObject>>;
@@ -54,10 +46,6 @@ function RecordRoutineWorkout() {
     const [workoutData, setWorkoutData] =
         useState<workoutObject>(newWorkoutData);
 
-    const [recordedIDList, setRecordedIDList] = useState<{
-        [key: number]: number;
-    }>({});
-
     const [idMappings, dispatchIdMappings] = useReducer(
         idMappingsReducer,
         initialIdMappings
@@ -69,8 +57,6 @@ function RecordRoutineWorkout() {
                 value={{
                     idMappings: idMappings,
                     dispatchIdMappings: dispatchIdMappings,
-                    recordedIDList: recordedIDList,
-                    setRecordedIDList: setRecordedIDList,
                     routineData: existingRoutineData
                         ? existingRoutineData
                         : null,

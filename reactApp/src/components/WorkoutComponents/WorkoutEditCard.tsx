@@ -10,8 +10,10 @@ function WorkoutEditCard() {
 
     return (
         <div>
-            <div className={styles.itemBox}>
-                <div>Routine: {routineData?.name}</div>
+            <div className={styles.itemBoxNoPadding}>
+                <div className={styles.itemBox2header}>
+                    Routine: {routineData?.name}
+                </div>
                 <div>
                     {workoutData &&
                         workoutData.exercises.map(
