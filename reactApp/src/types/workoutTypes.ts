@@ -1,5 +1,6 @@
 export interface workoutObject {
     id: number;
+    date: Date;
     isImprovised: boolean;
     name: string;
     routineId: number | null;

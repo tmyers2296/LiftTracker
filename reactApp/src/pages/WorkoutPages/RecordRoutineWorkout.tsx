@@ -36,6 +36,7 @@ function RecordRoutineWorkout() {
 
     const newWorkoutData: workoutObject = {
         id: 0,
+        date: new Date(),
         isImprovised: false,
         name: "test",
         routineId: Number(id),
