@@ -1,4 +1,5 @@
 import { routineObject } from "../types/routineTypes";
+import { workoutObject } from "../types/workoutTypes";
 // // const API_BASE = "https://localhost:5119";
 
 // fetch data from api & return it:
@@ -13,7 +14,9 @@ export async function fetchData(url: string) {
 }
 
 // // saving data to API:
-function buildPayload<T extends routineObject>(nestedObject: T): T {
+function buildPayload<T extends routineObject | workoutObject>(
+    nestedObject: T
+): T {
     return {
         ...nestedObject,
         exercises: nestedObject.exercises.map((exercise) => ({
@@ -27,7 +30,7 @@ function buildPayload<T extends routineObject>(nestedObject: T): T {
     };
 }
 
-export async function saveNestedObject<T extends routineObject>(
+export async function saveNestedObject<T extends routineObject | workoutObject>(
     endpoint: string,
     nestedObject: T
 ): Promise<T> {

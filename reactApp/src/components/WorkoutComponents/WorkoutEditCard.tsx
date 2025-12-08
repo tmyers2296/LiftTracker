@@ -2,17 +2,40 @@ import { useWorkoutData } from "../../pages/WorkoutPages/RecordRoutineWorkout.ts
 import RoutineExerciseDisplayCard from "./RoutineExerciseDisplayCard.tsx";
 import { routineExerciseObject } from "../../types/routineTypes.ts";
 import { workoutExerciseObject } from "../../types/workoutTypes.ts";
+import { useSaveWorkout } from "../../hooks/workoutHooks.tsx";
 import styles from "./WorkoutComponents.module.css";
 import WorkoutExerciseEditCard from "./WorkoutExerciseEditCard.tsx";
 
 function WorkoutEditCard() {
     const { idMappings, routineData, workoutData } = useWorkoutData();
 
+    const saveWorkoutMutation = useSaveWorkout();
+
+    // Save function wrapper:
+    function handleSave() {
+        if (!workoutData) return;
+
+        saveWorkoutMutation.mutate({
+            endpoint: `https://localhost:5119/workouts/${workoutData.id}`,
+            workout: workoutData,
+        });
+    }
+
     return (
         <div>
             <div className={styles.itemBoxNoPadding}>
                 <div className={styles.itemBox2header}>
-                    Routine: {routineData?.name}
+                    <div className={styles.item}>
+                        Routine: {routineData?.name}
+                    </div>
+                    <button
+                        className={styles.saveButton}
+                        onClick={() => {
+                            handleSave();
+                        }}
+                    >
+                        💾
+                    </button>
                 </div>
                 <div>
                     {workoutData &&

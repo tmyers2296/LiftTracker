@@ -94,3 +94,14 @@
 .restrictWidth {
     max-width: 2rem;
 }
+
+.darkText {
+    color: rgb(111, 111, 111);
+    font-weight: 400;
+    font-size: small;
+}
+
+.lessDarkText {
+    color: rgb(164, 164, 164);
+    font-weight: 600;
+}

@@ -17,6 +17,7 @@ function WorkoutExerciseSetEditCard({
         useWorkoutData();
 
     const [hasTyped, setHasTyped] = useState<boolean>(false);
+    const [hasTypedWeight, setHasTypedWeight] = useState<boolean>(false);
 
     const removeSet = (exerciseId: number, setId: number) => {
         if (!workoutData) return;
@@ -60,19 +61,42 @@ function WorkoutExerciseSetEditCard({
 
     return (
         <div className={styles.itemBox2}>
-            <div className={styles.item}>{`set #${setData.order + 1}`} </div>
-            <input
-                className={`${styles.item} ${styles.restrictWidth}`}
-                value={!hasTyped && setData.reps === 0 ? "" : setData.reps}
-                placeholder="6-8"
-                onChange={(e) => {
-                    setHasTyped(e.target.value === "" ? false : true);
-                    updateSet(exerciseId, {
-                        ...setData,
-                        reps: Number(e.target.value),
-                    });
-                }}
-            />
+            <div className={`${styles.item} ${styles.lessDarkText}`}>
+                {`set #${setData.order + 1}`}{" "}
+            </div>
+            <div>
+                <div className={styles.darkText}>Reps</div>
+                <input
+                    className={`${styles.item} ${styles.restrictWidth}`}
+                    value={!hasTyped && setData.reps === 0 ? "" : setData.reps}
+                    placeholder="6-8"
+                    onChange={(e) => {
+                        setHasTyped(e.target.value === "" ? false : true);
+                        updateSet(exerciseId, {
+                            ...setData,
+                            reps: Number(e.target.value),
+                        });
+                    }}
+                />
+            </div>
+            <div>
+                <div className={styles.darkText}>Weight</div>
+                <input
+                    className={`${styles.item} ${styles.restrictWidth}`}
+                    value={
+                        !hasTypedWeight && setData.reps === 0
+                            ? ""
+                            : setData.weight
+                    }
+                    onChange={(e) => {
+                        setHasTypedWeight(e.target.value === "" ? false : true);
+                        updateSet(exerciseId, {
+                            ...setData,
+                            weight: Number(e.target.value),
+                        });
+                    }}
+                />
+            </div>
             <button
                 className={styles.item}
                 onClick={() => {
