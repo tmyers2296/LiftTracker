@@ -44,3 +44,15 @@
     display: flex;
     justify-content: center;
 }
+
+.itemBoxOutline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 2rem;
+    padding: 2rem;
+    border-width: 0.2rem;
+    border-color: rgb(76, 76, 76);
+    border-style: solid;
+    border-radius: 1rem;
+}

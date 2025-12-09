@@ -3,7 +3,7 @@ import { createContext, useContext, useRef, useState, useReducer } from "react";
 import AuthorizeView from "../../components/AuthorizationComponents/AuthorizeView.tsx";
 import { routineObject } from "../../types/routineTypes.ts";
 import { workoutObject } from "../../types/workoutTypes.ts";
-import WorkoutEditCard from "../../components/WorkoutComponents/WorkoutEditCard.tsx";
+import WorkoutEditCard from "../../components/WorkoutComponents/WorkoutEditCards/WorkoutEditCard.tsx";
 import { useRoutine } from "../../hooks/routineHooks.tsx";
 import { exerciseObject } from "../../types/generalTypes.ts";
 import { useExercises } from "../../hooks/exerciseHooks.tsx";

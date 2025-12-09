@@ -1,9 +1,9 @@
-import { useWorkoutData } from "../../pages/WorkoutPages/RecordRoutineWorkout.tsx";
+import { useWorkoutData } from "../../../pages/WorkoutPages/RecordRoutineWorkout.tsx";
 import RoutineExerciseDisplayCard from "./RoutineExerciseDisplayCard.tsx";
-import { routineExerciseObject } from "../../types/routineTypes.ts";
-import { workoutExerciseObject } from "../../types/workoutTypes.ts";
-import { useSaveWorkout } from "../../hooks/workoutHooks.tsx";
-import styles from "./WorkoutComponents.module.css";
+import { routineExerciseObject } from "../../../types/routineTypes.ts";
+import { workoutExerciseObject } from "../../../types/workoutTypes.ts";
+import { useSaveWorkout } from "../../../hooks/workoutHooks.tsx";
+import styles from "../WorkoutComponents.module.css";
 import WorkoutExerciseEditCard from "./WorkoutExerciseEditCard.tsx";
 
 function WorkoutEditCard() {
