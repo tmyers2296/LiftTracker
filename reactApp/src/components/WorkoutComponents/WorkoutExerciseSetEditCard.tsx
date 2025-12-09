@@ -84,7 +84,7 @@ function WorkoutExerciseSetEditCard({
                 <input
                     className={`${styles.item} ${styles.restrictWidth}`}
                     value={
-                        !hasTypedWeight && setData.reps === 0
+                        !hasTypedWeight && setData.weight === 0
                             ? ""
                             : setData.weight
                     }
