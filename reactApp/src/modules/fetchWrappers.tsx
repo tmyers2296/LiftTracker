@@ -35,5 +35,8 @@ export const fetchWorkouts = async (
     const data = await fetchData(
         `https://localhost:5119/workouts?pageNumber=${pageNum}&pageSize=${pageSize}`
     );
-    return data.routines;
+    return data.workouts.map((workout: workoutObject) => ({
+        ...workout,
+        date: new Date(workout.date),
+    }));
 };

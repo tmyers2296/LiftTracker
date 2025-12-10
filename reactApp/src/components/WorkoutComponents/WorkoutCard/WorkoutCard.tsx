@@ -21,7 +21,7 @@ function WorkoutCard({ workoutData }: RoutineCardProps) {
         return (
             <ExpandableCard
                 key={exercise.id}
-                cardName={String(exercise.exerciseId)}
+                cardName={`exercise id: ${String(exercise.exerciseId)}`}
             >
                 <div className={styles.exerciseSets}>
                     {exercise.sets.map((set: workoutExerciseSetObject) =>
@@ -38,7 +38,7 @@ function WorkoutCard({ workoutData }: RoutineCardProps) {
                 <div className={styles.setHeader}>set {set.order + 1}</div>
 
                 <div>
-                    {set.weight} for {set.reps} reps
+                    {set.weight}kg for {set.reps} reps
                 </div>
             </div>
         );
@@ -71,7 +71,9 @@ function WorkoutCard({ workoutData }: RoutineCardProps) {
 
     return (
         <ExpandableCard
-            cardName={workoutData.name}
+            cardName={`${
+                workoutData.name
+            } @ ${workoutData.date.getDate()}-${workoutData.date.getMonth()}-${workoutData.date.getFullYear()}`}
             className={styles.topLayerCard}
             buttons={buttonsCallbacks}
         >

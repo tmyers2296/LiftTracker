@@ -105,3 +105,60 @@
     color: rgb(164, 164, 164);
     font-weight: 600;
 }
+
+.topLayerCard {
+    margin: 1rem;
+    width: 500px;
+}
+
+.exerciseSets {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin: 0.5rem;
+}
+
+.exerciseSet {
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.95rem;
+    border: 2px solid #717171;
+    background-color: #515151;
+}
+
+.setHeader {
+    color: #909090;
+    font-weight: bold;
+}
+
+.deleteButton {
+    font-weight: bold;
+    border-width: 2px;
+    border-color: #696969;
+    margin: 0.2rem;
+}
+
+.deleteButton:hover {
+    background-color: #20212e;
+    border-color: rgb(113, 24, 46);
+}
+.deleteButton:active {
+    background-color: #333048;
+    border-color: rgb(191, 43, 80);
+    color: #8aedff;
+}
+
+.toggleButton {
+    font-weight: bold;
+    border-width: 2px;
+    border-color: #696969;
+    margin: 0.2rem;
+}
+.toggleButton:hover {
+    background-color: #202362;
+}
+.toggleButton:active {
+    border-color: #9497d9;
+    background-color: #2e3393;
+}

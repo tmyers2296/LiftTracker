@@ -27,7 +27,7 @@ export function useSaveWorkout() {
 
 export function useWorkouts(page: number, size: number) {
     return useQuery<workoutObject[]>({
-        queryKey: ["routines", page, size],
+        queryKey: ["workouts", page, size],
         queryFn: () => fetchWorkouts(page, size),
     });
 }
