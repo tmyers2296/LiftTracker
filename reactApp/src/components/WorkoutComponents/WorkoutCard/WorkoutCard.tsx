@@ -71,9 +71,8 @@ function WorkoutCard({ workoutData }: RoutineCardProps) {
 
     return (
         <ExpandableCard
-            cardName={`${
-                workoutData.name
-            } @ ${workoutData.date.getDate()}-${workoutData.date.getMonth()}-${workoutData.date.getFullYear()}`}
+            cardName={workoutData.name}
+            subTitle={`@ ${workoutData.date.getDate()}-${workoutData.date.getMonth()}-${workoutData.date.getFullYear()}`}
             className={styles.topLayerCard}
             buttons={buttonsCallbacks}
         >

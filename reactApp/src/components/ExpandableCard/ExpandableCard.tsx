@@ -5,6 +5,7 @@ import styles from "./ExpandableCard.module.css";
 
 interface ExpandableCardProps {
     cardName: string;
+    subTitle?: string;
     className?: string;
     children?: ReactNode;
     buttons?: Record<string, { callback: () => void; style: string }>;
@@ -12,6 +13,7 @@ interface ExpandableCardProps {
 
 function ExpandableCard({
     cardName,
+    subTitle,
     className,
     children,
     buttons,
@@ -53,6 +55,9 @@ function ExpandableCard({
                 }`}
             >
                 <span className={styles.cardTitle}>{cardName}</span>
+                {subTitle && (
+                    <span className={styles.cardSubTitle}>{subTitle}</span>
+                )}
                 <div className={styles.buttonContainer}>
                     {buttons
                         ? Object.keys(buttons).map((buttonText: string) => (

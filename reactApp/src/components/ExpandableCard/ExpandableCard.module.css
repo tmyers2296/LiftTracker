@@ -19,6 +19,16 @@
     padding-left: 0.5rem;
     font-weight: bold;
     font-size: 1.5rem;
+    align-content: center;
+}
+
+.cardSubTitle {
+    text-align: left;
+    align-content: center;
+    padding-left: 0.5rem;
+    font-weight: 400;
+    font-size: 1rem;
+    color: #949494;
 }
 
 .expandedBorder {
