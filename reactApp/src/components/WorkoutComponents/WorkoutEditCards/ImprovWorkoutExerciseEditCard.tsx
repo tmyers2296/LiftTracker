@@ -1,8 +1,14 @@
 import { useWorkoutData } from "../../../pages/WorkoutPages/ImproviseWorkoutPage.tsx";
-import { workoutExerciseObject } from "../../../types/workoutTypes.ts";
+import {
+    workoutExerciseObject,
+    workoutExerciseSetObject,
+} from "../../../types/workoutTypes.ts";
 import { removeItem } from "../../../modules/editingFunctions.tsx";
 import styles from "../WorkoutComponents.module.css";
-import WorkoutExerciseSetEditCard from "./WorkoutExerciseSetEditCard.tsx";
+import ImprovWorkoutExerciseSetEditCard from "./ImprovWorkoutExerciseSetEditCard.tsx";
+import { createNewWorkoutExerciseSet } from "../../../modules/itemFactories.tsx";
+import { updateItem } from "../../../modules/editingFunctions.tsx";
+import { addItem } from "../../../modules/editingFunctions.tsx";
 
 interface WorkoutExerciseDisplayCardProps {
     exerciseData: workoutExerciseObject;
@@ -11,7 +17,25 @@ interface WorkoutExerciseDisplayCardProps {
 function ImprovWorkoutExerciseEditCard({
     exerciseData,
 }: WorkoutExerciseDisplayCardProps) {
-    const { allExercises, workoutData, setWorkoutData } = useWorkoutData();
+    const { allExercises, workoutData, setWorkoutData, tempIdCounter } =
+        useWorkoutData();
+
+    const addSet = (exercise: workoutExerciseObject) => {
+        if (!workoutData) return;
+        if (!exercise) return;
+
+        const newSet: workoutExerciseSetObject = createNewWorkoutExerciseSet(
+            tempIdCounter,
+            exercise.sets.length
+        );
+
+        const newExercises = updateItem(workoutData.exercises, {
+            ...exercise,
+            sets: addItem(exercise.sets, newSet),
+        });
+
+        setWorkoutData({ ...workoutData, exercises: newExercises });
+    };
 
     const removeExercise = (exerciseId: number) => {
         if (!workoutData) return;
@@ -41,14 +65,24 @@ function ImprovWorkoutExerciseEditCard({
             <div>
                 <div>
                     {exerciseData.sets.map((set) => (
-                        <WorkoutExerciseSetEditCard
+                        <ImprovWorkoutExerciseSetEditCard
                             key={set.id}
                             setData={set}
                             exerciseId={exerciseData.id}
                         />
                     ))}
                 </div>
-                <div></div>
+                <div>
+                    {" "}
+                    <button
+                        className={styles.addButton}
+                        onClick={() => {
+                            addSet(exerciseData);
+                        }}
+                    >
+                        +
+                    </button>
+                </div>
             </div>
         </div>
     );
