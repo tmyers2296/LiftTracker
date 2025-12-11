@@ -7,6 +7,7 @@ import {
 } from "../../../types/workoutTypes.ts";
 import { useDeleteRoutine } from "../../../hooks/routineHooks.tsx";
 import ExpandableCard from "../../ExpandableCard/ExpandableCard.tsx";
+import { useExerciseData } from "../../../pages/WorkoutPages/WorkoutsPage.tsx";
 
 interface RoutineCardProps {
     workoutData: workoutObject;
@@ -15,13 +16,17 @@ interface RoutineCardProps {
 function WorkoutCard({ workoutData }: RoutineCardProps) {
     const navigate = useNavigate();
     const deleteRoutineMutation = useDeleteRoutine();
+    const { allExercises } = useExerciseData();
 
     // rendering functions:
     const renderExercise = (exercise: workoutExerciseObject) => {
         return (
             <ExpandableCard
                 key={exercise.id}
-                cardName={`exercise id: ${String(exercise.exerciseId)}`}
+                cardName={`${
+                    allExercises?.find((e) => e.id === exercise.exerciseId)
+                        ?.name
+                }`}
             >
                 <div className={styles.exerciseSets}>
                     {exercise.sets.map((set: workoutExerciseSetObject) =>
