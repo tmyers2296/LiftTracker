@@ -54,6 +54,9 @@ function WorkoutsPage() {
                                 className={styles.addButtonBlue}
                                 data-tooltip-id="improv-tooltip"
                                 data-tooltip-content="Improvise workout"
+                                onClick={() => {
+                                    navigate(`/improvise-workout`);
+                                }}
                             >
                                 +
                             </button>
