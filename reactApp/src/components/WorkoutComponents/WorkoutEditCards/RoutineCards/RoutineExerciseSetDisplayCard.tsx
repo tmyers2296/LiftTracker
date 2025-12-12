@@ -1,9 +1,9 @@
-import { routineExerciseSetObject } from "../../../types/routineTypes.ts";
-import styles from "../WorkoutComponents.module.css";
-import { useWorkoutData } from "../../../pages/WorkoutPages/RecordRoutineWorkout.tsx";
-import { updateItem, addItem } from "../../../modules/editingFunctions.tsx";
-import { createNewWorkoutExerciseSet } from "../../../modules/itemFactories.tsx";
-import { workoutExerciseSetObject } from "../../../types/workoutTypes.ts";
+import { routineExerciseSetObject } from "../../../../types/routineTypes.ts";
+import styles from "../../WorkoutComponents.module.css";
+import { useWorkoutData } from "../../../../pages/WorkoutPages/RecordRoutineWorkout.tsx";
+import { updateItem, addItem } from "../../../../modules/editingFunctions.tsx";
+import { createNewWorkoutExerciseSet } from "../../../../modules/itemFactories.tsx";
+import { workoutExerciseSetObject } from "../../../../types/workoutTypes.ts";
 
 interface RoutineExerciseSetDisplayCardProps {
     setData: routineExerciseSetObject;

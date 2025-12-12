@@ -1,10 +1,10 @@
-import { useWorkoutData } from "../../../pages/WorkoutPages/ImproviseWorkoutPage.tsx";
-import { workoutExerciseObject } from "../../../types/workoutTypes.ts";
-import { useSaveWorkout } from "../../../hooks/workoutHooks.tsx";
-import styles from "../WorkoutComponents.module.css";
+import { useWorkoutData } from "../../../../pages/WorkoutPages/ImproviseWorkoutPage.tsx";
+import { workoutExerciseObject } from "../../../../types/workoutTypes.ts";
+import { useSaveWorkout } from "../../../../hooks/workoutHooks.tsx";
+import styles from "../../WorkoutComponents.module.css";
 import ImprovWorkoutExerciseEditCard from "./ImprovWorkoutExerciseEditCard.tsx";
-import { createNewWorkoutExercise } from "../../../modules/itemFactories.tsx";
-import { addItem } from "../../../modules/editingFunctions.tsx";
+import { createNewWorkoutExercise } from "../../../../modules/itemFactories.tsx";
+import { addItem } from "../../../../modules/editingFunctions.tsx";
 
 function ImprovWorkoutEditCard() {
     const { setWorkoutData, workoutData, allExercises, tempIdCounter } =
@@ -40,9 +40,16 @@ function ImprovWorkoutEditCard() {
         <div>
             <div className={styles.itemBoxNoPadding}>
                 <div className={styles.itemBox2header}>
-                    <div className={styles.item}>
-                        Workout: {workoutData.name}
-                    </div>
+                    <input
+                        value={workoutData.name}
+                        onChange={(e) => {
+                            setWorkoutData({
+                                ...workoutData,
+                                name: e.target.value,
+                            });
+                        }}
+                        className={styles.item}
+                    ></input>
                     <button
                         className={styles.saveButton}
                         onClick={() => {

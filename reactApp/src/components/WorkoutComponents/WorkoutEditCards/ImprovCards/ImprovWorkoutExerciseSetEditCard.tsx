@@ -1,8 +1,11 @@
-import { useWorkoutData } from "../../../pages/WorkoutPages/ImproviseWorkoutPage.tsx";
+import { useWorkoutData } from "../../../../pages/WorkoutPages/ImproviseWorkoutPage.tsx";
 import { useState } from "react";
-import { workoutExerciseSetObject } from "../../../types/workoutTypes.ts";
-import { removeItem, updateItem } from "../../../modules/editingFunctions.tsx";
-import styles from "../WorkoutComponents.module.css";
+import { workoutExerciseSetObject } from "../../../../types/workoutTypes.ts";
+import {
+    removeItem,
+    updateItem,
+} from "../../../../modules/editingFunctions.tsx";
+import styles from "../../WorkoutComponents.module.css";
 
 interface WorkoutExerciseDisplayCardProps {
     exerciseId: number;

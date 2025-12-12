@@ -1,14 +1,15 @@
-import { useWorkoutData } from "../../../pages/WorkoutPages/ImproviseWorkoutPage.tsx";
+import { useWorkoutData } from "../../../../pages/WorkoutPages/ImproviseWorkoutPage.tsx";
 import {
     workoutExerciseObject,
     workoutExerciseSetObject,
-} from "../../../types/workoutTypes.ts";
-import { removeItem } from "../../../modules/editingFunctions.tsx";
-import styles from "../WorkoutComponents.module.css";
+} from "../../../../types/workoutTypes.ts";
+import { removeItem } from "../../../../modules/editingFunctions.tsx";
+import styles from "../../WorkoutComponents.module.css";
 import ImprovWorkoutExerciseSetEditCard from "./ImprovWorkoutExerciseSetEditCard.tsx";
-import { createNewWorkoutExerciseSet } from "../../../modules/itemFactories.tsx";
-import { updateItem } from "../../../modules/editingFunctions.tsx";
-import { addItem } from "../../../modules/editingFunctions.tsx";
+import { createNewWorkoutExerciseSet } from "../../../../modules/itemFactories.tsx";
+import { updateItem } from "../../../../modules/editingFunctions.tsx";
+import { addItem } from "../../../../modules/editingFunctions.tsx";
+import { exerciseObject } from "../../../../types/generalTypes.ts";
 
 interface WorkoutExerciseDisplayCardProps {
     exerciseData: workoutExerciseObject;
@@ -44,16 +45,32 @@ function ImprovWorkoutExerciseEditCard({
         setWorkoutData({ ...workoutData, exercises: updatedExercises });
     };
 
+    const updateExercise = (updated: workoutExerciseObject) => {
+        if (!workoutData) return;
+        const newExercises = updateItem(workoutData.exercises, updated);
+
+        setWorkoutData({ ...workoutData, exercises: newExercises });
+    };
+
     return (
         <div className={styles.itemBoxNoPadding}>
             <div className={styles.itemBox2header}>
-                <div className={styles.item}>
-                    {exerciseData &&
-                        allExercises?.find(
-                            (exercise) =>
-                                exercise.id === exerciseData.exerciseId
-                        )?.name}
-                </div>
+                <select
+                    defaultValue={exerciseData.exerciseId ?? ""}
+                    onChange={(e) =>
+                        updateExercise({
+                            ...exerciseData,
+                            exerciseId: Number(e.target.value),
+                        })
+                    }
+                    className={styles.item}
+                >
+                    {allExercises.map((exercise: exerciseObject) => (
+                        <option key={exercise.id} value={exercise.id}>
+                            {exercise.name}
+                        </option>
+                    ))}
+                </select>
                 <button
                     onClick={() => {
                         removeExercise(exerciseData.id);

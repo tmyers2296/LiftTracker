@@ -1,13 +1,13 @@
-import { useWorkoutData } from "../../../pages/WorkoutPages/RecordRoutineWorkout.tsx";
-import { workoutExerciseObject } from "../../../types/workoutTypes.ts";
-import { removeItem } from "../../../modules/editingFunctions.tsx";
-import styles from "../WorkoutComponents.module.css";
+import { useWorkoutData } from "../../../../pages/WorkoutPages/RecordRoutineWorkout.tsx";
+import { workoutExerciseObject } from "../../../../types/workoutTypes.ts";
+import { removeItem } from "../../../../modules/editingFunctions.tsx";
+import styles from "../../WorkoutComponents.module.css";
 import RoutineExerciseSetDisplayCard from "./RoutineExerciseSetDisplayCard.tsx";
 import WorkoutExerciseSetEditCard from "./WorkoutExerciseSetEditCard.tsx";
 import {
     routineExerciseObject,
     routineExerciseSetObject,
-} from "../../../types/routineTypes.ts";
+} from "../../../../types/routineTypes.ts";
 
 interface WorkoutExerciseDisplayCardProps {
     exerciseData: workoutExerciseObject;

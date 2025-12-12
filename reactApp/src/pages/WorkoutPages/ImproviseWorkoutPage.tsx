@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { createContext, useContext, useRef, useState } from "react";
 import AuthorizeView from "../../components/AuthorizationComponents/AuthorizeView.tsx";
 import { workoutObject } from "../../types/workoutTypes.ts";
-import ImprovWorkoutEditCard from "../../components/WorkoutComponents/WorkoutEditCards/ImprovWorkoutEditCard.tsx";
+import ImprovWorkoutEditCard from "../../components/WorkoutComponents/WorkoutEditCards/ImprovCards/ImprovWorkoutEditCard.tsx";
 import { exerciseObject } from "../../types/generalTypes.ts";
 import { useExercises } from "../../hooks/exerciseHooks.tsx";
 
