@@ -162,3 +162,22 @@
     border-color: #9497d9;
     background-color: #2e3393;
 }
+
+.addButton {
+    background-color: #143520;
+    border-color: #3fcd78;
+    color: #84d4a4;
+    margin: 10px;
+    width: 4rem;
+}
+
+.addButton:hover {
+    background-color: #1c412a;
+    border-color: #3fcd78;
+    color: #5cd18b;
+}
+.addButton:active {
+    background-color: #296742;
+    border-color: #73c494;
+    color: #d8efe1;
+}

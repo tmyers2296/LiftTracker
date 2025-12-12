@@ -40,3 +40,12 @@ export const fetchWorkouts = async (
         date: new Date(workout.date),
     }));
 };
+
+export const fetchWorkout = async (
+    workoutId: number
+): Promise<workoutObject> => {
+    const data = await fetchData(
+        `https://localhost:5119/workouts/${workoutId}`
+    );
+    return data;
+};

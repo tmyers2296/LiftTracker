@@ -5,7 +5,7 @@ import {
     workoutExerciseObject,
     workoutExerciseSetObject,
 } from "../../../types/workoutTypes.ts";
-import { useDeleteRoutine } from "../../../hooks/routineHooks.tsx";
+import { useDeleteWorkout } from "../../../hooks/workoutHooks.tsx";
 import ExpandableCard from "../../ExpandableCard/ExpandableCard.tsx";
 import { useExerciseData } from "../../../pages/WorkoutPages/WorkoutsPage.tsx";
 
@@ -15,7 +15,7 @@ interface RoutineCardProps {
 
 function WorkoutCard({ workoutData }: RoutineCardProps) {
     const navigate = useNavigate();
-    const deleteRoutineMutation = useDeleteRoutine();
+    const deleteWorkoutMutation = useDeleteWorkout();
     const { allExercises } = useExerciseData();
 
     // rendering functions:
@@ -49,12 +49,12 @@ function WorkoutCard({ workoutData }: RoutineCardProps) {
         );
     };
 
-    const handleEdit = (routineId: number) => {
-        navigate(`/edit-routine/${routineId}`);
+    const handleEdit = (workoutId: number) => {
+        navigate(`/edit-workout/${workoutId}`);
     };
 
     const handleDelete = () => {
-        deleteRoutineMutation.mutate(workoutData.id);
+        deleteWorkoutMutation.mutate(workoutData.id);
     };
 
     let buttonsCallbacks: {
@@ -77,7 +77,9 @@ function WorkoutCard({ workoutData }: RoutineCardProps) {
     return (
         <ExpandableCard
             cardName={workoutData.name}
-            subTitle={`@ ${workoutData.date.getDate()}-${workoutData.date.getMonth()}-${workoutData.date.getFullYear()}`}
+            subTitle={`@ ${workoutData.date.getDate()}-${
+                workoutData.date.getMonth() + 1
+            }-${workoutData.date.getFullYear()}`}
             className={styles.topLayerCard}
             buttons={buttonsCallbacks}
         >

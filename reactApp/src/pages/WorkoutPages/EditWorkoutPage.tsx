@@ -1,10 +1,11 @@
 import { useParams } from "react-router-dom";
-import { createContext, useContext, useRef, useState } from "react";
+import { createContext, useContext, useRef, useState, useEffect } from "react";
 import AuthorizeView from "../../components/AuthorizationComponents/AuthorizeView.tsx";
 import { workoutObject } from "../../types/workoutTypes.ts";
 import ImprovWorkoutEditCard from "../../components/WorkoutComponents/WorkoutEditCards/ImprovCards/ImprovWorkoutEditCard.tsx";
 import { exerciseObject } from "../../types/generalTypes.ts";
 import { useExercises } from "../../hooks/exerciseHooks.tsx";
+import { useWorkout } from "../../hooks/workoutHooks.tsx";
 
 type workoutDataGetSet = {
     workoutData: workoutObject;
@@ -15,22 +16,28 @@ type workoutDataGetSet = {
 
 const workoutDataContext = createContext<workoutDataGetSet | null>(null);
 
-function ImproviseWorkout() {
-    const { data: exercises } = useExercises(1, 100);
-    const tempIdCounter = useRef(-1);
+const newWorkoutData: workoutObject = {
+    id: 0,
+    date: new Date(),
+    isImprovised: false,
+    name: "test",
+    routineId: null,
+    createdBy: "test",
+    exercises: [],
+};
 
-    const newWorkoutData: workoutObject = {
-        id: 0,
-        date: new Date(),
-        isImprovised: false,
-        name: "Improvised Routine",
-        routineId: null,
-        createdBy: "test",
-        exercises: [],
-    };
-
+function EditWorkout() {
     const [workoutData, setWorkoutData] =
         useState<workoutObject>(newWorkoutData);
+    const { data: exercises } = useExercises(1, 100);
+    const tempIdCounter = useRef(-1);
+    const { id } = useParams();
+
+    const { data: existingWorkoutData } = useWorkout(id ? Number(id) : 0);
+
+    useEffect(() => {
+        if (existingWorkoutData) setWorkoutData(existingWorkoutData);
+    }, [existingWorkoutData]);
 
     return (
         <AuthorizeView>
@@ -56,4 +63,4 @@ export function useWorkoutData(): workoutDataGetSet {
     return context;
 }
 
-export default ImproviseWorkout;
+export default EditWorkout;

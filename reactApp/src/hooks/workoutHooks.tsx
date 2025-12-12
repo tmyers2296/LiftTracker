@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { workoutObject } from "../types/workoutTypes";
-import { fetchWorkouts } from "../modules/fetchWrappers";
+import { fetchWorkout, fetchWorkouts } from "../modules/fetchWrappers";
 import { saveNestedObject } from "../modules/apiFunctions";
 
 export function useSaveWorkout() {
@@ -29,5 +29,28 @@ export function useWorkouts(page: number, size: number) {
     return useQuery<workoutObject[]>({
         queryKey: ["workouts", page, size],
         queryFn: () => fetchWorkouts(page, size),
+    });
+}
+
+export function useWorkout(workoutId: number) {
+    return useQuery<workoutObject>({
+        queryKey: ["workouts", workoutId],
+        queryFn: () => fetchWorkout(workoutId),
+        enabled: workoutId !== 0,
+    });
+}
+
+export function useDeleteWorkout() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (id: number) =>
+            fetch(`https://localhost:5119/workouts/${id}`, {
+                method: "DELETE",
+            }),
+        onSuccess: () => {
+            // invalidate the 'routines' cache to refetch updated list
+            queryClient.invalidateQueries({ queryKey: ["workouts"] });
+        },
     });
 }
