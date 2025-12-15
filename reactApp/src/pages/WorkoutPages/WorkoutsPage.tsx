@@ -41,7 +41,7 @@ function WorkoutsPage() {
                                 data-tooltip-id="routine-tooltip"
                                 data-tooltip-content="Record workout from routine"
                                 onClick={() => {
-                                    navigate(`/record-routine-workout/29`);
+                                    navigate(`/choose-routine`);
                                 }}
                             >
                                 +

@@ -35,6 +35,7 @@ export async function saveNestedObject<T extends routineObject | workoutObject>(
     nestedObject: T
 ): Promise<T> {
     const payload = buildPayload(nestedObject);
+    console.log(JSON.stringify(payload));
 
     const response = await fetch(
         nestedObject.id === 0 ? endpoint.replace(/\/[^/]*$/, "") : endpoint,

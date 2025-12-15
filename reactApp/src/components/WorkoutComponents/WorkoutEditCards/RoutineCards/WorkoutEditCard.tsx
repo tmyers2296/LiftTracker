@@ -25,9 +25,7 @@ function WorkoutEditCard() {
         <div>
             <div className={styles.itemBoxNoPadding}>
                 <div className={styles.itemBox2header}>
-                    <div className={styles.item}>
-                        Routine: {routineData?.name}
-                    </div>
+                    <div className={styles.item}>{routineData?.name}</div>
                     <button
                         className={styles.saveButton}
                         onClick={() => {

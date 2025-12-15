@@ -1,5 +1,12 @@
 import { useParams } from "react-router-dom";
-import { createContext, useContext, useRef, useState, useReducer } from "react";
+import {
+    createContext,
+    useContext,
+    useRef,
+    useState,
+    useReducer,
+    useEffect,
+} from "react";
 import AuthorizeView from "../../components/AuthorizationComponents/AuthorizeView.tsx";
 import { routineObject } from "../../types/routineTypes.ts";
 import { workoutObject } from "../../types/workoutTypes.ts";
@@ -51,6 +58,12 @@ function RecordRoutineWorkout() {
         idMappingsReducer,
         initialIdMappings
     );
+
+    useEffect(() => {
+        if (!existingRoutineData) return;
+
+        setWorkoutData({ ...workoutData, name: existingRoutineData.name });
+    }, [existingRoutineData]);
 
     return (
         <AuthorizeView>

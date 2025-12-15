@@ -10,6 +10,7 @@ import EditRoutine from "./pages/RoutinePages/EditRoutine.tsx";
 import EditWorkout from "./pages/WorkoutPages/EditWorkoutPage.tsx";
 import RecordRoutineWorkout from "./pages/WorkoutPages/RecordRoutineWorkout.tsx";
 import ImproviseWorkout from "./pages/WorkoutPages/ImproviseWorkoutPage.tsx";
+import ChooseRoutinePage from "./pages/RoutinePages/chooseRoutine.tsx";
 
 function App() {
     return (
@@ -19,6 +20,7 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/" element={<Home />} />
                 <Route path="edit-routine/:id" element={<EditRoutine />} />
+                <Route path="choose-routine" element={<ChooseRoutinePage />} />
                 <Route
                     path="record-routine-workout/:id"
                     element={<RecordRoutineWorkout />}

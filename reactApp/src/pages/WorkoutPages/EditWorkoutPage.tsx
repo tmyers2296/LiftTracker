@@ -3,16 +3,9 @@ import { createContext, useContext, useRef, useState, useEffect } from "react";
 import AuthorizeView from "../../components/AuthorizationComponents/AuthorizeView.tsx";
 import { workoutObject } from "../../types/workoutTypes.ts";
 import ImprovWorkoutEditCard from "../../components/WorkoutComponents/WorkoutEditCards/ImprovCards/ImprovWorkoutEditCard.tsx";
-import { exerciseObject } from "../../types/generalTypes.ts";
 import { useExercises } from "../../hooks/exerciseHooks.tsx";
 import { useWorkout } from "../../hooks/workoutHooks.tsx";
-
-type workoutDataGetSet = {
-    workoutData: workoutObject;
-    setWorkoutData: React.Dispatch<React.SetStateAction<workoutObject>>;
-    tempIdCounter: React.MutableRefObject<number>;
-    allExercises: exerciseObject[];
-};
+import { workoutDataGetSet } from "../../types/contextTypes.ts";
 
 const workoutDataContext = createContext<workoutDataGetSet | null>(null);
 

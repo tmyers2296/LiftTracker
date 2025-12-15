@@ -157,3 +157,22 @@
     background-color: #242424;
     border-color: rgb(126, 126, 126);
 }
+
+.routineButton {
+    background-color: #142135;
+    border-color: #3f7fcd;
+    color: #7392b8;
+    margin: 5px;
+    min-width: 14rem;
+}
+
+.routineButton:hover {
+    background-color: #1c2a41;
+    border-color: #3f6ccd;
+    color: #5c8fd1;
+}
+.routineButton:active {
+    background-color: #294467;
+    border-color: #7396c4;
+    color: #d8deef;
+}
