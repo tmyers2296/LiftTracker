@@ -42,7 +42,7 @@ function ImproviseWorkout() {
                     allExercises: exercises ?? [],
                 }}
             >
-                <ImprovWorkoutEditCard />
+                <ImprovWorkoutEditCard contextHookCallback={useWorkoutData} />
             </workoutDataContext.Provider>
         </AuthorizeView>
     );

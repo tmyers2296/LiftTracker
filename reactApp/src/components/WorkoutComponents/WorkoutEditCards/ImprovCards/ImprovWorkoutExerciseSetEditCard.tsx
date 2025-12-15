@@ -6,17 +6,20 @@ import {
     updateItem,
 } from "../../../../modules/editingFunctions.tsx";
 import styles from "../../WorkoutComponents.module.css";
+import { workoutDataGetSet } from "../../../../types/contextTypes.ts";
 
 interface WorkoutExerciseDisplayCardProps {
     exerciseId: number;
     setData: workoutExerciseSetObject;
+    contextHookCallback: () => workoutDataGetSet;
 }
 
 function ImprovWorkoutExerciseSetEditCard({
     exerciseId,
     setData,
+    contextHookCallback,
 }: WorkoutExerciseDisplayCardProps) {
-    const { workoutData, setWorkoutData } = useWorkoutData();
+    const { workoutData, setWorkoutData } = contextHookCallback();
 
     const [hasTyped, setHasTyped] = useState<boolean>(false);
     const [hasTypedWeight, setHasTypedWeight] = useState<boolean>(false);

@@ -1,4 +1,4 @@
-import { useWorkoutData } from "../../../../pages/WorkoutPages/ImproviseWorkoutPage.tsx";
+import { workoutDataGetSet } from "../../../../types/contextTypes.ts";
 import { workoutExerciseObject } from "../../../../types/workoutTypes.ts";
 import { useSaveWorkout } from "../../../../hooks/workoutHooks.tsx";
 import styles from "../../WorkoutComponents.module.css";
@@ -6,9 +6,15 @@ import ImprovWorkoutExerciseEditCard from "./ImprovWorkoutExerciseEditCard.tsx";
 import { createNewWorkoutExercise } from "../../../../modules/itemFactories.tsx";
 import { addItem } from "../../../../modules/editingFunctions.tsx";
 
-function ImprovWorkoutEditCard() {
+interface ImprovWorkoutEditCardProps {
+    contextHookCallback: () => workoutDataGetSet;
+}
+
+function ImprovWorkoutEditCard({
+    contextHookCallback,
+}: ImprovWorkoutEditCardProps) {
     const { setWorkoutData, workoutData, allExercises, tempIdCounter } =
-        useWorkoutData();
+        contextHookCallback();
 
     const saveWorkoutMutation = useSaveWorkout();
 
@@ -66,6 +72,7 @@ function ImprovWorkoutEditCard() {
                                 <ImprovWorkoutExerciseEditCard
                                     key={exercise.id}
                                     exerciseData={exercise}
+                                    contextHookCallback={contextHookCallback}
                                 />
                             )
                         )}

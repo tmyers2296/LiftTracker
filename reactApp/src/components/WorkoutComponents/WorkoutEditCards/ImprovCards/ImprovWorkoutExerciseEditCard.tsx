@@ -1,4 +1,3 @@
-import { useWorkoutData } from "../../../../pages/WorkoutPages/ImproviseWorkoutPage.tsx";
 import {
     workoutExerciseObject,
     workoutExerciseSetObject,
@@ -10,16 +9,19 @@ import { createNewWorkoutExerciseSet } from "../../../../modules/itemFactories.t
 import { updateItem } from "../../../../modules/editingFunctions.tsx";
 import { addItem } from "../../../../modules/editingFunctions.tsx";
 import { exerciseObject } from "../../../../types/generalTypes.ts";
+import { workoutDataGetSet } from "../../../../types/contextTypes.ts";
 
 interface WorkoutExerciseDisplayCardProps {
     exerciseData: workoutExerciseObject;
+    contextHookCallback: () => workoutDataGetSet;
 }
 
 function ImprovWorkoutExerciseEditCard({
     exerciseData,
+    contextHookCallback,
 }: WorkoutExerciseDisplayCardProps) {
     const { allExercises, workoutData, setWorkoutData, tempIdCounter } =
-        useWorkoutData();
+        contextHookCallback();
 
     const addSet = (exercise: workoutExerciseObject) => {
         if (!workoutData) return;
@@ -86,6 +88,7 @@ function ImprovWorkoutExerciseEditCard({
                             key={set.id}
                             setData={set}
                             exerciseId={exerciseData.id}
+                            contextHookCallback={contextHookCallback}
                         />
                     ))}
                 </div>
