@@ -113,24 +113,26 @@ function RoutineExerciseEditSetCard({
                     ></input> */}
                     <input
                         className={styles.inputBoxSmall}
-                        defaultValue={setData.repRangeLow}
-                        onChange={(e) =>
+                        value={setData.repRangeLow}
+                        onChange={(e) => {
+                            if (!/^\d*$/.test(e.target.value)) return;
                             updateExerciseSet(exerciseId, {
                                 ...setData,
                                 repRangeLow: Number(e.target.value),
-                            })
-                        }
+                            });
+                        }}
                     ></input>
                     -
                     <input
                         className={styles.inputBoxSmall}
-                        defaultValue={setData.repRangeHigh}
-                        onChange={(e) =>
+                        value={setData.repRangeHigh}
+                        onChange={(e) => {
+                            if (!/^\d*$/.test(e.target.value)) return;
                             updateExerciseSet(exerciseId, {
                                 ...setData,
                                 repRangeHigh: Number(e.target.value),
-                            })
-                        }
+                            });
+                        }}
                     ></input>
                     <button
                         className={styles.deleteButton}
