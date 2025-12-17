@@ -74,8 +74,8 @@ function WorkoutExerciseSetEditCard({
                     value={!hasTyped && setData.reps === 0 ? "" : setData.reps}
                     placeholder="6-8"
                     onChange={(e) => {
-                        setHasTyped(e.target.value === "" ? false : true);
                         if (!/^\d*$/.test(e.target.value)) return;
+                        setHasTyped(e.target.value === "" ? false : true);
                         updateSet(exerciseId, {
                             ...setData,
                             reps: Number(e.target.value),
@@ -93,8 +93,8 @@ function WorkoutExerciseSetEditCard({
                             : setData.weight
                     }
                     onChange={(e) => {
-                        setHasTypedWeight(e.target.value === "" ? false : true);
                         if (!/^\d*$/.test(e.target.value)) return;
+                        setHasTypedWeight(e.target.value === "" ? false : true);
                         updateSet(exerciseId, {
                             ...setData,
                             weight: Number(e.target.value),

@@ -21,6 +21,7 @@ function ChooseRoutinePage() {
                         routines.map((data: routineObject) => (
                             <button
                                 className={styles.routineButton}
+                                key={data.id}
                                 onClick={() => {
                                     navigate(
                                         `/record-routine-workout/${data.id}`

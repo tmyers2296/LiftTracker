@@ -1,4 +1,3 @@
-import { useWorkoutData } from "../../../../pages/WorkoutPages/ImproviseWorkoutPage.tsx";
 import { useState } from "react";
 import { workoutExerciseSetObject } from "../../../../types/workoutTypes.ts";
 import {
@@ -20,9 +19,11 @@ function ImprovWorkoutExerciseSetEditCard({
     contextHookCallback,
 }: WorkoutExerciseDisplayCardProps) {
     const { workoutData, setWorkoutData } = contextHookCallback();
+    const workoutExists = workoutData.id !== 0;
 
-    const [hasTyped, setHasTyped] = useState<boolean>(false);
-    const [hasTypedWeight, setHasTypedWeight] = useState<boolean>(false);
+    const [hasTyped, setHasTyped] = useState<boolean>(workoutExists);
+    const [hasTypedWeight, setHasTypedWeight] =
+        useState<boolean>(workoutExists);
 
     const removeSet = (exerciseId: number, setId: number) => {
         if (!workoutData) return;
@@ -76,8 +77,8 @@ function ImprovWorkoutExerciseSetEditCard({
                     value={!hasTyped && setData.reps === 0 ? "" : setData.reps}
                     placeholder="6-8"
                     onChange={(e) => {
-                        setHasTyped(e.target.value === "" ? false : true);
                         if (!/^\d*$/.test(e.target.value)) return;
+                        setHasTyped(e.target.value === "" ? false : true);
                         updateSet(exerciseId, {
                             ...setData,
                             reps: Number(e.target.value),
@@ -95,8 +96,8 @@ function ImprovWorkoutExerciseSetEditCard({
                             : setData.weight
                     }
                     onChange={(e) => {
-                        setHasTypedWeight(e.target.value === "" ? false : true);
                         if (!/^\d*$/.test(e.target.value)) return;
+                        setHasTypedWeight(e.target.value === "" ? false : true);
                         updateSet(exerciseId, {
                             ...setData,
                             weight: Number(e.target.value),

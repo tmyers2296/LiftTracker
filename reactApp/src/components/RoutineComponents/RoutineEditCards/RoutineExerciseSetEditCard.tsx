@@ -1,5 +1,5 @@
 import styles from "./RoutineEditCard.module.css";
-
+import { useState } from "react";
 import { routineExerciseSetObject } from "../../../types/routineTypes";
 import { useRoutineData } from "../../../pages/RoutinePages/EditRoutine";
 import {
@@ -18,6 +18,10 @@ function RoutineExerciseEditSetCard({
     exerciseId,
 }: RoutineExerciseSetEditCard2Props) {
     const { routineData, setRoutineData } = useRoutineData();
+    const routineExists = routineData?.id !== 0;
+
+    const [hasTypedLow, setHasTypedLow] = useState<boolean>(routineExists);
+    const [hasTypedHigh, setHasTypedHigh] = useState<boolean>(routineExists);
 
     // CRUD function wrappers:
     const updateExerciseSet = (
@@ -113,9 +117,16 @@ function RoutineExerciseEditSetCard({
                     ></input> */}
                     <input
                         className={styles.inputBoxSmall}
-                        value={setData.repRangeLow}
+                        value={
+                            !hasTypedLow && setData.repRangeLow === 0
+                                ? ""
+                                : setData.repRangeLow
+                        }
                         onChange={(e) => {
                             if (!/^\d*$/.test(e.target.value)) return;
+                            setHasTypedLow(
+                                e.target.value === "" ? false : true
+                            );
                             updateExerciseSet(exerciseId, {
                                 ...setData,
                                 repRangeLow: Number(e.target.value),
@@ -125,9 +136,16 @@ function RoutineExerciseEditSetCard({
                     -
                     <input
                         className={styles.inputBoxSmall}
-                        value={setData.repRangeHigh}
+                        value={
+                            !hasTypedHigh && setData.repRangeHigh === 0
+                                ? ""
+                                : setData.repRangeHigh
+                        }
                         onChange={(e) => {
                             if (!/^\d*$/.test(e.target.value)) return;
+                            setHasTypedHigh(
+                                e.target.value === "" ? false : true
+                            );
                             updateExerciseSet(exerciseId, {
                                 ...setData,
                                 repRangeHigh: Number(e.target.value),
