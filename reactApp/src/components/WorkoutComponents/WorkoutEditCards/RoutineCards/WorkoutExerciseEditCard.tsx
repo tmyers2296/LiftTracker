@@ -67,6 +67,36 @@ function WorkoutExerciseEditCard({
                             key={set.id}
                             setData={set}
                             exerciseId={exerciseData.id}
+                            repRangeLow={
+                                routineData?.exercises
+                                    .find(
+                                        (exercise: routineExerciseObject) =>
+                                            exercise.id ===
+                                            idMappings.exerciseMap[
+                                                exerciseData.id
+                                            ]
+                                    )
+                                    ?.sets.find(
+                                        (routineSet) =>
+                                            routineSet.id ===
+                                            idMappings.setMap[set.id]
+                                    )?.repRangeLow
+                            }
+                            repRangeHigh={
+                                routineData?.exercises
+                                    .find(
+                                        (exercise: routineExerciseObject) =>
+                                            exercise.id ===
+                                            idMappings.exerciseMap[
+                                                exerciseData.id
+                                            ]
+                                    )
+                                    ?.sets.find(
+                                        (routineSet) =>
+                                            routineSet.id ===
+                                            idMappings.setMap[set.id]
+                                    )?.repRangeHigh
+                            }
                         />
                     ))}
                 </div>

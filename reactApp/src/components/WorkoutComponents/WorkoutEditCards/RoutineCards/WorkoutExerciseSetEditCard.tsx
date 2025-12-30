@@ -10,11 +10,15 @@ import styles from "../../WorkoutComponents.module.css";
 interface WorkoutExerciseDisplayCardProps {
     exerciseId: number;
     setData: workoutExerciseSetObject;
+    repRangeLow: number | undefined;
+    repRangeHigh: number | undefined;
 }
 
 function WorkoutExerciseSetEditCard({
     exerciseId,
     setData,
+    repRangeLow,
+    repRangeHigh,
 }: WorkoutExerciseDisplayCardProps) {
     const { dispatchIdMappings, workoutData, setWorkoutData } =
         useWorkoutData();
@@ -72,7 +76,7 @@ function WorkoutExerciseSetEditCard({
                 <input
                     className={`${styles.item} ${styles.restrictWidth}`}
                     value={!hasTyped && setData.reps === 0 ? "" : setData.reps}
-                    placeholder="6-8"
+                    placeholder={`${repRangeLow}-${repRangeHigh}`}
                     onChange={(e) => {
                         if (!/^\d*$/.test(e.target.value)) return;
                         setHasTyped(e.target.value === "" ? false : true);

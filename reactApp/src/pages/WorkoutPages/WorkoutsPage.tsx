@@ -7,7 +7,7 @@ import AuthorizeView from "../../components/AuthorizationComponents/AuthorizeVie
 import styles from "./WorkoutPages.module.css";
 import { Tooltip } from "react-tooltip";
 import { useExercises } from "../../hooks/exerciseHooks";
-import { useContext, createContext } from "react";
+import { useContext, createContext, useState } from "react";
 import { exerciseObject } from "../../types/generalTypes";
 
 type exerciseDataContextItems = {
@@ -17,8 +17,9 @@ type exerciseDataContextItems = {
 const exercisesContext = createContext<exerciseDataContextItems | null>(null);
 
 function WorkoutsPage() {
+    const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
-    const { data: routines, isLoading, isError } = useWorkouts(1, 100);
+    const { data: routines, isLoading, isError } = useWorkouts(currentPage, 5);
     const { data: allExercises } = useExercises(1, 100);
 
     return (
@@ -35,6 +36,23 @@ function WorkoutsPage() {
                             routines.map((data: workoutObject) => (
                                 <WorkoutCard key={data.id} workoutData={data} />
                             ))}
+                        <div className={styles.itemBox}>
+                            <button
+                                onClick={() => {
+                                    setCurrentPage(currentPage - 1);
+                                }}
+                                disabled={currentPage <= 1}
+                            >
+                                {"<"}
+                            </button>
+                            <button
+                                onClick={() => {
+                                    setCurrentPage(currentPage + 1);
+                                }}
+                            >
+                                {">"}
+                            </button>
+                        </div>
                         <div className={styles.itemBox}>
                             <button
                                 className={styles.addButtonOrange}
