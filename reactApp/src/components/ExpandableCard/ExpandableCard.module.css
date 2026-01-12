@@ -5,6 +5,7 @@
     border: 2px solid #696969;
     border-radius: 6px;
     box-sizing: border-box;
+    width: 70%;
 }
 
 .titleRow {
@@ -20,6 +21,12 @@
     font-weight: bold;
     font-size: 1.5rem;
     align-content: center;
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.buttonContainer {
+    min-width: 14rem;
 }
 
 .cardSubTitle {
@@ -29,6 +36,7 @@
     font-weight: 400;
     font-size: 1rem;
     color: #949494;
+    min-width: 6.8rem;
 }
 
 .expandedBorder {

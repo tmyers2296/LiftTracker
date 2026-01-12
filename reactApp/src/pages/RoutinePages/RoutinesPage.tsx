@@ -1,5 +1,6 @@
 import { NavBar } from "../../components/Navigation/NavBar";
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useRoutines } from "../../hooks/routineHooks";
 import styles from "../MainPages.module.css";
 import { routineObject } from "../../types/routineTypes";
@@ -8,7 +9,8 @@ import AuthorizeView from "../../components/AuthorizationComponents/AuthorizeVie
 
 function RoutinesPage() {
     const navigate = useNavigate();
-    const { data: routines, isLoading, isError } = useRoutines(1, 100);
+    const [currentPage, setCurrentPage] = useState(1);
+    const { data: routines, isLoading, isError } = useRoutines(currentPage, 5);
 
     return (
         <AuthorizeView>
@@ -21,6 +23,23 @@ function RoutinesPage() {
                         routines.map((data: routineObject) => (
                             <RoutineCard key={data.id} routineData={data} />
                         ))}
+                    <div className={styles.itemBox2}>
+                        <button
+                            onClick={() => {
+                                setCurrentPage(currentPage - 1);
+                            }}
+                            disabled={currentPage <= 1}
+                        >
+                            {"<"}
+                        </button>
+                        <button
+                            onClick={() => {
+                                setCurrentPage(currentPage + 1);
+                            }}
+                        >
+                            {">"}
+                        </button>
+                    </div>
                     <button
                         className={styles.addButton}
                         onClick={() => {
