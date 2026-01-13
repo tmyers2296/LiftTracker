@@ -64,7 +64,7 @@ public class RoutineService : IRoutineService
                 .ThenInclude(re => re.Sets)
                 .OrderByDescending(r => r.Id)
                 .Skip((page - 1) * pageSize)
-                .Take(pageSize)
+                .Take(pageSize + 1)
                 .ToListAsync();
     }
 

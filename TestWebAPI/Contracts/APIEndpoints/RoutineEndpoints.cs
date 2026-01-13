@@ -26,8 +26,18 @@ public static class RoutineEndpoints
         // read group:
         group.MapGet("/", async (IRoutineService routineService, int pageNumber, int pageSize) =>
         {
-            List<Routine> routineList= await routineService.GetPaginated(pageNumber, pageSize);
-            return Results.Ok(routineList.MapToResponse());
+            List<Routine> routineList = await routineService.GetPaginated(pageNumber, pageSize);
+
+            PaginatedResponse<RoutineResponse> response = new PaginatedResponse<RoutineResponse> {
+                Items = routineList
+                        .Take(pageSize)
+                        .Select(r => r.MapToResponse())
+                        .ToList(),
+
+                HasMore = routineList.Count > pageSize
+            };
+            
+            return response;
         });
 
         // update:

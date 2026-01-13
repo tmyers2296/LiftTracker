@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { saveNestedObject } from "../modules/apiFunctions";
 import { routineObject } from "../types/routineTypes";
 import { fetchRoutines, fetchRoutine } from "../modules/fetchWrappers";
+import { PaginatedData } from "../types/generalTypes";
 
 export function useSaveRoutine() {
     const queryClient = useQueryClient();
@@ -41,7 +42,7 @@ export function useDeleteRoutine() {
 }
 
 export function useRoutines(page: number, size: number) {
-    return useQuery<routineObject[]>({
+    return useQuery<PaginatedData<routineObject>>({
         queryKey: ["routines", page, size],
         queryFn: () => fetchRoutines(page, size),
     });

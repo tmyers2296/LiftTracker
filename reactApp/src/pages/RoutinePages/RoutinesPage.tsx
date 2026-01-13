@@ -20,7 +20,7 @@ function RoutinesPage() {
                     {!isLoading &&
                         !isError &&
                         routines &&
-                        routines.map((data: routineObject) => (
+                        routines.items.map((data: routineObject) => (
                             <RoutineCard key={data.id} routineData={data} />
                         ))}
                     <div className={styles.itemBox2}>
@@ -36,6 +36,7 @@ function RoutinesPage() {
                             onClick={() => {
                                 setCurrentPage(currentPage + 1);
                             }}
+                            disabled={!routines?.hasMore}
                         >
                             {">"}
                         </button>

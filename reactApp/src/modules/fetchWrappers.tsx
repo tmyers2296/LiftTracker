@@ -6,11 +6,12 @@ import { PaginatedData } from "../types/generalTypes";
 export const fetchRoutines = async (
     pageNum: number,
     pageSize: number
-): Promise<routineObject[]> => {
+): Promise<PaginatedData<routineObject>> => {
     const data = await fetchData(
         `https://localhost:5119/routines?pageNumber=${pageNum}&pageSize=${pageSize}`
     );
-    return data.routines;
+
+    return data;
 };
 
 export const fetchRoutine = async (

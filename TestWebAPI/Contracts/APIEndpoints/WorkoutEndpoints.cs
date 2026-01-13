@@ -29,9 +29,9 @@ public static class WorkoutEndpoints
             PaginatedResponse<WorkoutResponse> response = new PaginatedResponse<WorkoutResponse>
             {
                 Items = workoutList
-                .Take(pageSize)
-                .Select(w => w.MapToResponse())
-                .ToList(),
+                        .Take(pageSize)
+                        .Select(w => w.MapToResponse())
+                        .ToList(),
                 
                 HasMore = workoutList.Count > pageSize
             };
