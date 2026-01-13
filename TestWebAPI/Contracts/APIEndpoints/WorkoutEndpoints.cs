@@ -24,8 +24,19 @@ public static class WorkoutEndpoints
         // read group:
         group.MapGet("/", async (IWorkoutService workoutService, int pageNumber, int pageSize) =>
         {
-            List<Workout> workoutList= await workoutService.GetPaginated(pageNumber, pageSize);
-            return Results.Ok(workoutList.MapToResponse());
+            List<Workout> workoutList = await workoutService.GetPaginated(pageNumber, pageSize);
+
+            PaginatedResponse<WorkoutResponse> response = new PaginatedResponse<WorkoutResponse>
+            {
+                Items = workoutList
+                .Take(pageSize)
+                .Select(w => w.MapToResponse())
+                .ToList(),
+                
+                HasMore = workoutList.Count > pageSize
+            };
+
+            return Results.Ok(response);
         });
 
         // update:

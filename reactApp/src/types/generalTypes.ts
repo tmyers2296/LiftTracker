@@ -18,3 +18,8 @@ export type OrderedItem =
     | routineExerciseSetObject
     | workoutExerciseObject
     | workoutExerciseSetObject;
+
+export type PaginatedData<T> = {
+    items: T[];
+    hasMore: boolean;
+};

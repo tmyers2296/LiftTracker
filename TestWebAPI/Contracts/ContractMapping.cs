@@ -196,7 +196,7 @@ public static class ContractMapping
         };
     }
 
-    public static RoutinePaginatedResponse MapToResponse(this List<Routine> routineList)
+    public static RoutinesResponse MapToResponse(this List<Routine> routineList)
     {
         List<RoutineResponse> routineResponses = new List<RoutineResponse>();
 
@@ -205,7 +205,7 @@ public static class ContractMapping
             routineResponses.Add(routine.MapToResponse());
         }
 
-        return new RoutinePaginatedResponse
+        return new RoutinesResponse
         {
             Routines = routineResponses
         };
@@ -343,7 +343,7 @@ public static class ContractMapping
         };
     }
 
-    public static WorkoutPaginatedResponse MapToResponse(this List<Workout> workoutList)
+    public static WorkoutsResponse MapToResponse(this List<Workout> workoutList)
     {
         List<WorkoutResponse> workoutResponses = new List<WorkoutResponse>();
 
@@ -352,7 +352,7 @@ public static class ContractMapping
             workoutResponses.Add(workout.MapToResponse());
         }
 
-        return new WorkoutPaginatedResponse
+        return new WorkoutsResponse
         {
             Workouts = workoutResponses
         };

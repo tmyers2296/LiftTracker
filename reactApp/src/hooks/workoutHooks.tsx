@@ -2,6 +2,7 @@ import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 import { workoutObject } from "../types/workoutTypes";
 import { fetchWorkout, fetchWorkouts } from "../modules/fetchWrappers";
 import { saveNestedObject } from "../modules/apiFunctions";
+import { PaginatedData } from "../types/generalTypes";
 
 export function useSaveWorkout() {
     const queryClient = useQueryClient();
@@ -26,7 +27,7 @@ export function useSaveWorkout() {
 }
 
 export function useWorkouts(page: number, size: number) {
-    return useQuery<workoutObject[]>({
+    return useQuery<PaginatedData<workoutObject>>({
         queryKey: ["workouts", page, size],
         queryFn: () => fetchWorkouts(page, size),
     });

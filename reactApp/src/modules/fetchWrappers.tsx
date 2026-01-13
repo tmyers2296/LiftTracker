@@ -1,6 +1,7 @@
 import { fetchData } from "./apiFunctions";
 import { routineObject } from "../types/routineTypes";
 import { workoutObject } from "../types/workoutTypes";
+import { PaginatedData } from "../types/generalTypes";
 
 export const fetchRoutines = async (
     pageNum: number,
@@ -31,14 +32,18 @@ export const fetchExercises = async (pageNum: number, pageSize: number) => {
 export const fetchWorkouts = async (
     pageNum: number,
     pageSize: number
-): Promise<workoutObject[]> => {
+): Promise<PaginatedData<workoutObject>> => {
     const data = await fetchData(
         `https://localhost:5119/workouts?pageNumber=${pageNum}&pageSize=${pageSize}`
     );
-    return data.workouts.map((workout: workoutObject) => ({
-        ...workout,
-        date: new Date(workout.date),
-    }));
+
+    return {
+        items: data.items.map((workout: workoutObject) => ({
+            ...workout,
+            date: new Date(workout.date),
+        })),
+        hasMore: data.hasMore,
+    };
 };
 
 export const fetchWorkout = async (

@@ -1,4 +1,4 @@
-public class WorkoutPaginatedResponse
+public class WorkoutsResponse
 {
     public required List<WorkoutResponse> Workouts { get; init; }
 }

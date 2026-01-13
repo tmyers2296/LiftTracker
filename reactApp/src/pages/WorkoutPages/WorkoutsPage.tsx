@@ -19,7 +19,7 @@ const exercisesContext = createContext<exerciseDataContextItems | null>(null);
 function WorkoutsPage() {
     const [currentPage, setCurrentPage] = useState(1);
     const navigate = useNavigate();
-    const { data: routines, isLoading, isError } = useWorkouts(currentPage, 5);
+    const { data: workouts, isLoading, isError } = useWorkouts(currentPage, 5);
     const { data: allExercises } = useExercises(1, 100);
 
     return (
@@ -32,8 +32,8 @@ function WorkoutsPage() {
                     <div className={styles.itemBoxOutline}>
                         {!isLoading &&
                             !isError &&
-                            routines &&
-                            routines.map((data: workoutObject) => (
+                            workouts &&
+                            workouts.items.map((data: workoutObject) => (
                                 <WorkoutCard key={data.id} workoutData={data} />
                             ))}
                         <div className={styles.itemBox}>
@@ -49,6 +49,7 @@ function WorkoutsPage() {
                                 onClick={() => {
                                     setCurrentPage(currentPage + 1);
                                 }}
+                                disabled={!workouts?.hasMore}
                             >
                                 {">"}
                             </button>

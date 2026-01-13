@@ -64,7 +64,7 @@ public class WorkoutService : IWorkoutService
                 .ThenInclude(we => we.Sets)
                 .OrderByDescending(w => w.Id)
                 .Skip((page - 1) * pageSize)
-                .Take(pageSize)
+                .Take(pageSize + 1)
                 .ToListAsync();
     }
 

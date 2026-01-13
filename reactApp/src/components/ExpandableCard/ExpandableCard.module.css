@@ -5,7 +5,6 @@
     border: 2px solid #696969;
     border-radius: 6px;
     box-sizing: border-box;
-    width: 70%;
 }
 
 .titleRow {
@@ -26,7 +25,7 @@
 }
 
 .buttonContainer {
-    min-width: 14rem;
+    flex-shrink: 0;
 }
 
 .cardSubTitle {
