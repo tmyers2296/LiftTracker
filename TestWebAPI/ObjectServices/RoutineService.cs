@@ -167,8 +167,19 @@ public class RoutineService : IRoutineService
     // delete methods:
     public async Task<bool> DeleteById(int id)
     {
-        var result = await _dbContext.Routines.Where(x => x.Id == id).ExecuteDeleteAsync();
-        return result > 0;
+        // remove routineIDs from workouts
+        await _dbContext.Workouts
+            .Where(w => w.RoutineId == id)
+            .ExecuteUpdateAsync(w =>
+                w.SetProperty(x => x.RoutineId, (int?)null)
+            );
+
+        // Delete routine itself
+        var deleted = await _dbContext.Routines
+            .Where(r => r.Id == id)
+            .ExecuteDeleteAsync();
+
+        return deleted > 0;
     }
 
     public async Task<bool> DeleteExerciseById(int id)
