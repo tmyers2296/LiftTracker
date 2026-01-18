@@ -18,7 +18,7 @@ function ChooseRoutinePage() {
                     {!isLoading &&
                         !isError &&
                         routines &&
-                        routines.map((data: routineObject) => (
+                        routines.items.map((data: routineObject) => (
                             <button
                                 className={styles.routineButton}
                                 key={data.id}

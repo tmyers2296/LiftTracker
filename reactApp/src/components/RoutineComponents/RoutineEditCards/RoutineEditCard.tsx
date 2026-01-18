@@ -22,6 +22,8 @@ function RoutineEditCard() {
             endpoint: `https://localhost:5119/routines/${routineData.id}`,
             routine: routineData,
         });
+
+        console.log(routineData.id);
     }
 
     // CRUD function wrappers:

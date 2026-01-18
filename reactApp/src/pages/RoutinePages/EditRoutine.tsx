@@ -24,18 +24,20 @@ const newRoutineData: routineObject = {
 const routineDataContext = createContext<routineDataGetSet | null>(null);
 
 function EditRoutine() {
-    const [routineData, setRoutineData] = useState<routineObject | null>(
-        newRoutineData
-    );
+    const [routineData, setRoutineData] = useState<routineObject | null>(null);
 
     const tempIdCounter = useRef(-1);
     const { id } = useParams();
+    const isEditMode = Number(id) !== 0;
 
     const { data: exercises } = useExercises(1, 100);
     const { data: existingRoutineData } = useRoutine(id ? Number(id) : 0);
 
     useEffect(() => {
-        if (existingRoutineData) setRoutineData(existingRoutineData);
+        if (isEditMode && existingRoutineData)
+            setRoutineData(existingRoutineData);
+
+        if (!isEditMode) setRoutineData(newRoutineData);
     }, [existingRoutineData]);
 
     return (
