@@ -1,24 +1,36 @@
 import { useWorkoutData } from "../../../../pages/WorkoutPages/RecordRoutineWorkout.tsx";
 import RoutineExerciseDisplayCard from "./RoutineExerciseDisplayCard.tsx";
 import { routineExerciseObject } from "../../../../types/routineTypes.ts";
-import { workoutExerciseObject } from "../../../../types/workoutTypes.ts";
+import {
+    workoutObject,
+    workoutExerciseObject,
+} from "../../../../types/workoutTypes.ts";
 import { useSaveWorkout } from "../../../../hooks/workoutHooks.tsx";
 import styles from "../../WorkoutComponents.module.css";
 import WorkoutExerciseEditCard from "./WorkoutExerciseEditCard.tsx";
+import { useNavigate } from "react-router-dom";
 
 function WorkoutEditCard() {
+    const navigate = useNavigate();
     const { idMappings, routineData, workoutData } = useWorkoutData();
 
     const saveWorkoutMutation = useSaveWorkout();
 
     // Save function wrapper:
-    function handleSave() {
+    async function handleSave() {
         if (!workoutData) return;
 
-        saveWorkoutMutation.mutate({
-            endpoint: `https://localhost:5119/workouts/${workoutData.id}`,
-            workout: workoutData,
-        });
+        const updatedWorkoutResult: Promise<workoutObject> =
+            saveWorkoutMutation.mutateAsync({
+                endpoint: `https://localhost:5119/workouts/${workoutData.id}`,
+                workout: workoutData,
+            });
+
+        if (workoutData.id === 0) {
+            const updateWorkout = await updatedWorkoutResult;
+
+            navigate(`/edit-workout/${updateWorkout.id}`, { replace: true });
+        }
     }
 
     return (

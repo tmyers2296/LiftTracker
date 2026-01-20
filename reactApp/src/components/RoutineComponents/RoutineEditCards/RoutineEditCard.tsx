@@ -1,13 +1,20 @@
 import { useRoutineData } from "../../../pages/RoutinePages/EditRoutine.tsx";
 import RoutineExerciseEditCard from "./RoutineExerciseEditCard.tsx";
-import { routineExerciseObject } from "../../../types/routineTypes.ts";
+import {
+    routineExerciseObject,
+    routineObject,
+} from "../../../types/routineTypes.ts";
 import styles from "./RoutineEditCard.module.css";
 import { createNewExercise } from "../../../modules/itemFactories.tsx";
 import { addItem } from "../../../modules/editingFunctions.tsx";
 import { useSaveRoutine } from "../../../hooks/routineHooks.tsx";
+import { useNavigate } from "react-router-dom";
+
 // import { saveNestedObject } from "../../../modules/savingFunctions.tsx";
 
 function RoutineEditCard() {
+    const navigate = useNavigate();
+
     //Hooks:
     const { routineData, setRoutineData, allExercises, tempIdCounter } =
         useRoutineData();
@@ -15,15 +22,19 @@ function RoutineEditCard() {
     const saveRoutineMutation = useSaveRoutine();
 
     // Save function wrapper:
-    function handleSave() {
+    async function handleSave() {
         if (!routineData) return;
 
-        saveRoutineMutation.mutate({
-            endpoint: `https://localhost:5119/routines/${routineData.id}`,
-            routine: routineData,
-        });
+        const updatedRoutineResult: Promise<routineObject> =
+            saveRoutineMutation.mutateAsync({
+                endpoint: `https://localhost:5119/routines/${routineData.id}`,
+                routine: routineData,
+            });
 
-        console.log(routineData.id);
+        if (routineData.id === 0) {
+            const updatedRoutine = await updatedRoutineResult;
+            navigate(`/edit-routine/${updatedRoutine.id}`, { replace: true });
+        }
     }
 
     // CRUD function wrappers:

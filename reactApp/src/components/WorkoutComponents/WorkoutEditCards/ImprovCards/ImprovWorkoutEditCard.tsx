@@ -1,10 +1,14 @@
 import { workoutDataGetSet } from "../../../../types/contextTypes.ts";
-import { workoutExerciseObject } from "../../../../types/workoutTypes.ts";
+import {
+    workoutObject,
+    workoutExerciseObject,
+} from "../../../../types/workoutTypes.ts";
 import { useSaveWorkout } from "../../../../hooks/workoutHooks.tsx";
 import styles from "../../WorkoutComponents.module.css";
 import ImprovWorkoutExerciseEditCard from "./ImprovWorkoutExerciseEditCard.tsx";
 import { createNewWorkoutExercise } from "../../../../modules/itemFactories.tsx";
 import { addItem } from "../../../../modules/editingFunctions.tsx";
+import { useNavigate } from "react-router-dom";
 
 interface ImprovWorkoutEditCardProps {
     contextHookCallback: () => workoutDataGetSet;
@@ -13,19 +17,27 @@ interface ImprovWorkoutEditCardProps {
 function ImprovWorkoutEditCard({
     contextHookCallback,
 }: ImprovWorkoutEditCardProps) {
+    const navigate = useNavigate();
     const { setWorkoutData, workoutData, allExercises, tempIdCounter } =
         contextHookCallback();
 
     const saveWorkoutMutation = useSaveWorkout();
 
     // Save function wrapper:
-    function handleSave() {
+    async function handleSave() {
         if (!workoutData) return;
 
-        saveWorkoutMutation.mutate({
-            endpoint: `https://localhost:5119/workouts/${workoutData.id}`,
-            workout: workoutData,
-        });
+        const updatedWorkoutResult: Promise<workoutObject> =
+            saveWorkoutMutation.mutateAsync({
+                endpoint: `https://localhost:5119/workouts/${workoutData.id}`,
+                workout: workoutData,
+            });
+
+        if (workoutData.id === 0) {
+            const updateWorkout = await updatedWorkoutResult;
+
+            navigate(`/edit-workout/${updateWorkout.id}`, { replace: true });
+        }
     }
 
     const addExercise = () => {
