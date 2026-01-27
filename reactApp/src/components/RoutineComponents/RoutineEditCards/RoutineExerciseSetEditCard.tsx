@@ -17,6 +17,7 @@ function RoutineExerciseEditSetCard({
     setData,
     exerciseId,
 }: RoutineExerciseSetEditCard2Props) {
+    // get data of previous set from routineData (find the current value of rep ranges and use them as intitial values.)
     const { routineData, setRoutineData } = useRoutineData();
     const routineExists = routineData?.id !== 0;
 
