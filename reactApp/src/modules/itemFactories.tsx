@@ -29,12 +29,14 @@ export function createNewExercise(
 
 export function createNewSet(
     tempIdCounter: React.MutableRefObject<number>,
-    currentSetsLength: number
+    currentSetsLength: number,
+    repRangeLow: number,
+    repRangeHigh: number
 ): routineExerciseSetObject {
     return {
         id: createTempId(tempIdCounter),
-        repRangeLow: 6,
-        repRangeHigh: 8,
+        repRangeLow: repRangeLow,
+        repRangeHigh: repRangeHigh,
         order: currentSetsLength,
     };
 }

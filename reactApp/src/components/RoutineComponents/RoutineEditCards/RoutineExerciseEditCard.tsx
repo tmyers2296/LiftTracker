@@ -25,6 +25,15 @@ function RoutineExerciseEditCard({
     const { routineData, setRoutineData, allExercises, tempIdCounter } =
         useRoutineData();
 
+    let initialLowRepRange = 6;
+    let initialHighRepRange = 8;
+
+    if (exerciseData.sets) {
+        let mostRecentSet = exerciseData.sets[exerciseData.sets.length - 1];
+        initialLowRepRange = mostRecentSet.repRangeLow;
+        initialHighRepRange = mostRecentSet.repRangeHigh;
+    }
+
     // CRUD function wrappers:
     const updateExercise = (updated: routineExerciseObject) => {
         if (!routineData) return;
@@ -39,7 +48,9 @@ function RoutineExerciseEditCard({
 
         const newSet: routineExerciseSetObject = createNewSet(
             tempIdCounter,
-            exercise.sets.length
+            exercise.sets.length,
+            initialLowRepRange,
+            initialHighRepRange
         );
 
         const newExercises = updateItem(routineData.exercises, {
