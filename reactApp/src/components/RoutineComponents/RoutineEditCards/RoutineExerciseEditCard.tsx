@@ -30,8 +30,11 @@ function RoutineExerciseEditCard({
 
     if (exerciseData.sets) {
         let mostRecentSet = exerciseData.sets[exerciseData.sets.length - 1];
-        initialLowRepRange = mostRecentSet.repRangeLow;
-        initialHighRepRange = mostRecentSet.repRangeHigh;
+
+        if (mostRecentSet) {
+            initialLowRepRange = mostRecentSet.repRangeLow;
+            initialHighRepRange = mostRecentSet.repRangeHigh;
+        }
     }
 
     // CRUD function wrappers:

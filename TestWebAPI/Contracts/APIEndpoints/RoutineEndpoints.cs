@@ -1,5 +1,6 @@
 using System.Data.Common;
 using System.Text.Json;
+using System.Security.Claims;
 
 public static class RoutineEndpoints
 {
@@ -9,8 +10,9 @@ public static class RoutineEndpoints
         var group = app.MapGroup("routines");
 
         // create:
-        group.MapPost("/", async (IRoutineService routineService, CreateFullRoutineRequest request) => 
+        group.MapPost("/", async (IRoutineService routineService, CreateFullRoutineRequest request, ClaimsPrincipal user) => 
         {
+            Console.WriteLine(user.Identity?.IsAuthenticated);
             Routine routine = request.MapToRoutine();
             Routine? createdRoutine = await routineService.Create(routine);
             return Results.Created($"/routines/{createdRoutine.Id}", createdRoutine.MapToResponse());
