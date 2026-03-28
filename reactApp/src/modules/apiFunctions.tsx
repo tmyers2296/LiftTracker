@@ -41,6 +41,7 @@ export async function saveNestedObject<T extends routineObject | workoutObject>(
         nestedObject.id === 0 ? endpoint.replace(/\/[^/]*$/, "") : endpoint,
         {
             method: nestedObject.id === 0 ? "POST" : "PUT",
+            credentials: "include",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
         }

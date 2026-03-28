@@ -12,11 +12,12 @@ public static class RoutineEndpoints
         // create:
         group.MapPost("/", async (IRoutineService routineService, CreateFullRoutineRequest request, ClaimsPrincipal user) => 
         {
+            Console.WriteLine("!!!! Creating Routine: !!!!!");
             Console.WriteLine(user.Identity?.IsAuthenticated);
             Routine routine = request.MapToRoutine();
             Routine? createdRoutine = await routineService.Create(routine);
             return Results.Created($"/routines/{createdRoutine.Id}", createdRoutine.MapToResponse());
-        });
+        }).RequireAuthorization();
 
         // read individual:
         group.MapGet("/{id:int}", async (IRoutineService routineService, int id) =>

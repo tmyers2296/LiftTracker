@@ -16,11 +16,13 @@ builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
 // Add CORS policy
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(policy =>
+    options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("https://localhost:5173") // React app URL
-              .AllowAnyHeader()
-              .AllowAnyMethod();
+        policy
+            .WithOrigins("https://localhost:5173") // 👈 your React dev server
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowCredentials(); // 👈 THIS IS CRITICAL
     });
 });
 
@@ -60,11 +62,14 @@ if (app.Environment.IsDevelopment())
 
 // Use CORS
 app.UseCors();
+app.UseCors("AllowFrontend");
 
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+
 
 // autorisation / redirection:
 app.UseHttpsRedirection();

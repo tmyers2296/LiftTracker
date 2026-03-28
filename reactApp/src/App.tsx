@@ -10,7 +10,7 @@ import EditRoutine from "./pages/RoutinePages/EditRoutine.tsx";
 import EditWorkout from "./pages/WorkoutPages/EditWorkoutPage.tsx";
 import RecordRoutineWorkout from "./pages/WorkoutPages/RecordRoutineWorkout.tsx";
 import ImproviseWorkout from "./pages/WorkoutPages/ImproviseWorkoutPage.tsx";
-import ChooseRoutinePage from "./pages/RoutinePages/chooseRoutine.tsx";
+import ChooseRoutinePage from "./pages/RoutinePages/ChooseRoutine.tsx";
 
 function App() {
     return (
