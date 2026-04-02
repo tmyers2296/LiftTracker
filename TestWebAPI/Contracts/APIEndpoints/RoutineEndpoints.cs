@@ -14,7 +14,12 @@ public static class RoutineEndpoints
         {
             Console.WriteLine("!!!! Creating Routine: !!!!!");
             Console.WriteLine(user.Identity?.IsAuthenticated);
+            var userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             Routine routine = request.MapToRoutine();
+
+            if (userId == null) return Results.Unauthorized();
+            routine.CreatedBy = userId;
+
             Routine? createdRoutine = await routineService.Create(routine);
             return Results.Created($"/routines/{createdRoutine.Id}", createdRoutine.MapToResponse());
         }).RequireAuthorization();

@@ -59,7 +59,7 @@ public static class ContractMapping
         Routine createdRoutine = new Routine
         {
             Name = request.Name,
-            CreatedBy = request.CreatedBy
+            CreatedBy = null!
         };
 
          // create new exercises for routine:
