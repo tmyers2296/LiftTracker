@@ -49,12 +49,13 @@ public static class RoutineEndpoints
         });
 
         // update:
-        group.MapPut("/{id:int}", async (IRoutineService routineService, int id, UpdateFullRoutineRequest request) => 
+        group.MapPut("/{id:int}", async (IRoutineService routineService, int id, UpdateFullRoutineRequest request, ClaimsPrincipal user) => 
         {
             Routine? routine = request.MapToRoutine(id);
+
+            var userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null || routine.CreatedBy != userId) return Results.Unauthorized();
             RoutineResponse routineResponse = routine.MapToResponse();
-            Console.WriteLine("!!!! Updated Routine: !!!!!");
-            Console.WriteLine(JsonSerializer.Serialize(routineResponse, new JsonSerializerOptions { WriteIndented = true }));
             Routine? resultRoutine = await routineService.DeepUpdate(routine);
             RoutineResponse newRoutineResponse = routine.MapToResponse();
             return (resultRoutine != null)? Results.Ok(newRoutineResponse) : Results.NotFound();

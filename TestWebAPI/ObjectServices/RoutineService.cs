@@ -71,6 +71,8 @@ public class RoutineService : IRoutineService
     // update methods:
     public async Task<Routine?> DeepUpdate(Routine routineWithUpdates)
     {
+
+
         // return existing routine with same Id..
         Routine? routineToEdit = await _dbContext.Routines
         .AsSplitQuery() 
@@ -86,6 +88,8 @@ public class RoutineService : IRoutineService
 
         // make updates (use routine generated from update request to write to fields
         // loop through updated entities & make changes for equivalent entity in routineToEdit.
+
+        string originalCreatedBy = routineToEdit.CreatedBy;
 
         // update routine:
         _dbContext.Entry(routineToEdit).CurrentValues.SetValues(routineWithUpdates);
@@ -135,6 +139,8 @@ public class RoutineService : IRoutineService
             }
 
         }
+
+        routineToEdit.CreatedBy = originalCreatedBy;
 
         // save changes:
         await _dbContext.SaveChangesAsync();
