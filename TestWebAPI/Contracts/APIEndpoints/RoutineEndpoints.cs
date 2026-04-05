@@ -62,8 +62,14 @@ public static class RoutineEndpoints
         });
 
         // delete:
-        group.MapDelete("/{id:int}", async (IRoutineService routineService, int id) => 
+        group.MapDelete("/{id:int}", async (IRoutineService routineService, int id, ClaimsPrincipal user) => 
         {
+            Routine? routine = await routineService.GetById(id);
+            if (routine == null) return Results.NotFound();
+
+            var userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null || routine.CreatedBy != userId) return Results.Unauthorized();
+
             bool routineDeleted = await routineService.DeleteById(id);
             return routineDeleted? Results.Ok() : Results.NotFound();
         });
