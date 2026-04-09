@@ -67,12 +67,13 @@ public static class RoutineEndpoints
             Routine? routine = await routineService.GetById(id);
             if (routine == null) return Results.NotFound();
 
-            var userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null || routine.CreatedBy != userId) return Results.Unauthorized();
+            string? userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null) return Results.Unauthorized();
+            if (routine.CreatedBy != userId) return Results.Unauthorized();
 
             bool routineDeleted = await routineService.DeleteById(id);
             return routineDeleted? Results.Ok() : Results.NotFound();
-        });
+        }).RequireAuthorization();
 
         // <!! individual nested object endpoints !!>
         // // * routine exercise group *

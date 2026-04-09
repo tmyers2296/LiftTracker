@@ -33,6 +33,7 @@ export function useDeleteRoutine() {
         mutationFn: (id: number) =>
             fetch(`https://localhost:5119/routines/${id}`, {
                 method: "DELETE",
+                credentials: "include",
             }),
         onSuccess: () => {
             // invalidate the 'routines' cache to refetch updated list
