@@ -1,3 +1,4 @@
+using System.Security.Claims;
 
 public static class WorkoutEndpoints
 {
@@ -7,24 +8,35 @@ public static class WorkoutEndpoints
         var group = app.MapGroup("workouts");
 
         // create:
-        group.MapPost("/", async (IWorkoutService workoutService, CreateFullWorkoutRequest request) => 
+        group.MapPost("/", async (IWorkoutService workoutService, CreateFullWorkoutRequest request, ClaimsPrincipal user) => 
         {
+            var userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             Workout workout = request.MapToWorkout();
+
+            if (userId == null) return Results.Unauthorized();
+            workout.CreatedBy = userId;
+
             Workout? createdWorkout = await workoutService.Create(workout);
             return Results.Created($"/routines/{createdWorkout.Id}", createdWorkout.MapToResponse());
-        });
+        }).RequireAuthorization();
 
         // read individual:
-        group.MapGet("/{id:int}", async (IWorkoutService workoutService, int id) =>
+        group.MapGet("/{id:int}", async (IWorkoutService workoutService, int id, ClaimsPrincipal user) =>
         {
-            Workout? workout = await workoutService.GetById(id);
+            string? userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null) return Results.Unauthorized();
+
+            Workout? workout = await workoutService.GetById(id, userId);
             return (workout != null)? Results.Ok(workout.MapToResponse()) : Results.NotFound();
-        });
+        }).RequireAuthorization();
 
         // read group:
-        group.MapGet("/", async (IWorkoutService workoutService, int pageNumber, int pageSize) =>
+        group.MapGet("/", async (IWorkoutService workoutService, int pageNumber, int pageSize, ClaimsPrincipal user) =>
         {
-            List<Workout> workoutList = await workoutService.GetPaginated(pageNumber, pageSize);
+            string? userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null) return Results.Unauthorized();
+
+            List<Workout> workoutList = await workoutService.GetPaginated(pageNumber, pageSize, userId);
 
             PaginatedResponse<WorkoutResponse> response = new PaginatedResponse<WorkoutResponse>
             {
@@ -37,7 +49,7 @@ public static class WorkoutEndpoints
             };
 
             return Results.Ok(response);
-        });
+        }).RequireAuthorization();
 
         // update:
         group.MapPut("/{id:int}", async (IWorkoutService workoutService, int id, UpdateFullWorkoutRequest request) => 
@@ -51,10 +63,18 @@ public static class WorkoutEndpoints
         });
 
         // delete:
-        group.MapDelete("/{id:int}", async (IWorkoutService workoutService, int id) => 
+        group.MapDelete("/{id:int}", async (IWorkoutService workoutService, int id, ClaimsPrincipal user) => 
         {
-            bool routineDeleted = await workoutService.DeleteById(id);
-            return routineDeleted? Results.Ok() : Results.NotFound();
-        });
+            string? userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null) return Results.Unauthorized();
+
+            Workout? workout = await workoutService.GetById(id, userId);
+            if (workout == null) return Results.NotFound();
+
+            if (workout.CreatedBy != userId) return Results.Unauthorized();
+
+            bool workoutDeleted = await workoutService.DeleteById(id);
+            return workoutDeleted? Results.Ok() : Results.NotFound();
+        }).RequireAuthorization();
     }
 }

@@ -1,5 +1,3 @@
-using System.Data.Common;
-using System.Text.Json;
 using System.Security.Claims;
 
 public static class RoutineEndpoints
@@ -25,16 +23,22 @@ public static class RoutineEndpoints
         }).RequireAuthorization();
 
         // read individual:
-        group.MapGet("/{id:int}", async (IRoutineService routineService, int id) =>
+        group.MapGet("/{id:int}", async (IRoutineService routineService, int id, ClaimsPrincipal user) =>
         {
-            Routine? routine = await routineService.GetById(id);
+            string? userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null) return Results.Unauthorized();
+
+            Routine? routine = await routineService.GetById(id, userId);
             return (routine != null)? Results.Ok(routine.MapToResponse()) : Results.NotFound();
-        });
+        }).RequireAuthorization();
 
         // read group:
-        group.MapGet("/", async (IRoutineService routineService, int pageNumber, int pageSize) =>
+        group.MapGet("/", async (IRoutineService routineService, int pageNumber, int pageSize, ClaimsPrincipal user) =>
         {
-            List<Routine> routineList = await routineService.GetPaginated(pageNumber, pageSize);
+            string? userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null) return Results.Unauthorized();
+            
+            List<Routine> routineList = await routineService.GetPaginated(pageNumber, pageSize, userId);
 
             PaginatedResponse<RoutineResponse> response = new PaginatedResponse<RoutineResponse> {
                 Items = routineList
@@ -45,8 +49,8 @@ public static class RoutineEndpoints
                 HasMore = routineList.Count > pageSize
             };
             
-            return response;
-        });
+            return Results.Ok(response);
+        }).RequireAuthorization();
 
         // update:
         group.MapPut("/{id:int}", async (IRoutineService routineService, int id, UpdateFullRoutineRequest request, ClaimsPrincipal user) => 
@@ -64,11 +68,12 @@ public static class RoutineEndpoints
         // delete:
         group.MapDelete("/{id:int}", async (IRoutineService routineService, int id, ClaimsPrincipal user) => 
         {
-            Routine? routine = await routineService.GetById(id);
-            if (routine == null) return Results.NotFound();
-
             string? userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             if (userId == null) return Results.Unauthorized();
+
+            Routine? routine = await routineService.GetById(id, userId);
+            if (routine == null) return Results.NotFound();
+
             if (routine.CreatedBy != userId) return Results.Unauthorized();
 
             bool routineDeleted = await routineService.DeleteById(id);

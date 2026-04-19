@@ -35,9 +35,10 @@ public class WorkoutService : IWorkoutService
     }
 
     // read:
-    public async Task<Workout?> GetById(int id)
+    public async Task<Workout?> GetById(int id, string userId)
     {
         return await _dbContext.Workouts
+        .Where(r => r.CreatedBy == userId || r.CreatedBy == "adminUserId")
         .Include(w => w.Exercises)
         .ThenInclude(we => we.Exercise)
         .Include(w => w.Exercises)
@@ -55,9 +56,10 @@ public class WorkoutService : IWorkoutService
         return await _dbContext.WorkoutExerciseSets.FindAsync(id);
     }
 
-        public async Task<List<Workout>> GetPaginated(int page, int pageSize)
+        public async Task<List<Workout>> GetPaginated(int page, int pageSize, string userId)
     {
         return await _dbContext.Workouts
+                .Where(r => r.CreatedBy == userId || r.CreatedBy == "adminUserId")
                 .Include(w => w.Exercises)
                 .ThenInclude(we => we.Exercise)
                 .Include(w => w.Exercises)
@@ -193,12 +195,12 @@ public interface IWorkoutService
 
     // read:
     // -> single:
-    Task<Workout?> GetById(int id);
+    Task<Workout?> GetById(int id, string userId);
     Task<WorkoutExercise?> GetExercise(int id);
     Task<WorkoutExerciseSet?> GetExerciseSet(int id);
 
     // -> multiple:
-    Task<List<Workout>> GetPaginated(int page, int pageSize);
+    Task<List<Workout>> GetPaginated(int page, int pageSize, string userId);
 
     // update:
     Task<Workout?> DeepUpdate(Workout workout);

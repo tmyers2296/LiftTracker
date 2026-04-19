@@ -4,7 +4,7 @@ import { workoutObject } from "../types/workoutTypes";
 
 // fetch data from api & return it:
 export async function fetchData(url: string) {
-    const response = await fetch(url);
+    const response = await fetch(url, { credentials: "include" });
 
     if (!response.ok) {
         throw new Error("Could not access resource");

@@ -33,9 +33,10 @@ public class RoutineService : IRoutineService
     }
 
     // read methods:
-    public async Task<Routine?> GetById(int id) 
+    public async Task<Routine?> GetById(int id, string userId) 
     {
         return await _dbContext.Routines
+        .Where(r => r.CreatedBy == userId || r.CreatedBy == "adminUserId")
         .Include(r => r.Exercises)
         .ThenInclude(re => re.Exercise)
         .Include(r => r.Exercises)
@@ -55,9 +56,10 @@ public class RoutineService : IRoutineService
         return await _dbContext.RoutineExerciseSets.FindAsync(id);
     }
 
-    public async Task<List<Routine>> GetPaginated(int page, int pageSize)
+    public async Task<List<Routine>> GetPaginated(int page, int pageSize, string userId)
     {
         return await _dbContext.Routines
+                .Where(r => r.CreatedBy == userId || r.CreatedBy == "adminUserId")
                 .Include(r => r.Exercises)
                 .ThenInclude(re => re.Exercise)
                 .Include(r => r.Exercises)
@@ -210,12 +212,12 @@ public interface IRoutineService
 
     // read:
     // -> single:
-    Task<Routine?> GetById(int id);
+    Task<Routine?> GetById(int id, string userId);
     Task<RoutineExercise?> GetExercise(int id);
     Task<RoutineExerciseSet?> GetExerciseSet(int id);
 
     // -> multiple:
-    Task<List<Routine>> GetPaginated(int page, int pageSize);
+    Task<List<Routine>> GetPaginated(int page, int pageSize, string userId);
 
     // update:
     Task<Routine?> DeepUpdate(Routine routine);
