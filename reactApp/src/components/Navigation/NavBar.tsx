@@ -6,6 +6,7 @@ import styles from "./NavBar.module.css";
 export function NavBar() {
     const links = [
         { name: "👁 Dashboard", path: "/dashboard" },
+        { name: "🧱 Exercises", path: "/exercises" },
         { name: "🌀 Routines", path: "/routines" },
         { name: "🔥 Workouts", path: "/workouts" },
     ];
