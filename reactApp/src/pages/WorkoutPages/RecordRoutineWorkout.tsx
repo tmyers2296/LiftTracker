@@ -77,7 +77,7 @@ function RecordRoutineWorkout() {
                     tempIdCounter,
                     workoutData,
                     setWorkoutData,
-                    allExercises: exercises ?? [],
+                    allExercises: exercises?.items ?? [],
                 }}
             >
                 <WorkoutEditCard />

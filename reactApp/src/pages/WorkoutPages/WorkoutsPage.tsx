@@ -25,7 +25,9 @@ function WorkoutsPage() {
     return (
         <AuthorizeView>
             <exercisesContext.Provider
-                value={{ allExercises: allExercises ? allExercises : null }}
+                value={{
+                    allExercises: allExercises ? allExercises.items : null,
+                }}
             >
                 <div>
                     <NavBar />

@@ -46,7 +46,7 @@ function EditRoutine() {
                 value={{
                     routineData,
                     setRoutineData,
-                    allExercises: exercises ?? [],
+                    allExercises: exercises?.items ?? [],
                     tempIdCounter,
                 }}
             >

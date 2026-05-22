@@ -56,8 +56,7 @@ public static class WorkoutEndpoints
         {
             Workout? workout = request.MapToWorkout(id);
             WorkoutResponse workoutResponse = workout.MapToResponse();
-            //Console.WriteLine("!!!! Updated Routine: !!!!!");
-            //Console.WriteLine(JsonSerializer.Serialize(routineResponse, new JsonSerializerOptions { WriteIndented = true }));
+            
             Workout? resultWorkout = await workoutService.DeepUpdate(workout);
             return (resultWorkout != null)? Results.Ok() : Results.NotFound();
         });

@@ -31,7 +31,7 @@ function ImproviseWorkout() {
                     tempIdCounter,
                     workoutData,
                     setWorkoutData,
-                    allExercises: exercises ?? [],
+                    allExercises: exercises?.items ?? [],
                 }}
             >
                 <ImprovWorkoutEditCard contextHookCallback={useWorkoutData} />

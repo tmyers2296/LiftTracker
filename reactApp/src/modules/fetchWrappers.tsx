@@ -1,41 +1,48 @@
 import { fetchData } from "./apiFunctions";
 import { routineObject } from "../types/routineTypes";
 import { workoutObject } from "../types/workoutTypes";
-import { PaginatedData } from "../types/generalTypes";
+import { exerciseObject, PaginatedData } from "../types/generalTypes";
 
 export const fetchRoutines = async (
     pageNum: number,
-    pageSize: number
+    pageSize: number,
 ): Promise<PaginatedData<routineObject>> => {
     const data = await fetchData(
-        `https://localhost:5119/routines?pageNumber=${pageNum}&pageSize=${pageSize}`
+        `https://localhost:5119/routines?pageNumber=${pageNum}&pageSize=${pageSize}`,
     );
 
     return data;
 };
 
 export const fetchRoutine = async (
-    routineId: number
+    routineId: number,
 ): Promise<routineObject> => {
     const data = await fetchData(
-        `https://localhost:5119/routines/${routineId}`
+        `https://localhost:5119/routines/${routineId}`,
     );
     return data;
 };
 
-export const fetchExercises = async (pageNum: number, pageSize: number) => {
+export const fetchExercises = async (
+    pageNum: number,
+    pageSize: number,
+): Promise<PaginatedData<exerciseObject>> => {
     const data = await fetchData(
-        `https://localhost:5119/exercises?pageNumber=${pageNum}&pageSize=${pageSize}`
+        `https://localhost:5119/exercises?pageNumber=${pageNum}&pageSize=${pageSize}`,
     );
-    return data.exercises;
+
+    return {
+        items: data.exercises,
+        hasMore: data.exercises.length === pageSize,
+    };
 };
 
 export const fetchWorkouts = async (
     pageNum: number,
-    pageSize: number
+    pageSize: number,
 ): Promise<PaginatedData<workoutObject>> => {
     const data = await fetchData(
-        `https://localhost:5119/workouts?pageNumber=${pageNum}&pageSize=${pageSize}`
+        `https://localhost:5119/workouts?pageNumber=${pageNum}&pageSize=${pageSize}`,
     );
 
     return {
@@ -48,10 +55,10 @@ export const fetchWorkouts = async (
 };
 
 export const fetchWorkout = async (
-    workoutId: number
+    workoutId: number,
 ): Promise<workoutObject> => {
     const data = await fetchData(
-        `https://localhost:5119/workouts/${workoutId}`
+        `https://localhost:5119/workouts/${workoutId}`,
     );
     return data;
 };

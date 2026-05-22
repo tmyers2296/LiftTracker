@@ -6,6 +6,7 @@ import Register from "./pages/Register.tsx";
 import DashboardPage from "./pages/DashboardPages/DashboardPage.tsx";
 import RoutinesPage from "./pages/RoutinePages/RoutinesPage.tsx";
 import WorkoutsPage from "./pages/WorkoutPages/WorkoutsPage.tsx";
+import ExercisesPage from "./pages/ExercisePages/ExercisesPage.tsx";
 import EditRoutine from "./pages/RoutinePages/EditRoutine.tsx";
 import EditWorkout from "./pages/WorkoutPages/EditWorkoutPage.tsx";
 import RecordRoutineWorkout from "./pages/WorkoutPages/RecordRoutineWorkout.tsx";
@@ -33,6 +34,7 @@ function App() {
                 <Route path="dashboard" element={<DashboardPage />} />
                 <Route path="routines" element={<RoutinesPage />} />
                 <Route path="workouts" element={<WorkoutsPage />} />
+                <Route path="exercises" element={<ExercisesPage />} />
             </Routes>
         </BrowserRouter>
     );

@@ -1,0 +1,17 @@
+.topLayerCard {
+    margin: 1rem;
+    width: 500px;
+}
+
+.exerciseDetails {
+    margin: 0.5rem;
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    border: 2px solid #717171;
+    background-color: #515151;
+}
+
+.detailLabel {
+    color: #909090;
+    font-weight: bold;
+}
