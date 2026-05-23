@@ -1,3 +1,4 @@
+import { exerciseObject } from "../types/generalTypes";
 import { routineObject } from "../types/routineTypes";
 import { workoutObject } from "../types/workoutTypes";
 // // const API_BASE = "https://localhost:5119";
@@ -48,6 +49,25 @@ export async function saveNestedObject<T extends routineObject | workoutObject>(
     );
 
     if (!response.ok) throw new Error("Failed to save entity");
+
+    return response.json();
+}
+
+export async function saveExercise(
+    endpoint: string,
+    exercise: exerciseObject,
+): Promise<exerciseObject> {
+    const response = await fetch(
+        exercise.id === 0 ? endpoint.replace(/\/[^/]*$/, "") : endpoint,
+        {
+            method: exercise.id === 0 ? "POST" : "PUT",
+            credentials: "include",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name: exercise.name }),
+        },
+    );
+
+    if (!response.ok) throw new Error("Failed to save exercise");
 
     return response.json();
 }

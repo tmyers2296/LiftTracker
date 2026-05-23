@@ -15,3 +15,19 @@
     color: #909090;
     font-weight: bold;
 }
+
+.toggleButton {
+    font-weight: bold;
+    border-width: 2px;
+    border-color: #696969;
+    margin: 0.2rem;
+}
+
+.toggleButton:hover {
+    background-color: #202362;
+}
+
+.toggleButton:active {
+    border-color: #9497d9;
+    background-color: #2e3393;
+}

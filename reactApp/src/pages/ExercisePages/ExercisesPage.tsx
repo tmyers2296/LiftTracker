@@ -44,7 +44,7 @@ function ExercisesPage() {
                     <button
                         className={styles.addButton}
                         onClick={() => {
-                            navigate(`/edit-routine/0`);
+                            navigate(`/edit-exercise/0`);
                         }}
                     >
                         +

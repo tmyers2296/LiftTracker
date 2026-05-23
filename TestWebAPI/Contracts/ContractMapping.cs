@@ -5,22 +5,22 @@ public static class ContractMapping
 {
     // * exercise mapping methods *
     // request -> object:
-    public static Exercise MapToExercise(this CreateExerciseRequest request)
+    public static Exercise MapToExercise(this CreateExerciseRequest request, string createdBy)
     {
         return new Exercise
         {
             Name = request.Name,
-            CreatedBy = request.CreatedBy
+            CreatedBy = createdBy
         };
     }
 
-    public static Exercise MapToExercise(this UpdateExerciseRequest request, int id)
+    public static Exercise MapToExercise(this UpdateExerciseRequest request, int id, string createdBy)
     {
         return new Exercise
         {
             Id = id,
             Name = request.Name,
-            CreatedBy = request.CreatedBy
+            CreatedBy = createdBy
         };
     }
 

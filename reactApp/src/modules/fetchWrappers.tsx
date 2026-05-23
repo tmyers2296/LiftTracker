@@ -37,6 +37,15 @@ export const fetchExercises = async (
     };
 };
 
+export const fetchExercise = async (
+    exerciseId: number,
+): Promise<exerciseObject> => {
+    const data = await fetchData(
+        `https://localhost:5119/exercises/${exerciseId}`,
+    );
+    return data;
+};
+
 export const fetchWorkouts = async (
     pageNum: number,
     pageSize: number,

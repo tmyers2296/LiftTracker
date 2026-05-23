@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 public static class ExerciseEndpoints
 {
@@ -7,12 +8,15 @@ public static class ExerciseEndpoints
         var group = app.MapGroup("exercises");
 
         // create:
-        group.MapPost("/", async (IExerciseService exerciseService, CreateExerciseRequest request) =>
+        group.MapPost("/", async (IExerciseService exerciseService, CreateExerciseRequest request, ClaimsPrincipal user) =>
         {
-            Exercise exercise = request.MapToExercise();
+            string? userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null) return Results.Unauthorized();
+
+            Exercise exercise = request.MapToExercise(userId);
             Exercise? createdExercise = await exerciseService.Create(exercise);
             return Results.Created($"/exercises/{createdExercise.Id}", createdExercise.MapToResponse());
-        });
+        }).RequireAuthorization();
 
         // read individual:
         group.MapGet("/{id:int}", async (IExerciseService exerciseService, int id) => 
@@ -29,12 +33,19 @@ public static class ExerciseEndpoints
         });
 
         // update:
-        group.MapPut("/{id:int}", async (IExerciseService exerciseService, int id, UpdateExerciseRequest request) =>
+        group.MapPut("/{id:int}", async (IExerciseService exerciseService, int id, UpdateExerciseRequest request, ClaimsPrincipal user) =>
         {
-            Exercise? exercise = request.MapToExercise(id);
+            string? userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null) return Results.Unauthorized();
+
+            Exercise? existingExercise = await exerciseService.GetById(id);
+            if (existingExercise == null) return Results.NotFound();
+            if (existingExercise.CreatedBy != userId) return Results.Unauthorized();
+
+            Exercise? exercise = request.MapToExercise(id, existingExercise.CreatedBy);
             Exercise? resultExercise = await exerciseService.Update(exercise);
-            return (resultExercise != null)? Results.Ok() : Results.NotFound();
-        });
+            return (resultExercise != null)? Results.Ok(resultExercise.MapToResponse()) : Results.NotFound();
+        }).RequireAuthorization();
 
         // delete:
         group.MapDelete("/{id:int}", async (IExerciseService exerciseService, int id) => 
