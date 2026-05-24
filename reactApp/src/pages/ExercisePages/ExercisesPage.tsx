@@ -3,14 +3,18 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useExercises } from "../../hooks/exerciseHooks";
 import styles from "../MainPages.module.css";
-import { exerciseObject } from "../../types/generalTypes";
+import { exerciseResponseObject } from "../../types/generalTypes";
 import ExerciseCard from "../../components/ExerciseComponents/ExerciseCard/ExerciseCard";
 import AuthorizeView from "../../components/AuthorizationComponents/AuthorizeView";
 
 function ExercisesPage() {
     const navigate = useNavigate();
     const [currentPage, setCurrentPage] = useState(1);
-    const { data: routines, isLoading, isError } = useExercises(currentPage, 5);
+    const {
+        data: exercises,
+        isLoading,
+        isError,
+    } = useExercises(currentPage, 5);
 
     return (
         <AuthorizeView>
@@ -19,8 +23,8 @@ function ExercisesPage() {
                 <div className={styles.itemBox}>
                     {!isLoading &&
                         !isError &&
-                        routines &&
-                        routines.items.map((data: exerciseObject) => (
+                        exercises &&
+                        exercises.items.map((data: exerciseResponseObject) => (
                             <ExerciseCard key={data.id} exerciseData={data} />
                         ))}
                     <div className={styles.itemBox2}>
@@ -36,7 +40,7 @@ function ExercisesPage() {
                             onClick={() => {
                                 setCurrentPage(currentPage + 1);
                             }}
-                            disabled={!routines?.hasMore}
+                            disabled={!exercises?.hasMore}
                         >
                             {">"}
                         </button>

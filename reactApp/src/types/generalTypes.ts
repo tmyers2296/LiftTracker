@@ -13,6 +13,13 @@ export interface exerciseObject {
     createdBy: string;
 }
 
+export interface exerciseResponseObject {
+    id: number;
+    name: string;
+    createdByUserId: string;
+    createdByUserName: string;
+}
+
 export type OrderedItem =
     | routineExerciseObject
     | routineExerciseSetObject

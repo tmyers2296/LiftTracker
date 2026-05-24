@@ -1,7 +1,11 @@
 import { fetchData } from "./apiFunctions";
 import { routineObject } from "../types/routineTypes";
 import { workoutObject } from "../types/workoutTypes";
-import { exerciseObject, PaginatedData } from "../types/generalTypes";
+import {
+    exerciseObject,
+    exerciseResponseObject,
+    PaginatedData,
+} from "../types/generalTypes";
 
 export const fetchRoutines = async (
     pageNum: number,
@@ -26,7 +30,7 @@ export const fetchRoutine = async (
 export const fetchExercises = async (
     pageNum: number,
     pageSize: number,
-): Promise<PaginatedData<exerciseObject>> => {
+): Promise<PaginatedData<exerciseResponseObject>> => {
     const data = await fetchData(
         `https://localhost:5119/exercises?pageNumber=${pageNum}&pageSize=${pageSize}`,
     );

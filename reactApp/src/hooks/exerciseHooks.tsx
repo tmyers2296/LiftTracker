@@ -1,10 +1,14 @@
-import { exerciseObject, PaginatedData } from "../types/generalTypes";
+import {
+    exerciseObject,
+    exerciseResponseObject,
+    PaginatedData,
+} from "../types/generalTypes";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { saveExercise } from "../modules/apiFunctions";
 import { fetchExercise, fetchExercises } from "../modules/fetchWrappers";
 
 export function useExercises(page: number, size: number) {
-    return useQuery<PaginatedData<exerciseObject>>({
+    return useQuery<PaginatedData<exerciseResponseObject>>({
         queryKey: ["exercises", page, size],
         queryFn: () => fetchExercises(page, size),
     });

@@ -1,10 +1,10 @@
 import ExpandableCard from "../../ExpandableCard/ExpandableCard";
-import { exerciseObject } from "../../../types/generalTypes";
+import { exerciseResponseObject } from "../../../types/generalTypes";
 import { useNavigate } from "react-router-dom";
 import styles from "./ExerciseCard.module.css";
 
 interface ExerciseCardProps {
-    exerciseData: exerciseObject;
+    exerciseData: exerciseResponseObject;
 }
 
 function ExerciseCard({ exerciseData }: ExerciseCardProps) {
@@ -29,7 +29,7 @@ function ExerciseCard({ exerciseData }: ExerciseCardProps) {
         >
             <div className={styles.exerciseDetails}>
                 <div className={styles.detailLabel}>Created by</div>
-                <div>{exerciseData.createdBy}</div>
+                <div>{exerciseData.createdByUserName}</div>
             </div>
         </ExpandableCard>
     );
