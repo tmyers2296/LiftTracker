@@ -29,7 +29,7 @@ function ExerciseCard({ exerciseData }: ExerciseCardProps) {
         >
             <div className={styles.exerciseDetails}>
                 <div className={styles.detailLabel}>Created by</div>
-                <div>{exerciseData.createdByUserName}</div>
+                <div>{exerciseData.createdByUsername}</div>
             </div>
         </ExpandableCard>
     );

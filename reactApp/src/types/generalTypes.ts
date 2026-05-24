@@ -17,7 +17,7 @@ export interface exerciseResponseObject {
     id: number;
     name: string;
     createdByUserId: string;
-    createdByUserName: string;
+    createdByUsername: string;
 }
 
 export type OrderedItem =
