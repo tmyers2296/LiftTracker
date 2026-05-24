@@ -28,8 +28,11 @@ public static class ExerciseEndpoints
         // read group:
         group.MapGet("/", async (IExerciseService exerciseService, int pageNumber, int pageSize) =>
         {
-            List<Exercise> exerciseList= await exerciseService.GetPaginated(pageNumber, pageSize);
-            return Results.Ok(exerciseList.MapToResponse());
+            List<ExerciseResponse> exerciseList = await exerciseService.GetPaginated(pageNumber, pageSize);
+            return Results.Ok(new ExercisePaginatedResponse
+            {
+                Exercises = exerciseList
+            });
         });
 
         // update:
@@ -40,9 +43,9 @@ public static class ExerciseEndpoints
 
             Exercise? existingExercise = await exerciseService.GetById(id);
             if (existingExercise == null) return Results.NotFound();
-            if (existingExercise.CreatedBy != userId) return Results.Unauthorized();
+            if (existingExercise.CreatedByUserId != userId) return Results.Unauthorized();
 
-            Exercise? exercise = request.MapToExercise(id, existingExercise.CreatedBy);
+            Exercise? exercise = request.MapToExercise(id, existingExercise.CreatedByUserId);
             Exercise? resultExercise = await exerciseService.Update(exercise);
             return (resultExercise != null)? Results.Ok(resultExercise.MapToResponse()) : Results.NotFound();
         }).RequireAuthorization();

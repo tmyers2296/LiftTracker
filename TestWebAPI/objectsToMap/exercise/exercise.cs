@@ -9,5 +9,5 @@ public class Exercise
     
     public required string Name { get; set; }
 
-    public required string CreatedBy { get; set; }
+    public required string CreatedByUserId { get; set; }
 }

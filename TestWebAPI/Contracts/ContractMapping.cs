@@ -10,7 +10,7 @@ public static class ContractMapping
         return new Exercise
         {
             Name = request.Name,
-            CreatedBy = createdBy
+            CreatedByUserId = createdBy
         };
     }
 
@@ -20,7 +20,7 @@ public static class ContractMapping
         {
             Id = id,
             Name = request.Name,
-            CreatedBy = createdBy
+            CreatedByUserId = createdBy
         };
     }
 
@@ -32,7 +32,7 @@ public static class ContractMapping
         {
             Id = exercise.Id,
             Name = exercise.Name,
-            CreatedBy = exercise.CreatedBy
+            CreatedByUserId = exercise.CreatedByUserId
         };
     }
 

@@ -4,5 +4,8 @@ public class ExerciseResponse
     
     public required string Name { get; init; }
 
-    public required string CreatedBy { get; init; }
+    public required string CreatedByUserId { get; init; }
+
+    public string? CreatedByUsername { get; init; }
+
 }
