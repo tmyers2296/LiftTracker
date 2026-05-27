@@ -39,3 +39,18 @@ export function useSaveExercise() {
         },
     });
 }
+
+export function useDeleteExercise() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (id: number) =>
+            fetch(`https://localhost:5119/exercises/${id}`, {
+                method: "DELETE",
+                credentials: "include",
+            }),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["exercises"] });
+        },
+    });
+}
