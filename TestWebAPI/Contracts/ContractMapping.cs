@@ -10,7 +10,8 @@ public static class ContractMapping
         return new Exercise
         {
             Name = request.Name,
-            CreatedByUserId = createdBy
+            CreatedByUserId = createdBy,
+            IsSystemExercise = false
         };
     }
 
@@ -20,7 +21,8 @@ public static class ContractMapping
         {
             Id = id,
             Name = request.Name,
-            CreatedByUserId = createdBy
+            CreatedByUserId = createdBy,
+            IsSystemExercise = false
         };
     }
 
@@ -32,7 +34,9 @@ public static class ContractMapping
         {
             Id = exercise.Id,
             Name = exercise.Name,
-            CreatedByUserId = exercise.CreatedByUserId
+            CreatedByUserId = exercise.CreatedByUserId,
+            CreatedByUsername = exercise.IsSystemExercise ? "System" : exercise.CreatedByUserId,
+            IsSystemExercise = exercise.IsSystemExercise
         };
     }
 

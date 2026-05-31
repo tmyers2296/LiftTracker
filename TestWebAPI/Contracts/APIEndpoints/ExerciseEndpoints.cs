@@ -26,14 +26,20 @@ public static class ExerciseEndpoints
         });
 
         // read group:
-        group.MapGet("/", async (IExerciseService exerciseService, int pageNumber, int pageSize) =>
+        group.MapGet("/", async (IExerciseService exerciseService, int pageNumber, int pageSize, ClaimsPrincipal user) =>
         {
-            List<ExerciseResponse> exerciseList = await exerciseService.GetPaginated(pageNumber, pageSize);
+            string? userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null) return Results.Unauthorized();
+
+            List<Exercise> exerciseList = await exerciseService.GetPaginated(pageNumber, pageSize, userId);
             return Results.Ok(new ExercisePaginatedResponse
             {
                 Exercises = exerciseList
+                    .Take(pageSize)
+                    .Select(e => e.MapToResponse())
+                    .ToList()
             });
-        });
+        }).RequireAuthorization();
 
         // update:
         group.MapPut("/{id:int}", async (IExerciseService exerciseService, int id, UpdateExerciseRequest request, ClaimsPrincipal user) =>
@@ -43,6 +49,7 @@ public static class ExerciseEndpoints
 
             Exercise? existingExercise = await exerciseService.GetById(id);
             if (existingExercise == null) return Results.NotFound();
+            if (existingExercise.IsSystemExercise) return Results.Forbid();
             if (existingExercise.CreatedByUserId != userId) return Results.Unauthorized();
 
             Exercise? exercise = request.MapToExercise(id, existingExercise.CreatedByUserId);
@@ -51,10 +58,18 @@ public static class ExerciseEndpoints
         }).RequireAuthorization();
 
         // delete:
-        group.MapDelete("/{id:int}", async (IExerciseService exerciseService, int id) => 
+        group.MapDelete("/{id:int}", async (IExerciseService exerciseService, int id,  ClaimsPrincipal user) => 
         {
+            string? userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null) return Results.Unauthorized();
+
+            Exercise? exercise = await exerciseService.GetById(id);
+            if (exercise == null) return Results.NotFound();
+            if (exercise.IsSystemExercise) return Results.Forbid();
+            if (exercise.CreatedByUserId != userId) return Results.Unauthorized();
+
             bool result = await exerciseService.DeleteById(id);
-            return result? Results.Ok() : Results.NotFound();
-        });
+            return result ? Results.Ok() : Results.NotFound();
+        }).RequireAuthorization();
     }
 }

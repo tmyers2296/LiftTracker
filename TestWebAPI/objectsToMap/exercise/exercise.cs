@@ -9,5 +9,6 @@ public class Exercise
     
     public required string Name { get; set; }
 
-    public required string CreatedByUserId { get; set; }
+    public required string? CreatedByUserId { get; set; }
+    public bool IsSystemExercise { get; set;}
 }

@@ -18,6 +18,7 @@ export interface exerciseResponseObject {
     name: string;
     createdByUserId: string;
     createdByUsername: string;
+    isSystemExercise: boolean;
 }
 
 export type OrderedItem =
