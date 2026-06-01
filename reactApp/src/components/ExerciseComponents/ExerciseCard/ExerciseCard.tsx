@@ -22,21 +22,23 @@ function ExerciseCard({ exerciseData }: ExerciseCardProps) {
 
     const buttonsCallbacks: {
         [key: string]: { callback: () => void; style: string };
-    } = {
-        "📜": {
-            callback: () => {
-                handleEdit(exerciseData.id);
-            },
-            style: styles.toggleButton,
-        },
+    } = exerciseData.isSystemExercise
+        ? {}
+        : {
+              "📜": {
+                  callback: () => {
+                      handleEdit(exerciseData.id);
+                  },
+                  style: styles.toggleButton,
+              },
 
-        "💣": {
-            callback: () => {
-                handleDelete();
-            },
-            style: styles.deleteButton,
-        },
-    };
+              "💣": {
+                  callback: () => {
+                      handleDelete();
+                  },
+                  style: styles.deleteButton,
+              },
+          };
 
     return (
         <ExpandableCard

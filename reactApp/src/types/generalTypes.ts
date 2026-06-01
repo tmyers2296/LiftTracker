@@ -10,12 +10,13 @@ import {
 export interface exerciseObject {
     id: number;
     name: string;
-    createdBy: string;
+    createdBy?: string;
+    createdByUserId?: string;
+    createdByUsername?: string;
+    isSystemExercise?: boolean;
 }
 
-export interface exerciseResponseObject {
-    id: number;
-    name: string;
+export interface exerciseResponseObject extends exerciseObject {
     createdByUserId: string;
     createdByUsername: string;
     isSystemExercise: boolean;
