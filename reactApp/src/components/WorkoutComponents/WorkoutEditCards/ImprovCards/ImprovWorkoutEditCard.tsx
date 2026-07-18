@@ -38,6 +38,8 @@ function ImprovWorkoutEditCard({
 
             navigate(`/edit-workout/${updateWorkout.id}`, { replace: true });
         }
+
+        navigate("/workouts", { replace: true });
     }
 
     const addExercise = () => {
@@ -47,7 +49,7 @@ function ImprovWorkoutEditCard({
             workoutData.id,
             allExercises[0].id,
             tempIdCounter,
-            workoutData.exercises.length
+            workoutData.exercises.length,
         );
 
         const newExercises = addItem(workoutData.exercises, newExercise);
@@ -86,7 +88,7 @@ function ImprovWorkoutEditCard({
                                     exerciseData={exercise}
                                     contextHookCallback={contextHookCallback}
                                 />
-                            )
+                            ),
                         )}
                 </div>
                 <div>

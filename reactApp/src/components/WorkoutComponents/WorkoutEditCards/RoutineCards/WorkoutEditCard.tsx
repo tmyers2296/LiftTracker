@@ -31,6 +31,8 @@ function WorkoutEditCard() {
 
             navigate(`/edit-workout/${updateWorkout.id}`, { replace: true });
         }
+
+        navigate("/workouts", { replace: true });
     }
 
     return (
@@ -55,7 +57,7 @@ function WorkoutEditCard() {
                                     key={exercise.id}
                                     exerciseData={exercise}
                                 />
-                            )
+                            ),
                         )}
                 </div>
                 <div>
@@ -63,13 +65,13 @@ function WorkoutEditCard() {
                         routineData.exercises.map(
                             (exercise: routineExerciseObject) =>
                                 !Object.values(idMappings.exerciseMap).includes(
-                                    exercise.id
+                                    exercise.id,
                                 ) && (
                                     <RoutineExerciseDisplayCard
                                         key={exercise.id}
                                         exerciseData={exercise}
                                     />
-                                )
+                                ),
                         )}
                 </div>
             </div>

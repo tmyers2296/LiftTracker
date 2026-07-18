@@ -52,8 +52,9 @@ public static class ExerciseEndpoints
             if (existingExercise.IsSystemExercise) return Results.Forbid();
             if (existingExercise.CreatedByUserId != userId) return Results.Unauthorized();
 
-            Exercise? exercise = request.MapToExercise(id, existingExercise.CreatedByUserId);
-            Exercise? resultExercise = await exerciseService.Update(exercise);
+            existingExercise.Name = request.Name;
+
+            Exercise? resultExercise = await exerciseService.Update(existingExercise);
             return (resultExercise != null)? Results.Ok(resultExercise.MapToResponse()) : Results.NotFound();
         }).RequireAuthorization();
 

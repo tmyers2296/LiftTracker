@@ -16,7 +16,7 @@ export async function fetchData(url: string) {
 
 // // saving data to API:
 function buildPayload<T extends routineObject | workoutObject>(
-    nestedObject: T
+    nestedObject: T,
 ): T {
     return {
         ...nestedObject,
@@ -33,7 +33,7 @@ function buildPayload<T extends routineObject | workoutObject>(
 
 export async function saveNestedObject<T extends routineObject | workoutObject>(
     endpoint: string,
-    nestedObject: T
+    nestedObject: T,
 ): Promise<T> {
     const payload = buildPayload(nestedObject);
     console.log(JSON.stringify(payload));
@@ -45,7 +45,7 @@ export async function saveNestedObject<T extends routineObject | workoutObject>(
             credentials: "include",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(payload),
-        }
+        },
     );
 
     if (!response.ok) throw new Error("Failed to save entity");

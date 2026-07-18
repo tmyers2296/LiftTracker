@@ -35,7 +35,7 @@ public static class ContractMapping
             Id = exercise.Id,
             Name = exercise.Name,
             CreatedByUserId = exercise.CreatedByUserId,
-            CreatedByUsername = exercise.IsSystemExercise ? "System" : exercise.CreatedByUserId,
+            CreatedByUsername = exercise.IsSystemExercise ? "System" : "You",
             IsSystemExercise = exercise.IsSystemExercise
         };
     }

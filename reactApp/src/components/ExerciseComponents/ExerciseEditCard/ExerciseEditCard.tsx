@@ -23,6 +23,8 @@ function ExerciseEditCard() {
                 replace: true,
             });
         }
+
+        navigate("/exercises", { replace: true });
     }
 
     return (

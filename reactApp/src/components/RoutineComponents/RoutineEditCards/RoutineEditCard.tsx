@@ -35,6 +35,8 @@ function RoutineEditCard() {
             const updatedRoutine = await updatedRoutineResult;
             navigate(`/edit-routine/${updatedRoutine.id}`, { replace: true });
         }
+
+        navigate("/routines", { replace: true });
     }
 
     // CRUD function wrappers:
@@ -55,7 +57,7 @@ function RoutineEditCard() {
             routineData.id,
             allExercises,
             tempIdCounter,
-            routineData.exercises.length
+            routineData.exercises.length,
         );
 
         const newExercises = addItem(routineData.exercises, newExercise);
@@ -90,7 +92,7 @@ function RoutineEditCard() {
                         .map(
                             (
                                 exercise: routineExerciseObject,
-                                index: number
+                                index: number,
                             ) => (
                                 <RoutineExerciseEditCard
                                     key={exercise.id}
@@ -99,7 +101,7 @@ function RoutineEditCard() {
                                         updateExercise(index, updated)
                                     }
                                 />
-                            )
+                            ),
                         )}
                     <button
                         className={styles.addButton}
