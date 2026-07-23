@@ -43,6 +43,27 @@ public class ExerciseService : IExerciseService
         var result = await _dbContext.Exercises.Where(x => x.Id == id).ExecuteDeleteAsync();
         return result > 0;
     }
+
+    // Query Methods:
+    public async Task<WorkoutExercise?> GetHeaviest(int exerciseId, string userId)
+    {   
+        var currentUserWorkoutIds = await _dbContext.Workouts
+                                            .Where(w => w.CreatedBy == userId)
+                                            .Select(w => w.Id)
+                                            .ToListAsync();
+
+        var result =  await _dbContext.WorkoutExercises
+                        .Where(we => we.ExerciseId == exerciseId && currentUserWorkoutIds.Contains(we.WorkoutId))
+                        .OrderByDescending(r => r.Id)
+                        .Take(1)
+                        .ToListAsync();
+
+        if (result.Count > 0)
+        {
+            Console.WriteLine("Swag");
+        } 
+
+    }
 }
 
 public interface IExerciseService
@@ -56,4 +77,9 @@ public interface IExerciseService
     Task<Exercise?> Update(Exercise exercise);
 
     Task<bool> DeleteById(int id);
+
+    // Query methods:
+    public Task<WorkoutExercise?> GetHeaviest(int exerciseId);
+    //public Task<WorkoutExercise?> GetMostVolume(int exerciseId);
+    
 }

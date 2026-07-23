@@ -72,5 +72,15 @@ public static class ExerciseEndpoints
             bool result = await exerciseService.DeleteById(id);
             return result ? Results.Ok() : Results.NotFound();
         }).RequireAuthorization();
+
+        // Queries:
+        group.MapGet("/{id:int}/heaviest", async (IExerciseService exerciseService, int id) => 
+        {
+            WorkoutExercise? resultWorkoutExercise = await exerciseService.GetHeaviest(id);
+            return (resultWorkoutExercise != null)? Results.Ok(resultWorkoutExercise.MapToResponse()) : Results.NotFound();
+        });
+        
     }
+
+
 }
