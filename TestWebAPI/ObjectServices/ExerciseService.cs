@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 
 public class ExerciseService : IExerciseService
 {
@@ -54,7 +55,8 @@ public class ExerciseService : IExerciseService
 
         var result =  await _dbContext.WorkoutExercises
                         .Where(we => we.ExerciseId == exerciseId && currentUserWorkoutIds.Contains(we.WorkoutId))
-                        .OrderByDescending(r => r.Id)
+                        .Include(we => we.Sets)
+                        .OrderByDescending(we => we.Sets.Max(s => s.Weight))
                         .Take(1)
                         .ToListAsync();
 
