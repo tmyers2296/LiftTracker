@@ -17,6 +17,6 @@ public class WorkoutExerciseSet
     public required int Order { get; set; }
 
     // navigation properties:
-    public virtual WorkoutExercise? WorkoutExercise { get; set; }
+    public virtual WorkoutExercise WorkoutExercise { get; set; }
 
 }

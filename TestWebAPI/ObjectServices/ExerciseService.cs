@@ -46,25 +46,18 @@ public class ExerciseService : IExerciseService
     }
 
     // Query Methods:
-    public async Task<WorkoutExercise?> GetHeaviest(int exerciseId, string userId)
+    public async Task<WorkoutExerciseSet?> GetHeaviest(int exerciseId, string userId)
     {   
         var currentUserWorkoutIds = await _dbContext.Workouts
                                             .Where(w => w.CreatedBy == userId)
                                             .Select(w => w.Id)
                                             .ToListAsync();
 
-        var result =  await _dbContext.WorkoutExercises
-                        .Where(we => we.ExerciseId == exerciseId && currentUserWorkoutIds.Contains(we.WorkoutId))
-                        .Include(we => we.Sets)
-                        .OrderByDescending(we => we.Sets.Max(s => s.Weight))
+        var result = await _dbContext.WorkoutExerciseSets
+                        .Where(wes => wes.WorkoutExercise.ExerciseId == exerciseId && currentUserWorkoutIds.Contains(wes.WorkoutExercise.Workout.Id))
+                        .OrderByDescending(wes => wes.Weight)
                         .Take(1)
                         .ToListAsync();
-
-        if (result.Count > 0)
-        {
-            Console.WriteLine("Swag");
-        } 
-
     }
 }
 

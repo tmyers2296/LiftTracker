@@ -22,7 +22,7 @@ public class WorkoutExercise
     public required int Order { get; set; }
 
     // navigation properties:
-    public virtual Workout? Workout { get; set; }
+    public virtual Workout Workout { get; set; }
     public virtual Exercise? Exercise { get; set; }
     public virtual List<WorkoutExerciseSet> Sets { get; set; }
 
