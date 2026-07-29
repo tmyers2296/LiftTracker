@@ -74,11 +74,15 @@ public static class ExerciseEndpoints
         }).RequireAuthorization();
 
         // Queries:
-        group.MapGet("/{id:int}/heaviest", async (IExerciseService exerciseService, int id) => 
+        group.MapGet("/{id:int}/heaviest", async (IExerciseService exerciseService, int id, ClaimsPrincipal user) => 
         {
-            WorkoutExercise? resultWorkoutExercise = await exerciseService.GetHeaviest(id);
-            return (resultWorkoutExercise != null)? Results.Ok(resultWorkoutExercise.MapToResponse()) : Results.NotFound();
-        });
+            string? userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null) return Results.Unauthorized();
+
+            WorkoutExerciseSet? resultWorkoutExerciseSet = await exerciseService.GetHeaviest(id, userId);
+            return (resultWorkoutExerciseSet != null)? Results.Ok(resultWorkoutExerciseSet.MapToResponse()) : Results.NotFound();
+            
+        }).RequireAuthorization();
         
     }
 

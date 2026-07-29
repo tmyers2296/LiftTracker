@@ -1,6 +1,7 @@
 using System.Runtime.InteropServices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Update;
 
 public class ExerciseService : IExerciseService
 {
@@ -58,6 +59,16 @@ public class ExerciseService : IExerciseService
                         .OrderByDescending(wes => wes.Weight)
                         .Take(1)
                         .ToListAsync();
+
+        if (result.Count == 1)
+        {
+            return result[0];
+
+        } else
+        {
+            return null;
+            
+        }
     }
 }
 
@@ -74,7 +85,7 @@ public interface IExerciseService
     Task<bool> DeleteById(int id);
 
     // Query methods:
-    public Task<WorkoutExercise?> GetHeaviest(int exerciseId);
+    public Task<WorkoutExerciseSet?> GetHeaviest(int exerciseId,  string userId);
     //public Task<WorkoutExercise?> GetMostVolume(int exerciseId);
     
 }
