@@ -81,6 +81,16 @@ public static class ExerciseEndpoints
 
             WorkoutExerciseSet? resultWorkoutExerciseSet = await exerciseService.GetHeaviest(id, userId);
             return (resultWorkoutExerciseSet != null)? Results.Ok(resultWorkoutExerciseSet.MapToResponse()) : Results.NotFound();
+
+        }).RequireAuthorization();
+
+        group.MapGet("/{id:int}/mostvolume", async (IExerciseService exerciseService, int id, ClaimsPrincipal user) => 
+        {
+            string? userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null) return Results.Unauthorized();
+
+            WorkoutExerciseSet? resultWorkoutExerciseSet = await exerciseService.GetMostVolume(id, userId);
+            return (resultWorkoutExerciseSet != null)? Results.Ok(resultWorkoutExerciseSet.MapToResponse()) : Results.NotFound();
             
         }).RequireAuthorization();
         

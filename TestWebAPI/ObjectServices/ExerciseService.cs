@@ -49,20 +49,44 @@ public class ExerciseService : IExerciseService
     // Query Methods:
     public async Task<WorkoutExerciseSet?> GetHeaviest(int exerciseId, string userId)
     {   
-        var currentUserWorkoutIds = await _dbContext.Workouts
+        List<int> currentUserWorkoutIds = await _dbContext.Workouts
                                             .Where(w => w.CreatedBy == userId)
                                             .Select(w => w.Id)
                                             .ToListAsync();
 
-        var result = await _dbContext.WorkoutExerciseSets
+        List<WorkoutExerciseSet> results = await _dbContext.WorkoutExerciseSets
                         .Where(wes => wes.WorkoutExercise.ExerciseId == exerciseId && currentUserWorkoutIds.Contains(wes.WorkoutExercise.Workout.Id))
                         .OrderByDescending(wes => wes.Weight)
                         .Take(1)
                         .ToListAsync();
 
-        if (result.Count == 1)
+        if (results.Count == 1)
         {
-            return result[0];
+            return results[0];
+
+        } else
+        {
+            return null;
+            
+        }
+    }
+
+    public async Task<WorkoutExerciseSet?> GetMostVolume(int exerciseId, string userId)
+    {
+        List<int> currentUserWorkoutIds = await _dbContext.Workouts
+                                    .Where(w => w.CreatedBy == userId)
+                                    .Select(w => w.Id)
+                                    .ToListAsync();
+
+        List<WorkoutExerciseSet> results = await _dbContext.WorkoutExerciseSets
+                                        .Where(wes => wes.WorkoutExercise.ExerciseId == exerciseId && currentUserWorkoutIds.Contains(wes.WorkoutExercise.Workout.Id))
+                                        .OrderByDescending(wes => wes.Weight * wes.Reps)
+                                        .Take(1)
+                                        .ToListAsync();
+
+        if (results.Count == 1)
+        {
+            return results[0];
 
         } else
         {
@@ -86,6 +110,6 @@ public interface IExerciseService
 
     // Query methods:
     public Task<WorkoutExerciseSet?> GetHeaviest(int exerciseId,  string userId);
-    //public Task<WorkoutExercise?> GetMostVolume(int exerciseId);
+    public Task<WorkoutExerciseSet?> GetMostVolume(int exerciseId, string userId);
     
 }
