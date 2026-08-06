@@ -9,6 +9,7 @@ interface ExpandableCardProps {
     className?: string;
     children?: ReactNode;
     buttons?: Record<string, { callback: () => void; style: string }>;
+    onExpand?: () => void;
 }
 
 function ExpandableCard({
@@ -17,6 +18,7 @@ function ExpandableCard({
     className,
     children,
     buttons,
+    onExpand,
 }: ExpandableCardProps) {
     // state hooks for whether or not exercises or routine are expanded or minimised:
     const [expanded, setExpanded] = useState(false);
@@ -26,6 +28,7 @@ function ExpandableCard({
     // callback functions which change state hooks to exanded or not expanded
     const handleToggle = () => {
         setExpanded((prev) => !prev);
+        onExpand?.();
     };
 
     useEffect(() => {

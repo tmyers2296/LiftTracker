@@ -3,9 +3,14 @@ import {
     exerciseResponseObject,
     PaginatedData,
 } from "../types/generalTypes";
+import { workoutExerciseSetObject } from "../types/workoutTypes";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { saveExercise } from "../modules/apiFunctions";
-import { fetchExercise, fetchExercises } from "../modules/fetchWrappers";
+import {
+    fetchExercise,
+    fetchExercises,
+    fetchHeaviest,
+} from "../modules/fetchWrappers";
 
 export function useExercises(page: number, size: number) {
     return useQuery<PaginatedData<exerciseResponseObject>>({
@@ -52,5 +57,13 @@ export function useDeleteExercise() {
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["exercises"] });
         },
+    });
+}
+
+export function useHeaviestExerciseInstance(exerciseId: number) {
+    return useQuery<workoutExerciseSetObject>({
+        queryKey: ["exercises", exerciseId],
+        queryFn: () => fetchHeaviest(exerciseId),
+        enabled: exerciseId !== 0,
     });
 }

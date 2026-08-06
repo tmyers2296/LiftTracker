@@ -1,6 +1,6 @@
 import { fetchData } from "./apiFunctions";
 import { routineObject } from "../types/routineTypes";
-import { workoutObject } from "../types/workoutTypes";
+import { workoutExerciseSetObject, workoutObject } from "../types/workoutTypes";
 import {
     exerciseObject,
     exerciseResponseObject,
@@ -46,6 +46,24 @@ export const fetchExercise = async (
 ): Promise<exerciseObject> => {
     const data = await fetchData(
         `https://localhost:5119/exercises/${exerciseId}`,
+    );
+    return data;
+};
+
+export const fetchHeaviest = async (
+    exerciseId: number,
+): Promise<workoutExerciseSetObject> => {
+    const data = await fetchData(
+        `https://localhost:5119/exercises/${exerciseId}/heaviest`,
+    );
+    return data;
+};
+
+export const fetchMostVolume = async (
+    exerciseId: number,
+): Promise<workoutExerciseSetObject> => {
+    const data = await fetchData(
+        `https://localhost:5119/exercises/${exerciseId}/mostvolume`,
     );
     return data;
 };

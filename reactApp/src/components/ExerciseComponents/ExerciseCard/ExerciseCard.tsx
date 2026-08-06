@@ -1,7 +1,11 @@
 import ExpandableCard from "../../ExpandableCard/ExpandableCard";
 import { exerciseResponseObject } from "../../../types/generalTypes";
 import { useNavigate } from "react-router-dom";
-import { useDeleteExercise } from "../../../hooks/exerciseHooks";
+import { useState } from "react";
+import {
+    useDeleteExercise,
+    useHeaviestExerciseInstance,
+} from "../../../hooks/exerciseHooks";
 import styles from "./ExerciseCard.module.css";
 
 interface ExerciseCardProps {
@@ -11,6 +15,11 @@ interface ExerciseCardProps {
 function ExerciseCard({ exerciseData }: ExerciseCardProps) {
     const navigate = useNavigate();
     const deleteExerciseMutation = useDeleteExercise();
+    const [expanded, setExpanded] = useState(false);
+
+    const { data, isLoading, isError } = useHeaviestExerciseInstance(
+        exerciseData.id,
+    );
 
     const handleEdit = (exerciseId: number) => {
         navigate(`/edit-exercise/${exerciseId}`);
@@ -45,10 +54,21 @@ function ExerciseCard({ exerciseData }: ExerciseCardProps) {
             cardName={exerciseData.name}
             className={styles.topLayerCard}
             buttons={buttonsCallbacks}
+            onExpand={() => setExpanded((prev) => !prev)}
         >
             <div className={styles.exerciseDetails}>
                 <div className={styles.detailLabel}>Created by</div>
                 <div>{exerciseData.createdByUsername}</div>
+                <div>
+                    {!isLoading && !isError && (
+                        <div>
+                            <div className={styles.detailLabel}>
+                                Heaviest Set
+                            </div>
+                            <div>{`${data?.reps} ${data?.weight}kg`}</div>
+                        </div>
+                    )}
+                </div>
             </div>
         </ExpandableCard>
     );
