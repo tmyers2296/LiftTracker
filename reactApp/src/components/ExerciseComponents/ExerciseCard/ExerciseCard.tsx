@@ -19,6 +19,7 @@ function ExerciseCard({ exerciseData }: ExerciseCardProps) {
 
     const { data, isLoading, isError } = useHeaviestExerciseInstance(
         exerciseData.id,
+        expanded,
     );
 
     const handleEdit = (exerciseId: number) => {

@@ -60,10 +60,13 @@ export function useDeleteExercise() {
     });
 }
 
-export function useHeaviestExerciseInstance(exerciseId: number) {
+export function useHeaviestExerciseInstance(
+    exerciseId: number,
+    active: boolean,
+) {
     return useQuery<workoutExerciseSetObject>({
         queryKey: ["exercises", exerciseId],
         queryFn: () => fetchHeaviest(exerciseId),
-        enabled: exerciseId !== 0,
+        enabled: exerciseId !== 0 && active,
     });
 }
