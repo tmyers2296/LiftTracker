@@ -47,22 +47,29 @@ public class ExerciseService : IExerciseService
     }
 
     // Query Methods:
-    public async Task<WorkoutExerciseSet?> GetHeaviest(int exerciseId, string userId)
+    public async Task<ExercisePRResponse?> GetHeaviest(int exerciseId, string userId)
     {   
         List<int> currentUserWorkoutIds = await _dbContext.Workouts
                                             .Where(w => w.CreatedBy == userId)
                                             .Select(w => w.Id)
                                             .ToListAsync();
 
-        List<WorkoutExerciseSet> results = await _dbContext.WorkoutExerciseSets
+        ExercisePRResponse? results = await _dbContext.WorkoutExerciseSets
                         .Where(wes => wes.WorkoutExercise.ExerciseId == exerciseId && currentUserWorkoutIds.Contains(wes.WorkoutExercise.Workout.Id))
                         .OrderByDescending(wes => wes.Weight)
-                        .Take(1)
-                        .ToListAsync();
+                        .Select(wes => new ExercisePRResponse
+                        {
+                            Id = wes.Id,
+                            Reps = wes.Reps,
+                            Weight = wes.Weight,
+                            Order = wes.Order,
+                            Date = wes.WorkoutExercise.Workout.Date
+                        })
+                        .FirstOrDefaultAsync();
 
-        if (results.Count == 1)
+        if (results != null)
         {
-            return results[0];
+            return results;
 
         } else
         {
@@ -71,29 +78,29 @@ public class ExerciseService : IExerciseService
         }
     }
 
-    public async Task<WorkoutExerciseSet?> GetMostVolume(int exerciseId, string userId)
-    {
-        List<int> currentUserWorkoutIds = await _dbContext.Workouts
-                                    .Where(w => w.CreatedBy == userId)
-                                    .Select(w => w.Id)
-                                    .ToListAsync();
+    // public async Task<WorkoutExerciseSet?> GetMostVolume(int exerciseId, string userId)
+    // {
+    //     List<int> currentUserWorkoutIds = await _dbContext.Workouts
+    //                                 .Where(w => w.CreatedBy == userId)
+    //                                 .Select(w => w.Id)
+    //                                 .ToListAsync();
 
-        List<WorkoutExerciseSet> results = await _dbContext.WorkoutExerciseSets
-                                        .Where(wes => wes.WorkoutExercise.ExerciseId == exerciseId && currentUserWorkoutIds.Contains(wes.WorkoutExercise.Workout.Id))
-                                        .OrderByDescending(wes => wes.Weight * wes.Reps)
-                                        .Take(1)
-                                        .ToListAsync();
+    //     List<WorkoutExerciseSet> results = await _dbContext.WorkoutExerciseSets
+    //                                     .Where(wes => wes.WorkoutExercise.ExerciseId == exerciseId && currentUserWorkoutIds.Contains(wes.WorkoutExercise.Workout.Id))
+    //                                     .OrderByDescending(wes => wes.Weight * wes.Reps)
+    //                                     .Take(1)
+    //                                     .ToListAsync();
 
-        if (results.Count == 1)
-        {
-            return results[0];
+    //     if (results.Count == 1)
+    //     {
+    //         return results[0];
 
-        } else
-        {
-            return null;
+    //     } else
+    //     {
+    //         return null;
             
-        }
-    }
+    //     }
+    // }
 }
 
 public interface IExerciseService
@@ -109,7 +116,7 @@ public interface IExerciseService
     Task<bool> DeleteById(int id);
 
     // Query methods:
-    public Task<WorkoutExerciseSet?> GetHeaviest(int exerciseId,  string userId);
-    public Task<WorkoutExerciseSet?> GetMostVolume(int exerciseId, string userId);
+    public Task<ExercisePRResponse?> GetHeaviest(int exerciseId,  string userId);
+    // public Task<ExercisePRResponse?> GetMostVolume(int exerciseId, string userId);
     
 }

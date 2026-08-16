@@ -79,20 +79,20 @@ public static class ExerciseEndpoints
             string? userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
             if (userId == null) return Results.Unauthorized();
 
-            WorkoutExerciseSet? resultWorkoutExerciseSet = await exerciseService.GetHeaviest(id, userId);
-            return (resultWorkoutExerciseSet != null)? Results.Ok(resultWorkoutExerciseSet.MapToResponse()) : Results.NotFound();
+            ExercisePRResponse? resultWorkoutExerciseSetResponse = await exerciseService.GetHeaviest(id, userId);
+            return (resultWorkoutExerciseSetResponse != null)? Results.Ok(resultWorkoutExerciseSetResponse) : Results.NotFound();
 
         }).RequireAuthorization();
 
-        group.MapGet("/{id:int}/mostvolume", async (IExerciseService exerciseService, int id, ClaimsPrincipal user) => 
-        {
-            string? userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null) return Results.Unauthorized();
+        // group.MapGet("/{id:int}/mostvolume", async (IExerciseService exerciseService, int id, ClaimsPrincipal user) => 
+        // {
+        //     string? userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+        //     if (userId == null) return Results.Unauthorized();
 
-            WorkoutExerciseSet? resultWorkoutExerciseSet = await exerciseService.GetMostVolume(id, userId);
-            return (resultWorkoutExerciseSet != null)? Results.Ok(resultWorkoutExerciseSet.MapToResponse()) : Results.NotFound();
+        //     WorkoutExerciseSet? resultWorkoutExerciseSet = await exerciseService.GetMostVolume(id, userId);
+        //     return (resultWorkoutExerciseSet != null)? Results.Ok(resultWorkoutExerciseSet.MapToResponse()) : Results.NotFound();
             
-        }).RequireAuthorization();
+        // }).RequireAuthorization();
         
     }
 

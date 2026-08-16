@@ -17,10 +17,11 @@ function ExerciseCard({ exerciseData }: ExerciseCardProps) {
     const deleteExerciseMutation = useDeleteExercise();
     const [expanded, setExpanded] = useState(false);
 
-    const { data, isLoading, isError } = useHeaviestExerciseInstance(
-        exerciseData.id,
-        expanded,
-    );
+    const {
+        data: heaviestData,
+        isLoading: isLoadingHeaviest,
+        isError: isErrorHeaviest,
+    } = useHeaviestExerciseInstance(exerciseData.id, expanded);
 
     const handleEdit = (exerciseId: number) => {
         navigate(`/edit-exercise/${exerciseId}`);
@@ -60,16 +61,18 @@ function ExerciseCard({ exerciseData }: ExerciseCardProps) {
             <div className={styles.exerciseDetails}>
                 <div className={styles.detailLabel}>Created by</div>
                 <div>{exerciseData.createdByUsername}</div>
+                <br></br>
                 <div>
-                    {!isLoading && !isError && (
+                    {!isLoadingHeaviest && !isErrorHeaviest && (
                         <div>
                             <div className={styles.detailLabel}>
                                 Heaviest Set
                             </div>
-                            <div>{`${data?.reps} ${data?.weight}kg`}</div>
+                            <div>{`${heaviestData?.reps} x ${heaviestData?.weight}kg`}</div>
                         </div>
                     )}
                 </div>
+                <br></br>
             </div>
         </ExpandableCard>
     );
