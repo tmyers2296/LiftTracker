@@ -3,6 +3,7 @@ import { routineObject } from "../types/routineTypes";
 import { workoutExerciseSetObject, workoutObject } from "../types/workoutTypes";
 import {
     exerciseObject,
+    exercisePRResponseObject,
     exerciseResponseObject,
     PaginatedData,
 } from "../types/generalTypes";
@@ -52,10 +53,13 @@ export const fetchExercise = async (
 
 export const fetchHeaviest = async (
     exerciseId: number,
-): Promise<workoutExerciseSetObject> => {
+): Promise<exercisePRResponseObject> => {
     const data = await fetchData(
         `https://localhost:5119/exercises/${exerciseId}/heaviest`,
     );
+
+    data.date = new Date(data.date);
+
     return data;
 };
 
@@ -65,6 +69,9 @@ export const fetchMostVolume = async (
     const data = await fetchData(
         `https://localhost:5119/exercises/${exerciseId}/mostvolume`,
     );
+
+    data.date = new Date(data.date);
+
     return data;
 };
 

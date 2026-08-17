@@ -62,16 +62,14 @@ function ExerciseCard({ exerciseData }: ExerciseCardProps) {
                 <div className={styles.detailLabel}>Created by</div>
                 <div>{exerciseData.createdByUsername}</div>
                 <br></br>
-                <div>
-                    {!isLoadingHeaviest && !isErrorHeaviest && (
+                {!isLoadingHeaviest && !isErrorHeaviest && heaviestData && (
+                    <div>
+                        <div className={styles.detailLabel}>Heaviest Set</div>
                         <div>
-                            <div className={styles.detailLabel}>
-                                Heaviest Set
-                            </div>
-                            <div>{`${heaviestData?.reps} x ${heaviestData?.weight}kg`}</div>
+                            {`${heaviestData.reps} x ${heaviestData.weight}kg @ ${heaviestData.date.getDate()}-${heaviestData.date.getMonth() + 1}-${heaviestData.date.getFullYear()}`}
                         </div>
-                    )}
-                </div>
+                    </div>
+                )}
                 <br></br>
             </div>
         </ExpandableCard>

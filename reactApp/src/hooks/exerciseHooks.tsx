@@ -1,5 +1,6 @@
 import {
     exerciseObject,
+    exercisePRResponseObject,
     exerciseResponseObject,
     PaginatedData,
 } from "../types/generalTypes";
@@ -64,7 +65,7 @@ export function useHeaviestExerciseInstance(
     exerciseId: number,
     active: boolean,
 ) {
-    return useQuery<workoutExerciseSetObject>({
+    return useQuery<exercisePRResponseObject>({
         queryKey: ["exercises", exerciseId],
         queryFn: () => fetchHeaviest(exerciseId),
         enabled: exerciseId !== 0 && active,

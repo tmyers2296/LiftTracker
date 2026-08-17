@@ -22,6 +22,14 @@ export interface exerciseResponseObject extends exerciseObject {
     isSystemExercise: boolean;
 }
 
+export interface exercisePRResponseObject extends exerciseObject {
+    id: number;
+    weight: number;
+    reps: number;
+    order: number;
+    date: Date;
+}
+
 export type OrderedItem =
     | routineExerciseObject
     | routineExerciseSetObject
