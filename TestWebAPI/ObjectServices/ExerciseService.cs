@@ -78,29 +78,37 @@ public class ExerciseService : IExerciseService
         }
     }
 
-    // public async Task<WorkoutExerciseSet?> GetMostVolume(int exerciseId, string userId)
-    // {
-    //     List<int> currentUserWorkoutIds = await _dbContext.Workouts
-    //                                 .Where(w => w.CreatedBy == userId)
-    //                                 .Select(w => w.Id)
-    //                                 .ToListAsync();
+    public async Task<ExercisePRResponse?> GetMostVolume(int exerciseId, string userId)
+    {
+        List<int> currentUserWorkoutIds = await _dbContext.Workouts
+                                    .Where(w => w.CreatedBy == userId)
+                                    .Select(w => w.Id)
+                                    .ToListAsync();
 
-    //     List<WorkoutExerciseSet> results = await _dbContext.WorkoutExerciseSets
-    //                                     .Where(wes => wes.WorkoutExercise.ExerciseId == exerciseId && currentUserWorkoutIds.Contains(wes.WorkoutExercise.Workout.Id))
-    //                                     .OrderByDescending(wes => wes.Weight * wes.Reps)
-    //                                     .Take(1)
-    //                                     .ToListAsync();
+        ExercisePRResponse? results = await _dbContext.WorkoutExerciseSets
+                                        .Where(wes => wes.WorkoutExercise.ExerciseId == exerciseId && currentUserWorkoutIds.Contains(wes.WorkoutExercise.Workout.Id))
+                                        .OrderByDescending(wes => wes.Weight * wes.Reps)
+                                        .Select(wes => new ExercisePRResponse
+                                        {
+                                            Id = wes.Id,
+                                            Reps = wes.Reps,
+                                            Weight = wes.Weight,
+                                            Order = wes.Order,
+                                            Date = wes.WorkoutExercise.Workout.Date
+                                        })
+                                        .FirstOrDefaultAsync();
 
-    //     if (results.Count == 1)
-    //     {
-    //         return results[0];
 
-    //     } else
-    //     {
-    //         return null;
+        if (results != null)
+        {
+            return results;
+
+        } else
+        {
+            return null;
             
-    //     }
-    // }
+        }
+    }
 }
 
 public interface IExerciseService
@@ -117,6 +125,6 @@ public interface IExerciseService
 
     // Query methods:
     public Task<ExercisePRResponse?> GetHeaviest(int exerciseId,  string userId);
-    // public Task<ExercisePRResponse?> GetMostVolume(int exerciseId, string userId);
+    public Task<ExercisePRResponse?> GetMostVolume(int exerciseId, string userId);
     
 }

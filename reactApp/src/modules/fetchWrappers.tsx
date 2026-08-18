@@ -65,7 +65,7 @@ export const fetchHeaviest = async (
 
 export const fetchMostVolume = async (
     exerciseId: number,
-): Promise<workoutExerciseSetObject> => {
+): Promise<exercisePRResponseObject> => {
     const data = await fetchData(
         `https://localhost:5119/exercises/${exerciseId}/mostvolume`,
     );

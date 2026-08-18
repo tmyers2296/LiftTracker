@@ -11,6 +11,7 @@ import {
     fetchExercise,
     fetchExercises,
     fetchHeaviest,
+    fetchMostVolume,
 } from "../modules/fetchWrappers";
 
 export function useExercises(page: number, size: number) {
@@ -69,5 +70,18 @@ export function useHeaviestExerciseInstance(
         queryKey: ["exercises", exerciseId],
         queryFn: () => fetchHeaviest(exerciseId),
         enabled: exerciseId !== 0 && active,
+        retry: false,
+    });
+}
+
+export function useMostVolumeExerciseInstance(
+    exerciseId: number,
+    active: boolean,
+) {
+    return useQuery<exercisePRResponseObject>({
+        queryKey: ["exercises", exerciseId],
+        queryFn: () => fetchMostVolume(exerciseId),
+        enabled: exerciseId !== 0 && active,
+        retry: false,
     });
 }
