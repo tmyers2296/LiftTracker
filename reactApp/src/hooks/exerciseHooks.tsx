@@ -1,4 +1,5 @@
 import {
+    exerciseCardMetricsResponseObject,
     exerciseObject,
     exercisePRResponseObject,
     exerciseResponseObject,
@@ -9,6 +10,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { saveExercise } from "../modules/apiFunctions";
 import {
     fetchExercise,
+    fetchExerciseMetrics,
     fetchExercises,
     fetchHeaviest,
     fetchMostVolume,
@@ -81,6 +83,15 @@ export function useMostVolumeExerciseInstance(
     return useQuery<exercisePRResponseObject>({
         queryKey: ["exercises", exerciseId],
         queryFn: () => fetchMostVolume(exerciseId),
+        enabled: exerciseId !== 0 && active,
+        retry: false,
+    });
+}
+
+export function useExerciseMetrics(exerciseId: number, active: boolean) {
+    return useQuery<exerciseCardMetricsResponseObject>({
+        queryKey: ["exercises", exerciseId],
+        queryFn: () => fetchExerciseMetrics(exerciseId),
         enabled: exerciseId !== 0 && active,
         retry: false,
     });

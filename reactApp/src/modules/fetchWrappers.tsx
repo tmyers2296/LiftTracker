@@ -2,6 +2,7 @@ import { fetchData } from "./apiFunctions";
 import { routineObject } from "../types/routineTypes";
 import { workoutExerciseSetObject, workoutObject } from "../types/workoutTypes";
 import {
+    exerciseCardMetricsResponseObject,
     exerciseObject,
     exercisePRResponseObject,
     exerciseResponseObject,
@@ -71,6 +72,19 @@ export const fetchMostVolume = async (
     );
 
     data.date = new Date(data.date);
+
+    return data;
+};
+
+export const fetchExerciseMetrics = async (
+    exerciseId: number,
+): Promise<exerciseCardMetricsResponseObject> => {
+    const data = await fetchData(
+        `https://localhost:5119/exercises/${exerciseId}/metrics`,
+    );
+
+    data.heaviest.date = new Date(data.heaviest.date);
+    data.mostVolume.date = new Date(data.mostVolume.date);
 
     return data;
 };

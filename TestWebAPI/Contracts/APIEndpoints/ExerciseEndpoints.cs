@@ -102,6 +102,8 @@ public static class ExerciseEndpoints
             ExercisePRResponse? heaviestWorkoutExerciseSetResponse = await exerciseService.GetHeaviest(id, userId);
             ExercisePRResponse? mostVolumeWorkoutExerciseSetResponse = await exerciseService.GetMostVolume(id, userId);
 
+            if (heaviestWorkoutExerciseSetResponse == null | mostVolumeWorkoutExerciseSetResponse == null) return Results.NotFound();
+
             ExerciseMetricsResponse? resultMetricsResponse = new ExerciseMetricsResponse
             {
                 Heaviest = heaviestWorkoutExerciseSetResponse,

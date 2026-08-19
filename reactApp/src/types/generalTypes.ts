@@ -22,12 +22,17 @@ export interface exerciseResponseObject extends exerciseObject {
     isSystemExercise: boolean;
 }
 
-export interface exercisePRResponseObject extends exerciseObject {
+export interface exercisePRResponseObject {
     id: number;
     weight: number;
     reps: number;
     order: number;
     date: Date;
+}
+
+export interface exerciseCardMetricsResponseObject {
+    heaviest: exercisePRResponseObject;
+    mostVolume: exercisePRResponseObject;
 }
 
 export type OrderedItem =
