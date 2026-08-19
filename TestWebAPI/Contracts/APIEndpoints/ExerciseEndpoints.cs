@@ -93,6 +93,24 @@ public static class ExerciseEndpoints
             return (resultWorkoutExerciseSetResponse != null)? Results.Ok(resultWorkoutExerciseSetResponse) : Results.NotFound();
             
         }).RequireAuthorization();
+
+        group.MapGet("{id:int}/metrics", async (IExerciseService exerciseService, int id, ClaimsPrincipal user) => 
+        {
+            string? userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null) return Results.Unauthorized();
+
+            ExercisePRResponse? heaviestWorkoutExerciseSetResponse = await exerciseService.GetHeaviest(id, userId);
+            ExercisePRResponse? mostVolumeWorkoutExerciseSetResponse = await exerciseService.GetMostVolume(id, userId);
+
+            ExerciseMetricsResponse? resultMetricsResponse = new ExerciseMetricsResponse
+            {
+                Heaviest = heaviestWorkoutExerciseSetResponse,
+                MostVolume = mostVolumeWorkoutExerciseSetResponse
+            };
+
+            return (resultMetricsResponse != null)? Results.Ok(resultMetricsResponse) : Results.NotFound();
+
+        }).RequireAuthorization();
         
     }
 
