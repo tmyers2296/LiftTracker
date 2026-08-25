@@ -1,6 +1,6 @@
 import { dashboardObject } from "../../types/dashboardTypes";
 import { exerciseObject } from "../../types/generalTypes";
-import { createContext, useState, useRef } from "react";
+import { createContext, useContext, useState, useRef } from "react";
 import { useExercises } from "../../hooks/exerciseHooks";
 import AuthorizeView from "../../components/AuthorizationComponents/AuthorizeView";
 
@@ -34,6 +34,14 @@ function EditDashboard() {
             ></dashboardDataContext.Provider>
         </AuthorizeView>
     );
+}
+
+export function useDashboardData(): dashboardDataGetSet {
+    const context = useContext(dashboardDataContext);
+    if (!context) {
+        throw new Error("useCounter must be used within a CounterProvider");
+    }
+    return context;
 }
 
 export default EditDashboard;

@@ -7,6 +7,8 @@ import {
     workoutExerciseSetObject,
 } from "./workoutTypes";
 
+import { dashboardExerciseObject } from "./dashboardTypes";
+
 export interface exerciseObject {
     id: number;
     name: string;
@@ -39,7 +41,8 @@ export type OrderedItem =
     | routineExerciseObject
     | routineExerciseSetObject
     | workoutExerciseObject
-    | workoutExerciseSetObject;
+    | workoutExerciseSetObject
+    | dashboardExerciseObject;
 
 export type PaginatedData<T> = {
     items: T[];

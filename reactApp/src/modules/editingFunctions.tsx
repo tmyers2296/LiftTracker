@@ -6,7 +6,7 @@ import { OrderedItem } from "../types/generalTypes.ts";
 export function swapOrder<T extends OrderedItem>(
     objectList: T[],
     targetId: number,
-    direction: "up" | "down"
+    direction: "up" | "down",
 ): T[] {
     const item = objectList.find((i) => i.id === targetId);
     if (!item) return objectList;
@@ -25,7 +25,7 @@ export function swapOrder<T extends OrderedItem>(
 // **CRUD functions**
 export function updateItem<T extends OrderedItem>(
     objectList: T[],
-    updatedObject: T
+    updatedObject: T,
 ): T[] {
     return objectList.map((object) => {
         if (object.id !== updatedObject.id) return object;
@@ -39,7 +39,7 @@ export function addItem<T extends OrderedItem>(list: T[], newItem: T): T[] {
 
 export function removeItem<T extends OrderedItem>(
     list: T[],
-    targetId: number
+    targetId: number,
 ): T[] {
     const target = list.find((i) => i.id === targetId);
     if (!target) return list;
@@ -47,7 +47,7 @@ export function removeItem<T extends OrderedItem>(
     return list
         .filter((i) => i.id !== targetId)
         .map((i) =>
-            i.order > target.order ? { ...i, order: i.order - 1 } : i
+            i.order > target.order ? { ...i, order: i.order - 1 } : i,
         );
 }
 
