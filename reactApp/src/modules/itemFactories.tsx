@@ -71,6 +71,7 @@ export function createNewWorkoutExerciseSet(
 }
 
 export function createNewDashboardExercise(
+    dashboardId: number,
     allExercises: { id: number; name: string }[],
     tempIdCounter: React.MutableRefObject<number>,
     currentExercisesLength: number,
@@ -79,9 +80,9 @@ export function createNewDashboardExercise(
 
     return {
         id: createTempId(tempIdCounter),
+        dashboardId,
         exerciseId: firstExercise.id,
         metric: "x",
         order: currentExercisesLength,
-        createdBy: "",
     };
 }

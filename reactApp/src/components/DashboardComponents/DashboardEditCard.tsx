@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { dashboardExerciseObject } from "../../types/dashboardTypes";
 import { createNewDashboardExercise } from "../../modules/itemFactories";
 import { addItem } from "../../modules/editingFunctions";
+import styles from "./DashboardEditCard.module.css";
 
 function DashboardEditCard() {
     const navigate = useNavigate();
@@ -26,6 +27,7 @@ function DashboardEditCard() {
 
     const addExercise = () => {
         if (!dashboardData) return;
+
         const newExercise = createNewDashboardExercise(
             allExercises,
             tempIdCounter,
@@ -35,4 +37,32 @@ function DashboardEditCard() {
         const newExercises = addItem(dashboardData.exercises, newExercise);
         setDashboardData({ ...dashboardData, exercises: newExercises });
     };
+
+    return (
+        <div>
+            {dashboardData && (
+                <div>
+                    <div></div>
+                    {dashboardData.exercises
+                        .sort((a, b) => a.order - b.order)
+                        .map(
+                            (
+                                exercise: dashboardExerciseObject,
+                                index: number,
+                            ) => (
+                                <div>{`${exercise.metric}`}</div>
+                            ),
+                        )}
+                    <button
+                        className={styles.addButton}
+                        onClick={() => {
+                            addExercise();
+                        }}
+                    >
+                        +
+                    </button>
+                </div>
+            )}
+        </div>
+    );
 }
