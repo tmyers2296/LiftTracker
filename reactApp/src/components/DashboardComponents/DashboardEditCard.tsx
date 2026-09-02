@@ -29,6 +29,7 @@ function DashboardEditCard() {
         if (!dashboardData) return;
 
         const newExercise = createNewDashboardExercise(
+            dashboardData.id,
             allExercises,
             tempIdCounter,
             dashboardData.exercises.length,

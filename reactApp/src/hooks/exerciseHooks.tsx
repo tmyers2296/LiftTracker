@@ -5,7 +5,6 @@ import {
     exerciseResponseObject,
     PaginatedData,
 } from "../types/generalTypes";
-import { workoutExerciseSetObject } from "../types/workoutTypes";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { saveExercise } from "../modules/apiFunctions";
 import {
@@ -96,3 +95,5 @@ export function useExerciseMetrics(exerciseId: number, active: boolean) {
         retry: false,
     });
 }
+
+// useDashboard
