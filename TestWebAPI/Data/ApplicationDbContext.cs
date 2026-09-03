@@ -21,4 +21,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<WorkoutExercise> WorkoutExercises { get; set; }
     public DbSet<WorkoutExerciseSet> WorkoutExerciseSets { get; set; }
     
+    // dashboard relations
+    public DbSet<Dashboard> Dashboards { get; set; }
+    public DbSet<DashboardExercise> DashboardExercises { get; set; }
 }
