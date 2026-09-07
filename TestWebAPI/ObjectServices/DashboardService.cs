@@ -17,9 +17,70 @@ public class DashboardService : IDashboardService
         return dashboard;
     }
 
-    public async Task<Dashboard?> GetById(int id)
+    public async Task<Dashboard?> GetById(int id, string userId) 
     {
-        return await _dbContext.Dashboards.FindAsync(id);
+        return await _dbContext.Dashboards
+        .Where(d => d.CreatedByUserId == userId)
+        .Include(d => d.Exercises)
+        .ThenInclude(de => de.Exercise)
+        .FirstOrDefaultAsync(d => d.Id == id);
+    }
+
+    public async Task<Dashboard?> DeepUpdate(Dashboard dashboardWithUpdates)
+    {
+
+
+        // return existing dashboard with same Id..
+        Dashboard? dashboardToEdit = await _dbContext.Dashboards
+        .AsSplitQuery() 
+        .Include(d => d.Exercises)
+        .FirstOrDefaultAsync(d => d.Id == dashboardWithUpdates.Id);
+        
+        // break out of method if dashboard not found:
+        if (dashboardToEdit == null)
+        {
+            return null;
+        }
+
+        // make updates (use dashboard generated from update request to write to fields
+        // loop through updated entities & make changes for equivalent entity in dashboardToEdit.
+
+        string originalCreatedBy = dashboardToEdit.CreatedByUserId;
+
+        // update dashboard:
+        _dbContext.Entry(dashboardToEdit).CurrentValues.SetValues(dashboardWithUpdates);
+
+        // get exercises to add, remove & edit (add & remove are both lists, edit is a dictionary with ids):
+        List<DashboardExercise> exercisesToAdd = dashboardWithUpdates.Exercises.Where(e => e.Id == 0).ToList();
+        Dictionary<int, DashboardExercise> exercisesToEdit = dashboardToEdit.Exercises.ToDictionary(e => e.Id, e=> e);
+        List<DashboardExercise> exercisesToRemove = dashboardToEdit.Exercises
+                        .Where(e => !dashboardWithUpdates.Exercises.Any(ue => ue.Id == e.Id))
+                        .ToList();
+
+        // remove exercises to remove:
+        _dbContext.DashboardExercises.RemoveRange(exercisesToRemove);
+
+        // iterate through exercises to add:
+        foreach (DashboardExercise exercise in exercisesToAdd)
+        {
+            _dbContext.DashboardExercises.Add(exercise);
+        }
+
+        // iterate through exercises to edit:
+        foreach (DashboardExercise updatedExercise in dashboardWithUpdates.Exercises.Where(e => e.Id != 0)){
+            // apply changes for current exercise 
+            DashboardExercise exerciseToEdit = exercisesToEdit[updatedExercise.Id];
+            _dbContext.Entry(exerciseToEdit).CurrentValues.SetValues(updatedExercise);
+
+        }
+
+        dashboardToEdit.CreatedByUserId = originalCreatedBy;
+
+        // save changes:
+        await _dbContext.SaveChangesAsync();
+
+        // return the existing dashboard (with changes):
+        return dashboardToEdit;
     }
 
     public async Task<Dashboard?> Update(Dashboard dashboard)
@@ -42,7 +103,9 @@ public interface IDashboardService
 {
     Task<Dashboard> Create(Dashboard dashboard);
 
-    Task<Dashboard?> GetById(int id);
+    Task<Dashboard?> GetById(int id, string userId);
+
+    Task<Dashboard?> DeepUpdate(Dashboard dashboard);
 
     Task<Dashboard?> Update(Dashboard dashboard);
 

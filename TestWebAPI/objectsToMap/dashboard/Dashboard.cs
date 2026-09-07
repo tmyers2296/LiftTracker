@@ -14,7 +14,7 @@ public class Dashboard
 
     public int Id { get; init; }
 
-    public required string? CreatedByUserId { get; set; }
+    public required string CreatedByUserId { get; set; }
 
     // navigation properties:
     public virtual List<DashboardExercise> Exercises { get; set; }

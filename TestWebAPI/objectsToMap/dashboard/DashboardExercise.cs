@@ -14,5 +14,7 @@ public class DashboardExercise
 
     public required string Metric { get; set; }
 
+    public required int Order { get; set; }
+
     public virtual Exercise? Exercise { get; set; }
 }

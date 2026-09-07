@@ -382,5 +382,62 @@ public static class ContractMapping
             Order = set.Order
         };
     }
-    
+
+    // * dashboard mapping methods *
+    // request -> object:
+    public static Dashboard MapToDashboard(this CreateDashboardRequest request)
+    {
+        // create new dashboard:
+        Dashboard createdDashboard = new Dashboard
+        {
+            CreatedByUserId = null!
+        };
+
+         // create new exercises for dashboard:
+        List<DashboardExercise> createdExercises = request.Exercises.Select(exerciseRequest => {
+            
+            DashboardExercise createdExercise = new DashboardExercise{
+            DashboardId = createdDashboard.Id,
+            ExerciseId = exerciseRequest.ExerciseId,
+            Metric = exerciseRequest.Metric,
+            Order = exerciseRequest.Order
+            };
+
+            // return to createdDashboard.Exercises for each call of Select:
+            return createdExercise;
+
+        }).ToList();
+
+        createdDashboard.Exercises = createdExercises;
+
+        // return the final createdDashboard:
+        return createdDashboard;
+    }
+
+
+    // object -> response:
+    public static DashboardResponse MapToResponse(this Dashboard dashboard)
+    {
+        return new DashboardResponse
+        {
+            Id = dashboard.Id,
+            CreatedByUserId = dashboard.CreatedByUserId,
+            Exercises = dashboard.Exercises.Select(e => e.MapToResponse()).ToList()
+        };
+    }
+
+
+    public static DashboardExerciseResponse MapToResponse(this DashboardExercise dashboardExercise)
+    {
+        return new DashboardExerciseResponse
+        {
+            Id = dashboardExercise.Id,
+            DashboardId = dashboardExercise.DashboardId,
+            ExerciseId = dashboardExercise.ExerciseId,
+            Metric = dashboardExercise.Metric,
+            Order = dashboardExercise.Order
+        };
+    }
+
 }
+
