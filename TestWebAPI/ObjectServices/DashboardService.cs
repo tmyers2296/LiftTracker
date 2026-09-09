@@ -26,6 +26,17 @@ public class DashboardService : IDashboardService
         .FirstOrDefaultAsync(d => d.Id == id);
     }
 
+    // get current user dashboard
+    public async Task<Dashboard?> GetByUserId(string userId) 
+    {
+        return await _dbContext.Dashboards
+        .Where(d => d.CreatedByUserId == userId)
+        .Include(d => d.Exercises)
+        .ThenInclude(de => de.Exercise)
+        .FirstOrDefaultAsync();
+    }
+
+
     public async Task<Dashboard?> DeepUpdate(Dashboard dashboardWithUpdates)
     {
 
@@ -104,6 +115,8 @@ public interface IDashboardService
     Task<Dashboard> Create(Dashboard dashboard);
 
     Task<Dashboard?> GetById(int id, string userId);
+
+    Task<Dashboard?> GetByUserId(string userId);
 
     Task<Dashboard?> DeepUpdate(Dashboard dashboard);
 
