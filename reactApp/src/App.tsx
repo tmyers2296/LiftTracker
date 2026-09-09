@@ -13,6 +13,7 @@ import EditWorkout from "./pages/WorkoutPages/EditWorkoutPage.tsx";
 import RecordRoutineWorkout from "./pages/WorkoutPages/RecordRoutineWorkout.tsx";
 import ImproviseWorkout from "./pages/WorkoutPages/ImproviseWorkoutPage.tsx";
 import ChooseRoutinePage from "./pages/RoutinePages/ChooseRoutine.tsx";
+import EditDashboard from "./pages/DashboardPages/EditDashboard.tsx";
 
 function App() {
     return (
@@ -33,6 +34,7 @@ function App() {
                 />
                 <Route path="edit-workout/:id" element={<EditWorkout />} />
                 <Route path="edit-exercise/:id" element={<EditExercise />} />
+                <Route path="edit-dashboard/:id" element={<EditDashboard />} />
                 <Route path="dashboard" element={<DashboardPage />} />
                 <Route path="routines" element={<RoutinesPage />} />
                 <Route path="workouts" element={<WorkoutsPage />} />

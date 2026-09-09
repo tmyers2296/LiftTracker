@@ -34,6 +34,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IExerciseService, ExerciseService>();
 builder.Services.AddScoped<IRoutineService, RoutineService>();
 builder.Services.AddScoped<IWorkoutService, WorkoutService>();
+builder.Services.AddScoped<IDashboardService, DashboardService>();
 
 var app = builder.Build();
 
@@ -79,5 +80,6 @@ app.UseAuthorization();
 app.MapExerciseEndpoints();
 app.MapRoutineEndpoints();
 app.MapWorkoutEndpoints();
+app.MapDashboardEndpoints();
 
 app.Run();

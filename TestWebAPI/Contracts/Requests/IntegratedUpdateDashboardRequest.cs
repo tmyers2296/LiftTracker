@@ -1,7 +1,7 @@
 public class UpdateDashboardRequest
 {
     public required int Id { get; init; }
-    public List<CreateDashboardExerciseRequest> Exercises { get; init; } = new(); 
+    public List<UpdateDashboardExerciseRequest> Exercises { get; init; } = new(); 
 
 }
 

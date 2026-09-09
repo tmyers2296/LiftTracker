@@ -14,7 +14,7 @@ function DashboardPage() {
                 <button
                     className={styles.routineButton}
                     onClick={() => {
-                        navigate(`/edit-routine/0`);
+                        navigate(`/edit-dashboard/0`);
                     }}
                 >
                     ⌖ Edit Dashboard

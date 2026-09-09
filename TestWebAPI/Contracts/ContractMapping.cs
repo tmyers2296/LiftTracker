@@ -414,6 +414,37 @@ public static class ContractMapping
         return createdDashboard;
     }
 
+    public static Dashboard MapToDashboard(this UpdateDashboardRequest request)
+    {
+        // create new routine:
+        Dashboard comparisonDashboard = new Dashboard
+        {
+            Id = request.Id,
+            CreatedByUserId = null!
+        };
+
+         // create new exercises for routine:
+        comparisonDashboard.Exercises = request.Exercises.Select(exerciseRequest => {
+            
+            DashboardExercise comparisonExercise = new DashboardExercise{
+            Id = exerciseRequest.Id,
+            DashboardId = comparisonDashboard.Id,
+            ExerciseId = exerciseRequest.ExerciseId,
+            Metric = exerciseRequest.Metric,
+            Order = exerciseRequest.Order
+            };
+
+            Console.WriteLine(JsonSerializer.Serialize(comparisonExercise.MapToResponse(), new JsonSerializerOptions { WriteIndented = true }));
+
+            // return to createdRoutine.Exercises for each call of Select:
+            return comparisonExercise;
+
+        }).ToList();
+
+        // return the final comparisonRoutine:
+        return comparisonDashboard;
+    }
+
 
     // object -> response:
     public static DashboardResponse MapToResponse(this Dashboard dashboard)
