@@ -1,6 +1,7 @@
 import { fetchData } from "./apiFunctions";
 import { routineObject } from "../types/routineTypes";
 import { workoutExerciseSetObject, workoutObject } from "../types/workoutTypes";
+import { dashboardObject } from "../types/dashboardTypes";
 import {
     exerciseCardMetricsResponseObject,
     exerciseObject,
@@ -116,3 +117,18 @@ export const fetchWorkout = async (
 };
 
 // fetchDashboard
+export const fetchDashboardById = async (
+    dashboardId: number,
+): Promise<dashboardObject> => {
+    const data = await fetchData(
+        `https://localhost:5119/dashboards/${dashboardId}`,
+    );
+    return data;
+};
+
+export const fetchDashboardByUser = async (): Promise<dashboardObject> => {
+    const data = await fetchData(
+        `https://localhost:5119/dashboards/currentUser`,
+    );
+    return data;
+};

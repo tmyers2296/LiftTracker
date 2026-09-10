@@ -1,7 +1,7 @@
 export interface dashboardObject {
     id: number;
     exercises: dashboardExerciseObject[];
-    createdBy: string;
+    createdByUserId: string;
 }
 
 export interface dashboardExerciseObject {

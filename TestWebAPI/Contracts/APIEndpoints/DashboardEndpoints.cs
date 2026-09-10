@@ -4,7 +4,7 @@ public static class DashboardEndpoints
 {
     public static void MapDashboardEndpoints(this WebApplication app)
     {
-        var group = app.MapGroup("dashboard");
+        var group = app.MapGroup("dashboards");
 
         // create
         group.MapPost("/", async (IDashboardService dashboardService, CreateDashboardRequest request, ClaimsPrincipal user) =>
