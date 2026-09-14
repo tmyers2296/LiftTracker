@@ -42,14 +42,19 @@ public static class DashboardEndpoints
         // update
         group.MapPut("/{id:int}", async (IDashboardService dashboardService, int id, UpdateDashboardRequest request, ClaimsPrincipal user) => 
         {
-            Dashboard? dashboard = request.MapToDashboard();
-
             var userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            if (userId == null || dashboard.CreatedByUserId != userId) return Results.Unauthorized();
-            DashboardResponse dashboardResponse = dashboard.MapToResponse();
+
+            // check for userId:
+            if (userId == null) return Results.Unauthorized();
+
+            // check whether userId matches existing createdbyfield
+            Dashboard? existingDashboard = await dashboardService.GetById(id, userId);
+            if (existingDashboard == null) return Results.Unauthorized();
+
+            // run updates
+            Dashboard dashboard = request.MapToDashboard();
             Dashboard? resultDashboard = await dashboardService.DeepUpdate(dashboard);
-            DashboardResponse newDashboardResponse = dashboard.MapToResponse();
-            return (resultDashboard != null)? Results.Ok(newDashboardResponse) : Results.NotFound();
+            return (resultDashboard != null)? Results.Ok(resultDashboard.MapToResponse()) : Results.NotFound();
         });
 
         // delete

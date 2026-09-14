@@ -39,8 +39,6 @@ public class DashboardService : IDashboardService
 
     public async Task<Dashboard?> DeepUpdate(Dashboard dashboardWithUpdates)
     {
-
-
         // return existing dashboard with same Id..
         Dashboard? dashboardToEdit = await _dbContext.Dashboards
         .AsSplitQuery() 
