@@ -7,6 +7,7 @@ export interface dashboardObject {
 export interface dashboardExerciseObject {
     id: number;
     dashboardId: number;
+    exerciseName: string;
     exerciseId: number;
     metric: string;
     order: number;

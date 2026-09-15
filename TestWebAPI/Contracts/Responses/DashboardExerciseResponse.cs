@@ -3,6 +3,8 @@ public class DashboardExerciseResponse
     public required int Id { get; init; }
 
     public required int DashboardId { get; set; }
+
+    public required string ExerciseName { get; init; }
     
     public required int ExerciseId { get; set; }
 

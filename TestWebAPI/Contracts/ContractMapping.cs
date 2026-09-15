@@ -464,6 +464,7 @@ public static class ContractMapping
         {
             Id = dashboardExercise.Id,
             DashboardId = dashboardExercise.DashboardId,
+            ExerciseName = dashboardExercise.Exercise?.Name ?? "no exercise",
             ExerciseId = dashboardExercise.ExerciseId,
             Metric = dashboardExercise.Metric,
             Order = dashboardExercise.Order
