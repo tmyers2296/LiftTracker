@@ -39,6 +39,16 @@ public static class DashboardEndpoints
             return (dashboard != null)? Results.Ok(dashboard.MapToResponse()) : Results.NotFound();
         }).RequireAuthorization();
 
+        // read for current user, with metric results
+        group.MapGet("currentUserWithMetrics", async (IDashboardService dashboardService, IExerciseService exerciseService, ClaimsPrincipal user) =>
+        {
+            string? userId = user.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
+            if (userId == null) return Results.Unauthorized();
+
+            Dashboard? dashboard = await dashboardService.GetByUserId(userId);
+            return (dashboard != null)? Results.Ok(dashboard.MapToResponse()) : Results.NotFound();
+        }).RequireAuthorization();
+
         // update
         group.MapPut("/{id:int}", async (IDashboardService dashboardService, int id, UpdateDashboardRequest request, ClaimsPrincipal user) => 
         {

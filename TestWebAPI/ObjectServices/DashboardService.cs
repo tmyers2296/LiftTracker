@@ -36,6 +36,24 @@ public class DashboardService : IDashboardService
         .FirstOrDefaultAsync();
     }
 
+        public async Task<Dashboard?> GetByUserIdWithMetrics(string userId) 
+    {
+        return await _dbContext.Dashboards
+        .Where(d => d.CreatedByUserId == userId)
+        .Include(d => d.Exercises)
+        .ThenInclude(de => de.Exercise)
+        .FirstOrDefaultAsync();
+
+        // create PR response object for dashboard
+
+        // query result for each exercise
+        // loop through exercises
+            // run query
+            // append exercise response to pr dashboard response
+
+        // return the nested response object
+    }
+
 
     public async Task<Dashboard?> DeepUpdate(Dashboard dashboardWithUpdates)
     {
@@ -115,6 +133,8 @@ public interface IDashboardService
     Task<Dashboard?> GetById(int id, string userId);
 
     Task<Dashboard?> GetByUserId(string userId);
+
+    Task<Dashboard?> GetByUserIdWithMetrics(string userId);
 
     Task<Dashboard?> DeepUpdate(Dashboard dashboard);
 
