@@ -104,6 +104,9 @@ public static class ExerciseEndpoints
 
             if (heaviestWorkoutExerciseSetResponse == null | mostVolumeWorkoutExerciseSetResponse == null) return Results.NotFound();
 
+            //temporary:
+            
+
             ExerciseMetricsResponse? resultMetricsResponse = new ExerciseMetricsResponse
             {
                 Heaviest = heaviestWorkoutExerciseSetResponse,

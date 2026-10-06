@@ -4,9 +4,12 @@ public class DashboardService : IDashboardService
 {
     
     private readonly ApplicationDbContext _dbContext;
-    public DashboardService(ApplicationDbContext dbContext)
+    private readonly IExerciseService _exerciseService;
+
+    public DashboardService(ApplicationDbContext dbContext, IExerciseService exerciseService)
     {
         _dbContext = dbContext;
+        _exerciseService = exerciseService;
 
     }
 

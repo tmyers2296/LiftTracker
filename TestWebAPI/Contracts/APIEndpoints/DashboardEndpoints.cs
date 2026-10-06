@@ -46,6 +46,13 @@ public static class DashboardEndpoints
             if (userId == null) return Results.Unauthorized();
 
             Dashboard? dashboard = await dashboardService.GetByUserId(userId);
+            if (dashboard == null) return Results.NotFound();
+
+            foreach (DashboardExercise exercise in dashboard.Exercises)
+            {
+                
+            };
+
             return (dashboard != null)? Results.Ok(dashboard.MapToResponse()) : Results.NotFound();
         }).RequireAuthorization();
 
